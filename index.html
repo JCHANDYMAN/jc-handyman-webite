@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JC Handyman & Property Maintenance</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#e86b00">
+<style>
+:root{--black:#080808;--dark:#141414;--orange:#e86b00;--white:#fff;--gray:#ddd;}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--black);color:var(--white);}
+header{background:#000;border-bottom:3px solid var(--orange);padding:18px;text-align:center;position:sticky;top:0;z-index:10}
+header h1{margin:0;font-size:26px}
+header p{margin:6px 0 0;color:var(--orange);font-weight:bold}
+nav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+nav a{color:white;text-decoration:none;background:#1f1f1f;border:1px solid var(--orange);padding:8px 10px;border-radius:6px;font-size:14px}
+.hero{padding:60px 18px;text-align:center;background:linear-gradient(135deg,#000,#221006);}
+.hero h2{font-size:40px;color:var(--orange);margin:0 0 10px}
+.hero p{font-size:19px;max-width:850px;margin:10px auto;line-height:1.45}
+.btn{display:inline-block;margin:10px 5px;padding:13px 18px;background:var(--orange);color:#000;text-decoration:none;font-weight:bold;border-radius:8px}
+section{padding:38px 18px;max-width:1150px;margin:auto}
+h2.section-title{color:var(--orange);font-size:30px;border-bottom:2px solid var(--orange);padding-bottom:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+.card{background:var(--dark);border:1px solid var(--orange);border-radius:12px;padding:18px;box-shadow:0 0 12px rgba(232,107,0,.18)}
+.card h3{color:var(--orange);margin-top:0}
+ul{line-height:1.8;padding-left:22px}
+.plans .card h3{font-size:24px}
+.price{font-size:24px;color:var(--orange);font-weight:bold}
+.form input,.form textarea,.form select{width:100%;padding:12px;margin:7px 0;border-radius:7px;border:1px solid #555;background:#fff;color:#000}
+.form button{width:100%;padding:14px;background:var(--orange);border:0;font-weight:bold;border-radius:8px;font-size:16px}
+.notice{background:#281000;border:1px solid var(--orange);padding:14px;border-radius:10px;margin-top:12px}
+footer{background:#000;border-top:3px solid var(--orange);text-align:center;padding:25px}
+.small{color:#ccc;font-size:13px}
+.gallery-placeholder{height:155px;border:2px dashed var(--orange);display:flex;align-items:center;justify-content:center;text-align:center;border-radius:10px;background:#222;color:#ccc}
+.admin-link{position:fixed;right:12px;bottom:12px;background:var(--orange);color:#000;padding:10px 12px;border-radius:30px;text-decoration:none;font-weight:bold}
+</style>
+</head>
+<body>
+<header>
+<h1>JC HANDYMAN & PROPERTY MAINTENANCE</h1>
+<p>No Job Too Small. One Call Handles It All.</p>
+<nav>
+<a href="#services">Services</a>
+<a href="#plans">Plans</a>
+<a href="#programs">Programs</a>
+<a href="#gallery">Gallery</a>
+<a href="#quote">Request Quote</a>
+<a href="app.html">Open App</a>
+</nav>
+</header>
+
+<div class="hero">
+<h2>Property Care You Can Count On</h2>
+<p>Reliable home repairs, property maintenance, inspections, rental property services, home watch, emergency calls, and ongoing property care plans.</p>
+<a class="btn" href="tel:7046752014">Call 704-675-2014</a>
+<a class="btn" href="#quote">Request a Free Quote</a>
+</div>
+
+<section id="services">
+<h2 class="section-title">Our Services</h2>
+<p>Professional repair, maintenance, inspection, and property care services for homeowners, landlords, investors, and property managers.</p>
+<div class="grid">
+<div class="card"><h3>Home & Maintenance</h3><ul><li>Home Repairs</li><li>Property Maintenance</li><li>Move-In Inspections</li><li>Move-Out Inspections</li></ul></div>
+<div class="card"><h3>Repair Services</h3><ul><li>Painting & Drywall Repair</li><li>Doors, Trim & Hardware</li><li>Plumbing Repairs</li><li>Electrical Repairs</li></ul></div>
+<div class="card"><h3>Property Services</h3><ul><li>Roofing & Siding Repairs</li><li>Rental Property Turnovers</li><li>Property Management Services</li><li>Emergency Repair Calls</li></ul></div>
+</div>
+</section>
+
+<section id="plans" class="plans">
+<h2 class="section-title">Property Maintenance Plans</h2>
+<p>Affordable monthly property care plans designed for homeowners, landlords, investors, and rental property owners.</p>
+<div class="grid">
+<div class="card"><h3>Basic Plan</h3><div class="price">$200/month</div><p>Essential monthly property support and priority scheduling.</p></div>
+<div class="card"><h3>Standard Plan</h3><div class="price">$300/month</div><p>Includes additional monthly support and maintenance tracking.</p></div>
+<div class="card"><h3>Premium Plan</h3><div class="price">$500/month</div><p>Expanded property care coverage for busy owners and landlords.</p></div>
+<div class="card"><h3>Premium+ Plan</h3><div class="price">$700/month</div><p>Comprehensive property care and higher priority support.</p></div>
+<div class="card"><h3>Kiser Plan</h3><div class="price">$1000/month</div><p>Full-service maintenance and property support for premium clients.</p></div>
+</div>
+<div class="notice"><strong>Important:</strong> Materials are not included unless stated. Payment terms are agreed before work begins.</div>
+</section>
+
+<section id="programs">
+<h2 class="section-title">Community Programs & Discounts</h2>
+<div class="grid">
+<div class="card"><h3>Senior Citizen Discount</h3><p>Helping seniors maintain safe, comfortable homes with affordable repairs and maintenance.</p></div>
+<div class="card"><h3>Military Discount</h3><p>Discounts available for active duty, veterans, and retired military personnel.</p></div>
+<div class="card"><h3>First Responder Discount</h3><p>Special discounts for police, fire, EMS, and emergency dispatchers.</p></div>
+<div class="card"><h3>Referral Rewards Program</h3><p>Refer a friend, family member, landlord, or property owner and earn future service rewards.</p></div>
+<div class="card"><h3>Community Cleanup Program</h3><p>Helping remove unwanted usable furniture, appliances, and household goods to support families in need.</p></div>
+<div class="card"><h3>Home Watch Services</h3><p>Vacation homes, vacant properties, storm checks, photo updates, and property monitoring.</p></div>
+</div>
+</section>
+
+<section id="gallery">
+<h2 class="section-title">Recent Projects</h2>
+<p>Add your real job photos here: painting, flooring, repairs, inspections, cleanups, and property maintenance work.</p>
+<div class="grid">
+<div class="card"><div class="gallery-placeholder">Upload Project Photo</div><h3>Property Improvements</h3></div>
+<div class="card"><div class="gallery-placeholder">Upload Project Photo</div><h3>Painting & Drywall</h3></div>
+<div class="card"><div class="gallery-placeholder">Upload Project Photo</div><h3>Flooring & Tile</h3></div>
+<div class="card"><div class="gallery-placeholder">Upload Project Photo</div><h3>Maintenance Work</h3></div>
+</div>
+</section>
+
+<section id="quote">
+<h2 class="section-title">Request a Free Quote</h2>
+<div class="grid">
+<div class="card">
+<form class="form" onsubmit="saveLead(event)">
+<input id="name" placeholder="Full Name" required>
+<input id="phone" placeholder="Phone Number" required>
+<input id="email" placeholder="Email">
+<input id="address" placeholder="Property Address">
+<select id="service">
+<option>Home Repairs</option><option>Property Maintenance</option><option>Move-In Inspection</option><option>Move-Out Inspection</option><option>Painting & Drywall</option><option>Plumbing Repair</option><option>Electrical Repair</option><option>Emergency Repair Call</option><option>Other</option>
+</select>
+<textarea id="details" rows="5" placeholder="Describe the work needed"></textarea>
+<button type="submit">Submit Request</button>
+</form>
+<p id="leadMsg" class="small"></p>
+</div>
+<div class="card">
+<h3>Contact JC Today</h3>
+<p><strong>Phone:</strong> <a style="color:#e86b00" href="tel:7046752014">704-675-2014</a></p>
+<p><strong>Email:</strong> <a style="color:#e86b00" href="mailto:JerryCook811@gmail.com">JerryCook811@gmail.com</a></p>
+<p><strong>Location:</strong> Gastonia, NC</p>
+<p>Serving homeowners, landlords, investors, seniors, and property owners.</p>
+</div>
+</div>
+</section>
+
+<footer>
+<h3>JC Handyman & Property Maintenance</h3>
+<p>Property Care You Can Count On</p>
+<p>704-675-2014 | JerryCook811@gmail.com</p>
+<p class="small">No Job Too Small. One Call Handles It All.</p>
+</footer>
+<a class="admin-link" href="app.html">Open App</a>
+
+<script>
+if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
+function saveLead(e){
+ e.preventDefault();
+ const lead={name:name.value,phone:phone.value,email:email.value,address:address.value,service:service.value,details:details.value,date:new Date().toLocaleString()};
+ const leads=JSON.parse(localStorage.getItem('jc_leads')||'[]'); leads.push(lead);
+ localStorage.setItem('jc_leads',JSON.stringify(leads));
+ leadMsg.textContent="Request saved. Please call/text 704-675-2014 for fastest response.";
+ e.target.reset();
+}
+</script>
+</body>
+</html>

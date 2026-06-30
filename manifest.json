@@ -1,0 +1,9 @@
+{
+  "name": "JC Handyman & Property Maintenance",
+  "short_name": "JC Handyman",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#080808",
+  "theme_color": "#e86b00",
+  "icons": []
+}
