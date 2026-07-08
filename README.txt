@@ -1,17 +1,26 @@
-JC Handyman Cloud CRM V6.1 Job History
+JC Handyman Cloud CRM V7 All-In-One
 
-New:
-- Customer ID table
-- Add jobs by Customer ID
-- Customer job history lookup
-- Job status, estimate, invoice, appointment, and notes
+Includes:
+- Website
+- CRM dashboard
+- Customers
+- Jobs
+- Job History
+- Estimates
+- Invoices
+- Receipts
+- Inspections
+- Website Leads
+- Print buttons
+- Supabase cloud sync
 
 Install:
-1. Open config.js.
-2. Replace YOUR_SUPABASE_PUBLISHABLE_KEY with your Supabase publishable key.
-3. Upload ALL files to GitHub and replace old files.
-4. Commit changes.
-5. Wait for GitHub Pages to deploy.
-6. Open:
+1. Run SUPABASE_SETUP.sql in Supabase SQL Editor.
+2. Open config.js.
+3. Replace YOUR_SUPABASE_PUBLISHABLE_KEY with your Supabase publishable key.
+4. Upload all files to GitHub.
+5. Commit changes.
+6. Wait for GitHub Pages to deploy.
+7. Open:
    https://jchandyman.github.io/jc-handyman-website/app.html
-7. Press Ctrl + Shift + R once.
+8. Press Ctrl + Shift + R.
