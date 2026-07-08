@@ -1,3 +1,3 @@
 // JC Handyman Cloud CRM V7 Configuration
 export const SUPABASE_URL = 'https://qaytmydpamtyyanxholt.supabase.co'
-export const SUPABASE_KEY = 'YOUR_SUPABASE_PUBLISHABLE_KEY'
+export const SUPABASE_KEY = 'sb_publishable_Cid02Bn9hFnu0iy_AJ2LFQ_AxqXCLNl'
