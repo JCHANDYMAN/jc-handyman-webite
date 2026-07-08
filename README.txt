@@ -1,13 +1,13 @@
-JC Handyman Cloud CRM V13 Enterprise
+JC Handyman Cloud CRM V14 Smart Operations
 
 New:
-- Client Portal Manager
-- Route Planner with Google Maps links
-- AI-style job estimator
-- Service plan manager
-- Property management records
-- Enterprise dashboard
-- Customer profile includes portal, plans, properties, files, signatures, jobs, invoices
+- Smart route planner
+- Work orders
+- Inventory/material tracking
+- Low stock alerts
+- Payment aging report
+- Stronger dashboard
+- Work orders included in customer profile
 
 Install:
 1. Run SUPABASE_SETUP.sql in Supabase SQL Editor.
