@@ -1,11 +1,10 @@
-JC Handyman Cloud CRM V10
+JC Handyman Cloud CRM V11 File Uploads
 
 New:
-- Before/After photo records
-- Document and contract records
-- Payment tracker
-- Dashboard totals for photos/documents
-- Customer profile includes photos, documents, payments
+- Real photo upload to Supabase Storage
+- Real document/contract upload to Supabase Storage
+- Public file links
+- Customer profile shows uploaded photos and documents
 
 Install:
 1. Run SUPABASE_SETUP.sql in Supabase SQL Editor.
