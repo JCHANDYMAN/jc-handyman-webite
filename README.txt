@@ -1,17 +1,13 @@
-JC Handyman Cloud CRM V12 Pro Polish
+JC Handyman Cloud CRM V13 Enterprise
 
-Polished features:
-- Monthly and weekly calendar
-- Customer Google Maps directions
-- Tap-to-call phone numbers
-- Tap-to-email email addresses
-- Unlimited photo gallery display
-- Signature type for estimates, invoices, receipts, inspections, and work orders
-- Printable PDF-style paperwork
-- Global search
-- Today's schedule and overdue reminders
-- Profit dashboard
-- Property history by address
+New:
+- Client Portal Manager
+- Route Planner with Google Maps links
+- AI-style job estimator
+- Service plan manager
+- Property management records
+- Enterprise dashboard
+- Customer profile includes portal, plans, properties, files, signatures, jobs, invoices
 
 Install:
 1. Run SUPABASE_SETUP.sql in Supabase SQL Editor.
