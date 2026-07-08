@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>JC Handyman CRM V15 Upgrade Manager</title>
+<style>
+body{margin:0;font-family:Arial;background:#070707;color:#fff}
+header{background:#000;border-bottom:3px solid #e86b00;padding:16px;text-align:center}
+h1{margin:0}h2,h3{color:#ff9b35}
+section{max-width:1100px;margin:auto;padding:24px 16px}
+.card{background:#1d1d1d;border:1px solid #e86b00;border-radius:14px;padding:16px;margin:12px 0}
+button{background:#e86b00;color:#000;border:0;border-radius:8px;padding:11px 13px;font-weight:900;cursor:pointer;margin:5px 3px}
+input,textarea,select{width:100%;padding:11px;margin:6px 0;border-radius:7px;border:1px solid #777;background:#fff;color:#000}
+table{width:100%;border-collapse:collapse;background:#111;margin-top:10px}
+td,th{border:1px solid #e86b00;padding:8px;text-align:left;font-size:14px}
+th{color:#ff9b35}
+.small{font-size:13px;color:#ccc}.success{color:#8cff9b;font-weight:bold}.error{color:#ff8b8b;font-weight:bold}
+</style>
+</head>
+<body>
+<header>
+<h1>JC Handyman CRM V15 Upgrade Manager</h1>
+<p>Safer upgrades • Version tracking • Checklist workflow</p>
+</header>
+
+<section>
+<div class="card">
+<h2>Current Version</h2>
+<h3>V15 Upgrade System</h3>
+<p>This page helps track CRM upgrades so future updates do not require replacing every file.</p>
+<p id="status" class="small">Ready.</p>
+<button onclick="loadUpgrades()">Refresh Upgrade History</button>
+</div>
+
+<div class="card">
+<h2>Record an Upgrade</h2>
+<input id="version" value="V15" placeholder="Version">
+<input id="upgradeName" value="Upgrade System" placeholder="Upgrade Name">
+<textarea id="notes" placeholder="Notes">Added safer upgrade tracking and checklist workflow.</textarea>
+<select id="upgradeStatus">
+<option>Installed</option>
+<option>Testing</option>
+<option>Needs Fix</option>
+<option>Complete</option>
+</select>
+<button onclick="saveUpgrade()">Save Upgrade Record</button>
+</div>
+
+<div class="card">
+<h2>Post-Upgrade Checklist</h2>
+<p>After every upgrade, test these:</p>
+<ul>
+<li>CRM opens correctly</li>
+<li>Dashboard loads</li>
+<li>Customers load</li>
+<li>Jobs load</li>
+<li>New feature saves to Supabase</li>
+<li>Customer Profile still works</li>
+<li>Photo uploads still work</li>
+<li>Print/PDF still works</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>Upgrade History</h2>
+<div id="upgradeList"></div>
+</div>
+</section>
+
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+import { SUPABASE_URL, SUPABASE_KEY } from './config.js'
+const supabase=createClient(SUPABASE_URL,SUPABASE_KEY)
+const statusBox=document.getElementById('status')
+
+function table(items){
+ if(!items||!items.length)return '<p class="small">No upgrade records yet.</p>'
+ return '<table><tr><th>ID</th><th>Date</th><th>Version</th><th>Name</th><th>Status</th><th>Notes</th></tr>'+
+ items.map(i=>`<tr><td>${i.id}</td><td>${i.created_at||''}</td><td>${i.version||''}</td><td>${i.upgrade_name||''}</td><td>${i.status||''}</td><td>${i.notes||''}</td></tr>`).join('')+
+ '</table>'
+}
+
+window.saveUpgrade=async()=>{
+ statusBox.textContent='Saving upgrade record...'
+ const record={version:version.value,upgrade_name:upgradeName.value,notes:notes.value,status:upgradeStatus.value}
+ const {error}=await supabase.from('crm_upgrades').insert([record])
+ if(error){statusBox.textContent='Error: '+error.message;statusBox.className='small error';return}
+ statusBox.textContent='Upgrade record saved.'
+ statusBox.className='small success'
+ loadUpgrades()
+}
+
+window.loadUpgrades=async()=>{
+ const {data,error}=await supabase.from('crm_upgrades').select('*').order('id',{ascending:false})
+ if(error){upgradeList.innerHTML='<p class="error">'+error.message+'</p>';return}
+ upgradeList.innerHTML=table(data)
+}
+loadUpgrades()
+</script>
+</body>
+</html>

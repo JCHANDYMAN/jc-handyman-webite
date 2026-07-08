@@ -1,0 +1,8 @@
+<!-- V15 Upgrade Manager Nav Link -->
+<!-- Add this to your app navigation if you want the Upgrade Manager inside the main CRM:
+<a href="upgrade.html">Upgrade Manager</a>
+-->
+
+<!-- V15 installs upgrade.html as a separate Upgrade Manager page.
+Upload upgrade.html beside app.html and config.js.
+-->
