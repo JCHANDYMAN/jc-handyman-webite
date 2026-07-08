@@ -1,14 +1,17 @@
-JC Handyman Cloud CRM V12 Big Upgrade
+JC Handyman Cloud CRM V12 Pro Polish
 
-New:
-- Calendar month view
-- Upcoming reminders
-- Customer signature pad
-- Signature storage in Supabase
-- Before/After photo gallery
-- Professional paperwork printer
-- Income, balance, material cost, and profit report
-- Customer profile now includes photos, documents, and signatures
+Polished features:
+- Monthly and weekly calendar
+- Customer Google Maps directions
+- Tap-to-call phone numbers
+- Tap-to-email email addresses
+- Unlimited photo gallery display
+- Signature type for estimates, invoices, receipts, inspections, and work orders
+- Printable PDF-style paperwork
+- Global search
+- Today's schedule and overdue reminders
+- Profit dashboard
+- Property history by address
 
 Install:
 1. Run SUPABASE_SETUP.sql in Supabase SQL Editor.
