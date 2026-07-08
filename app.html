@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>JC Cloud CRM V6</title><link rel="manifest" href="manifest.json"><style>:root{--b:#070707;--c:#202020;--o:#e86b00;--o2:#ff9b35}*{box-sizing:border-box}body{margin:0;font-family:Arial;background:var(--b);color:#fff}header{position:sticky;top:0;background:#000;border-bottom:3px solid var(--o);padding:14px;text-align:center;z-index:50}h1{margin:0}h2,h3{color:var(--o2)}nav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px}nav a,.btn{color:#fff;text-decoration:none;border:1px solid var(--o);border-radius:8px;padding:9px 12px;background:#151515;font-weight:bold}.btn.main,button{background:var(--o);color:#000}.hero{text-align:center;padding:65px 18px;background:linear-gradient(135deg,#000,#2b1304)}.hero h2{font-size:44px;margin:0}.hero p{font-size:20px;font-weight:bold;max-width:900px;margin:15px auto}section{max-width:1180px;margin:auto;padding:35px 18px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:16px}.card{background:#1b1b1b;border:1px solid var(--o);border-radius:14px;padding:18px}.price{font-size:28px;color:var(--o2);font-weight:900}input,select,textarea{width:100%;padding:12px;margin:7px 0;border-radius:7px;border:1px solid #777;background:#fff;color:#000}button{border:0;border-radius:7px;padding:12px 14px;font-weight:900;cursor:pointer;margin:5px 0}.secondary{background:#222;color:#fff;border:1px solid var(--o)}.small{font-size:13px;color:#ccc}.success{color:#8cff9b;font-weight:bold}.error{color:#ff8b8b;font-weight:bold}table{width:100%;border-collapse:collapse;background:#111;margin-top:10px}td,th{border:1px solid var(--o);padding:8px;text-align:left;font-size:14px}.stat{font-size:30px;color:var(--o2);font-weight:900}footer{text-align:center;background:#000;border-top:3px solid var(--o);padding:28px}.fixed{position:fixed;right:12px;bottom:12px;background:var(--o);color:#000;border-radius:30px;padding:11px 14px;text-decoration:none;font-weight:bold}</style></head><body>
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>JC Cloud CRM V6 Fixed</title><link rel="manifest" href="manifest.json"><style>:root{--b:#070707;--c:#202020;--o:#e86b00;--o2:#ff9b35}*{box-sizing:border-box}body{margin:0;font-family:Arial;background:var(--b);color:#fff}header{position:sticky;top:0;background:#000;border-bottom:3px solid var(--o);padding:14px;text-align:center;z-index:50}h1{margin:0}h2,h3{color:var(--o2)}nav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px}nav a,.btn{color:#fff;text-decoration:none;border:1px solid var(--o);border-radius:8px;padding:9px 12px;background:#151515;font-weight:bold}.btn.main,button{background:var(--o);color:#000}.hero{text-align:center;padding:65px 18px;background:linear-gradient(135deg,#000,#2b1304)}.hero h2{font-size:44px;margin:0}.hero p{font-size:20px;font-weight:bold;max-width:900px;margin:15px auto}section{max-width:1180px;margin:auto;padding:35px 18px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:16px}.card{background:#1b1b1b;border:1px solid var(--o);border-radius:14px;padding:18px}.price{font-size:28px;color:var(--o2);font-weight:900}input,select,textarea{width:100%;padding:12px;margin:7px 0;border-radius:7px;border:1px solid #777;background:#fff;color:#000}button{border:0;border-radius:7px;padding:12px 14px;font-weight:900;cursor:pointer;margin:5px 0}.secondary{background:#222;color:#fff;border:1px solid var(--o)}.small{font-size:13px;color:#ccc}.success{color:#8cff9b;font-weight:bold}.error{color:#ff8b8b;font-weight:bold}table{width:100%;border-collapse:collapse;background:#111;margin-top:10px}td,th{border:1px solid var(--o);padding:8px;text-align:left;font-size:14px}.stat{font-size:30px;color:var(--o2);font-weight:900}footer{text-align:center;background:#000;border-top:3px solid var(--o);padding:28px}.fixed{position:fixed;right:12px;bottom:12px;background:var(--o);color:#000;border-radius:30px;padding:11px 14px;text-decoration:none;font-weight:bold}</style></head><body>
 <header><h1>JC Handyman Cloud CRM V6</h1><p>Customers • Jobs • Leads</p><nav><a href="index.html">Website</a><a href="#customers">Customers</a><a href="#jobs">Jobs</a><a href="#leads">Leads</a></nav></header>
 <section><p id="status" class="small">Connecting...</p><button class="secondary" onclick="loadData()">Refresh Cloud Data</button><div class="grid"><div class="card"><h3>Total Customers</h3><div class="stat" id="statCustomers">0</div></div><div class="card"><h3>Total Jobs</h3><div class="stat" id="statJobs">0</div></div><div class="card"><h3>Website Leads</h3><div class="stat" id="statLeads">0</div></div><div class="card"><h3>Active Jobs</h3><div class="stat" id="statActive">0</div></div></div></section>
 <section id="customers"><h2>Customers</h2><div class="card"><input id="cname" placeholder="Customer Name"><input id="cphone" placeholder="Phone"><input id="cemail" placeholder="Email"><input id="caddress" placeholder="Property Address"><select id="ctype"><option>Homeowner</option><option>Landlord</option><option>Investor</option><option>Senior Client</option><option>Property Manager</option></select><select id="cplan"><option>No Plan</option><option>Basic Plan</option><option>Standard Plan</option><option>Premium Plan</option><option>Premium+ Plan</option><option>Kiser Plan</option></select><textarea id="cnotes" placeholder="Notes"></textarea><button onclick="saveCustomer()">Save Customer to Cloud</button></div><div id="customerList"></div></section>
@@ -8,28 +8,40 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 import { SUPABASE_URL, SUPABASE_KEY } from './config.js'
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
+const statusBox = document.getElementById('status')
+function setStatus(msg, cls='small'){ statusBox.textContent = msg; statusBox.className = cls }
 function table(items,cols){if(!items||!items.length)return'<p class="small">No records yet.</p>';return'<table><tr>'+cols.map(c=>'<th>'+c+'</th>').join('')+'</tr>'+items.map(i=>'<tr>'+cols.map(c=>'<td>'+(i[c]??'')+'</td>').join('')+'</tr>').join('')+'</table>'}
 window.saveCustomer = async function(){
  const record={name:cname.value.trim(),phone:cphone.value.trim(),email:cemail.value.trim(),address:caddress.value.trim(),property_type:ctype.value,membership_plan:cplan.value,notes:cnotes.value.trim()}
+ setStatus('Saving customer...', 'small')
  const {error}=await supabase.from('customers').insert([record])
- if(error){alert('Customer save failed: '+error.message);console.error(error);return}
- alert('Customer saved to cloud'); loadData()
+ if(error){alert('Customer save failed: '+error.message);setStatus('Customer save failed: '+error.message,'small error');console.error(error);return}
+ alert('Customer saved to cloud.')
+ setStatus('Customer saved to cloud.', 'small success')
+ cname.value=cphone.value=cemail.value=caddress.value=cnotes.value=''
+ loadData()
 }
 window.saveJob = async function(){
  const record={customer_id:jcustomer.value?Number(jcustomer.value):null,job_type:jtype.value.trim(),status:jstatus.value,description:jdesc.value.trim(),estimate:jestimate.value?Number(jestimate.value):null,invoice:jinvoice.value?Number(jinvoice.value):null,appointment:jappointment.value||null,notes:jnotes.value.trim()}
+ setStatus('Saving job...', 'small')
  const {error}=await supabase.from('jobs').insert([record])
- if(error){alert('Job save failed: '+error.message);console.error(error);return}
- alert('Job saved to cloud'); loadData()
+ if(error){alert('Job save failed: '+error.message);setStatus('Job save failed: '+error.message,'small error');console.error(error);return}
+ alert('Job saved to cloud.')
+ setStatus('Job saved to cloud.', 'small success')
+ loadData()
 }
 window.loadData = async function(){
- status.textContent='Loading cloud data...'; status.className='small'
+ setStatus('Loading cloud data...', 'small')
  const customers=await supabase.from('customers').select('*').order('id',{ascending:false})
  const jobs=await supabase.from('jobs').select('*').order('id',{ascending:false})
  const leads=await supabase.from('website_leads').select('*').order('id',{ascending:false})
- if(customers.error){status.textContent='Customers error: '+customers.error.message;status.className='small error';console.error(customers.error);return}
- if(jobs.error){status.textContent='Jobs error: '+jobs.error.message;status.className='small error';console.error(jobs.error);return}
- status.textContent='Connected to Supabase cloud database.'; status.className='small success'
- statCustomers.textContent=customers.data.length; statJobs.textContent=jobs.data.length; statLeads.textContent=leads.data?leads.data.length:0; statActive.textContent=jobs.data.filter(j=>!['Completed','Paid'].includes(j.status)).length
+ if(customers.error){setStatus('Customers error: '+customers.error.message,'small error');console.error(customers.error);return}
+ if(jobs.error){setStatus('Jobs error: '+jobs.error.message,'small error');console.error(jobs.error);return}
+ setStatus('Connected to Supabase cloud database.', 'small success')
+ statCustomers.textContent=customers.data.length
+ statJobs.textContent=jobs.data.length
+ statLeads.textContent=leads.data?leads.data.length:0
+ statActive.textContent=jobs.data.filter(j=>!['Completed','Paid'].includes(j.status)).length
  customerList.innerHTML=table(customers.data,['id','name','phone','email','address','property_type','membership_plan','notes'])
  jobList.innerHTML=table(jobs.data,['id','customer_id','job_type','status','description','estimate','invoice','appointment','notes'])
  leadList.innerHTML=leads.error?'<p class="small error">Website leads table missing or blocked: '+leads.error.message+'</p>':table(leads.data,['id','name','phone','email','address','service','message','status'])
