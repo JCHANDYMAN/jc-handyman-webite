@@ -1,11 +1,11 @@
-JC Handyman Cloud CRM V9 Scheduling
+JC Handyman Cloud CRM V10
 
 New:
-- Schedule / appointment system
-- Upcoming appointments dashboard
-- Customer profile includes appointments
-- Directions links from customer address
-- Improved V9 dashboard
+- Before/After photo records
+- Document and contract records
+- Payment tracker
+- Dashboard totals for photos/documents
+- Customer profile includes photos, documents, payments
 
 Install:
 1. Run SUPABASE_SETUP.sql in Supabase SQL Editor.
