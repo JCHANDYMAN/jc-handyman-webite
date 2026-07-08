@@ -1,15 +1,17 @@
-JC Handyman Cloud CRM V6 FIXED
+JC Handyman Cloud CRM V6.1 Job History
 
-Fixed:
-- Removed the browser 'status' variable bug.
-- Save Customer now shows clear success or error messages.
-- App loads from Supabase and refreshes customers/jobs/leads.
+New:
+- Customer ID table
+- Add jobs by Customer ID
+- Customer job history lookup
+- Job status, estimate, invoice, appointment, and notes
 
 Install:
 1. Open config.js.
 2. Replace YOUR_SUPABASE_PUBLISHABLE_KEY with your Supabase publishable key.
 3. Upload ALL files to GitHub and replace old files.
 4. Commit changes.
-5. Open:
+5. Wait for GitHub Pages to deploy.
+6. Open:
    https://jchandyman.github.io/jc-handyman-website/app.html
-6. Press Ctrl + Shift + R once.
+7. Press Ctrl + Shift + R once.
