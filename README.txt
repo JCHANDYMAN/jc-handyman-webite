@@ -1,17 +1,9 @@
-JC Handyman Platform V5 Supabase Sync
+JC Handyman Cloud CRM V6
 
-Before uploading, replace YOUR_SUPABASE_PUBLISHABLE_KEY in both index.html and app.html.
+1. Open config.js.
+2. Replace YOUR_SUPABASE_PUBLISHABLE_KEY with your Supabase publishable key.
+3. Upload all files to GitHub and commit changes.
+4. Test from GitHub Pages:
+https://jchandyman.github.io/jc-handyman-website/app.html
 
-Also create this table in Supabase:
-website_leads
-- id int8 primary identity
-- created_at timestamptz
-- name text
-- phone text
-- email text
-- address text
-- service text
-- message text
-- status text
-
-If saving fails, check Supabase Row Level Security policies.
+If saving fails, run SUPABASE_SETUP.sql inside Supabase SQL Editor.
