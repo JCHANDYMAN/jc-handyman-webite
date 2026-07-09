@@ -1,0 +1,35 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>JC Signatures</title><style>
+:root{--b:#050505;--c:#1b1b1b;--o:#e86b00;--o2:#ff9b35;--g:#8cff9b;--r:#ff8b8b}
+*{box-sizing:border-box}body{margin:0;font-family:Arial;background:var(--b);color:#fff}
+header{background:#000;border-bottom:3px solid var(--o);padding:16px;text-align:center;position:sticky;top:0;z-index:50}
+h1{margin:0}h2,h3{color:var(--o2)}
+nav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+nav a,.btn,button{display:inline-block;text-decoration:none;background:#151515;color:#fff;border:1px solid var(--o);border-radius:9px;padding:11px 13px;font-weight:900;margin:4px;cursor:pointer}
+.primary{background:var(--o)!important;color:#000!important}
+section{max-width:1200px;margin:auto;padding:20px 12px}
+.card{background:var(--c);border:1px solid var(--o);border-radius:14px;padding:16px;margin:12px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+input,select,textarea{width:100%;padding:12px;margin:6px 0;border-radius:8px;border:1px solid #777;background:#fff;color:#000;font-size:16px}
+.small{font-size:13px;color:#ccc}.success{color:var(--g);font-weight:bold}.error{color:var(--r);font-weight:bold}
+table{width:100%;border-collapse:collapse;background:#111;margin-top:10px}
+td,th{border:1px solid var(--o);padding:8px;text-align:left;font-size:14px;vertical-align:top}
+th{color:var(--o2)}
+.print-box{background:#fff;color:#000;padding:24px;border-radius:10px;margin:15px 0}.print-box h2,.print-box h3{color:#000}
+.sig{background:#fff;border:2px solid var(--o);border-radius:8px;width:100%;height:190px;touch-action:none}
+.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.day{min-height:100px;background:#111;border:1px solid var(--o);border-radius:8px;padding:7px}.event{font-size:12px;background:#252525;margin-top:5px;padding:5px;border-radius:5px}
+@media(max-width:750px){.calendar{grid-template-columns:repeat(2,1fr)}header{position:relative}}
+@media print{header,nav,button,.no-print{display:none!important}body{background:#fff;color:#000}.card{border:0}.print-box{display:block}}
+</style></head><body>
+<header><h1>Customer Signature</h1><nav><a href="app.html">CRM</a><a href="mobile-field.html">Mobile Field</a></nav></header>
+<section><div class="card"><h2>Capture Signature</h2><input id="customer_id" type="number" placeholder="Customer ID"><input id="job_id" type="number" placeholder="Job ID"><select id="signature_type"><option>Estimate Approval</option><option>Invoice Approval</option><option>Inspection Approval</option><option>Work Completion Approval</option></select><input id="title" placeholder="Signature title"><canvas id="sigCanvas" class="sig"></canvas><button onclick="clearSignature()">Clear</button><button class="primary" onclick="saveSignature()">Save Signature</button><p id="msg" class="small">Ready.</p></div><div class="card"><h2>Recent Signatures</h2><div id="list"></div></div></section>
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+import { SUPABASE_URL, SUPABASE_KEY } from './config.js'
+const supabase=createClient(SUPABASE_URL,SUPABASE_KEY)
+const canvas=document.getElementById('sigCanvas'),ctx=canvas.getContext('2d');function resize(){canvas.width=canvas.clientWidth;canvas.height=190;ctx.lineWidth=3;ctx.lineCap='round';ctx.strokeStyle='#000'}resize();let draw=false;function pos(e){let r=canvas.getBoundingClientRect();let t=e.touches?e.touches[0]:e;return{x:t.clientX-r.left,y:t.clientY-r.top}}function start(e){draw=true;let p=pos(e);ctx.beginPath();ctx.moveTo(p.x,p.y);e.preventDefault()}function move(e){if(!draw)return;let p=pos(e);ctx.lineTo(p.x,p.y);ctx.stroke();e.preventDefault()}function end(){draw=false}canvas.addEventListener('mousedown',start);canvas.addEventListener('mousemove',move);canvas.addEventListener('mouseup',end);canvas.addEventListener('touchstart',start);canvas.addEventListener('touchmove',move);canvas.addEventListener('touchend',end);window.clearSignature=()=>ctx.clearRect(0,0,canvas.width,canvas.height)
+async function dataUrlToFile(dataUrl,name){let res=await fetch(dataUrl);let blob=await res.blob();return new File([blob],name,{type:'image/png'})}
+async function uploadToBucket(file){let path=`signatures/${Date.now()}_signature.png`;let up=await supabase.storage.from('job-files').upload(path,file,{upsert:false});if(up.error)throw up.error;return supabase.storage.from('job-files').getPublicUrl(path).data.publicUrl}
+window.saveSignature=async()=>{try{msg.textContent='Saving...';let file=await dataUrlToFile(canvas.toDataURL('image/png'),'signature.png');let url=await uploadToBucket(file);let row={customer_id:Number(customer_id.value)||null,job_id:Number(job_id.value)||null,signature_type:signature_type.value,title:title.value,signature_url:url};let {error}=await supabase.from('signatures').insert([row]);if(error)throw error;msg.textContent='Signature saved.';msg.className='small success';loadData()}catch(e){msg.textContent=e.message;msg.className='small error'}}
+async function loadData(){const {data,error}=await supabase.from('signatures').select('*').order('id',{ascending:false}).limit(20);list.innerHTML=error?'<p class="error">'+error.message+'</p>':data.map(s=>`<div class="card"><b>${s.signature_type}</b><br><img src="${s.signature_url}" style="max-width:260px;background:#fff;border:2px solid #e86b00;border-radius:10px"><p>${s.title||''}</p></div>`).join('')}
+loadData()
+</script></body></html>

@@ -1,22 +1,27 @@
-JC Handyman Cloud CRM V15 Upgrade System
+JC Handyman CRM V18 Phase 1 Field Service
 
-This is a smaller upgrade package.
+Install:
+1. Extract ZIP.
+2. Run MIGRATION_V18_PHASE_1.sql in Supabase SQL Editor.
+3. Upload these root files to GitHub beside app.html:
+   calendar.html
+   field-checkin.html
+   job-photos.html
+   signature-capture.html
+   estimate-generator.html
+   invoice-generator.html
+4. Commit changes.
+5. Wait 1-2 minutes.
+6. Open:
+   https://jchandyman.github.io/jc-handyman-website/calendar.html
 
-What to do:
+Test:
+- Calendar saves appointment
+- Field check-in saves
+- Photo upload works
+- Signature capture saves
+- Estimate generator prints
+- Invoice generator prints
 
-1. Run MIGRATION_V15.sql in Supabase SQL Editor.
-2. Upload the updated app.html to GitHub.
-3. Commit changes.
-4. Open your CRM.
-5. Press Ctrl + Shift + R.
-6. Look for the new Upgrade Manager section.
-
-This upgrade adds:
-- CRM version tracking
-- Upgrade history table
-- Post-upgrade checklist
-- Safer update workflow for future versions
-
-Important:
-Keep your existing config.js.
-Do not replace your Supabase key unless you need to.
+Note:
+Photo/signature uploads require your Supabase storage bucket named job-files to exist and have public access policies.

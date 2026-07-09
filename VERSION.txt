@@ -1,4 +1,1 @@
-JC Handyman Cloud CRM
-Current Upgrade Package: V15
-Upgrade Type: Small Migration Package
-Feature: Upgrade Manager
+JC Handyman CRM V18 Phase 1 Field Service
