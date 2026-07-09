@@ -28,7 +28,7 @@ th{color:var(--o2)}
 <header>
 <h1>JC Handyman Mobile Field Mode</h1>
 <p>Jobsite check-in • Directions • Completion log • Quick actions</p>
-<a class="btn secondary" href="../app.html">Back to CRM</a>
+<a class="btn secondary" href="app.html">Back to CRM</a>
 </header>
 
 <section>
@@ -91,11 +91,11 @@ th{color:var(--o2)}
 </div>
 </section>
 
-<a class="fixed" href="../app.html">CRM</a>
+<a class="fixed" href="app.html">CRM</a>
 
 <script type="module">
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
-import { SUPABASE_URL, SUPABASE_KEY } from '../config.js'
+import { SUPABASE_URL, SUPABASE_KEY } from './config.js'
 
 const supabase=createClient(SUPABASE_URL,SUPABASE_KEY)
 let all={customers:[],jobs:[],checkins:[],completions:[]}
@@ -150,11 +150,11 @@ window.loadJobsite=()=>{
  </div>`
  quickActions.innerHTML=`
  <a class="btn" href="${mapsLink(c.address)}" target="_blank">Open Directions</a>
- <a class="btn secondary" href="../app.html#uploads">Upload Before/After Photo</a>
- <a class="btn secondary" href="../app.html#signature">Get Customer Signature</a>
- <a class="btn secondary" href="../app.html#invoice">Create Invoice</a>
- <a class="btn secondary" href="../app.html#receipt">Create Receipt</a>
- <a class="btn secondary" href="../app.html#paperwork">Print Paperwork</a>
+ <a class="btn secondary" href="app.html#uploads">Upload Before/After Photo</a>
+ <a class="btn secondary" href="app.html#signature">Get Customer Signature</a>
+ <a class="btn secondary" href="app.html#invoice">Create Invoice</a>
+ <a class="btn secondary" href="app.html#receipt">Create Receipt</a>
+ <a class="btn secondary" href="app.html#paperwork">Print Paperwork</a>
  `
 }
 
