@@ -1,194 +1,64 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>JC Handyman CRM V17.1</title>
-<style>:root{--b:#050505;--c:#1b1b1b;--o:#e86b00;--o2:#ff9b35;--g:#8cff9b;--r:#ff8b8b}*{box-sizing:border-box}body{margin:0;font-family:Arial;background:var(--b);color:#fff}header{position:sticky;top:0;background:#000;border-bottom:3px solid var(--o);padding:14px;text-align:center;z-index:50}h1{margin:0}h2,h3{color:var(--o2)}nav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px}nav a,.btn{color:#fff;text-decoration:none;border:1px solid var(--o);border-radius:8px;padding:9px 12px;background:#151515;font-weight:bold}button{background:var(--o);color:#000;border:0;border-radius:8px;padding:11px 13px;font-weight:900;cursor:pointer;margin:5px 3px}.secondary{background:#222;color:#fff;border:1px solid var(--o)}section{max-width:1360px;margin:auto;padding:28px 16px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:15px}.card{background:var(--c);border:1px solid var(--o);border-radius:14px;padding:16px;margin:10px 0}.statcard{background:linear-gradient(135deg,#142850,#0a0a0a);border:1px solid var(--o);border-radius:14px;padding:16px}input,select,textarea{width:100%;padding:11px;margin:6px 0;border-radius:7px;border:1px solid #777;background:#fff;color:#000}.small{font-size:13px;color:#ccc}.success{color:var(--g);font-weight:bold}.error{color:var(--r);font-weight:bold}.warn{color:#ffd37a;font-weight:bold}.stat{font-size:32px;color:var(--o2);font-weight:900}table{width:100%;border-collapse:collapse;background:#111;margin-top:10px}td,th{border:1px solid var(--o);padding:8px;text-align:left;font-size:14px;vertical-align:top}th{color:var(--o2)}.badge{display:inline-block;padding:4px 8px;border-radius:999px;background:#202020;border:1px solid var(--o);margin:2px}.good{border-color:var(--g)}@media(max-width:700px){header{position:relative}section{padding:18px 10px}}</style>
-</head>
-<body>
-<header>
-<h1>JC Handyman Cloud CRM V17.1 Core Enterprise</h1>
-<p>Property Timeline • Trailer Tools • Mileage • Customer Hub • System Manager</p>
-<nav>
-<a href="index.html">Website</a>
-<a href="#dashboard">Dashboard</a>
-<a href="#system">System Manager</a>
-<a href="#propertytimeline">Property Timeline</a>
-<a href="#tools">Trailer Tools</a>
-<a href="#mileage">Mileage</a>
-<a href="#hub">Customer Hub</a>
-<a href="#route">Route</a>
-<a href="#search">Search</a>
-<a href="#customers">Customers</a>
-<a href="#jobs">Jobs</a>
-</nav>
-</header>
-
-<section id="dashboard">
-<h2>V17.1 Enterprise Dashboard</h2>
-<p id="status" class="small">Connecting...</p>
-<button class="secondary" onclick="loadData()">Refresh Cloud Data</button>
-<div class="grid">
-<div class="statcard"><h3>Customers</h3><div class="stat" id="statCustomers">0</div></div>
-<div class="statcard"><h3>Jobs</h3><div class="stat" id="statJobs">0</div></div>
-<div class="statcard"><h3>Timeline Events</h3><div class="stat" id="statTimeline">0</div></div>
-<div class="statcard"><h3>Trailer Tools</h3><div class="stat" id="statTools">0</div></div>
-<div class="statcard"><h3>Total Miles</h3><div class="stat" id="statMiles">0</div></div>
-<div class="statcard"><h3>Tool Value</h3><div class="stat" id="statToolValue">$0</div></div>
-</div>
-<div class="grid">
-<div class="card"><h3>Today's Schedule</h3><div id="todayBox"></div></div>
-<div class="card"><h3>Business Health</h3><div id="healthBox"></div></div>
-</div>
-</section>
-
-<section id="system">
-<h2>System Manager</h2>
-<div class="card">
-<h3>Current Version: V17.1 Core Enterprise</h3>
-<button onclick="recordUpgrade()">Record V17.1 Installed</button>
-<button onclick="runHealthCheck()">Run Health Check</button>
-<p id="systemStatus" class="small">Ready.</p>
-<div id="systemChecklist"></div>
-</div>
-<div class="card"><h3>Upgrade History</h3><div id="upgradeHistory"></div></div>
-</section>
-
-<section id="propertytimeline">
-<h2>Property Timeline</h2>
-<div class="card">
-<input id="ptCustomer" type="number" placeholder="Customer ID">
-<input id="ptAddress" placeholder="Property Address">
-<select id="ptType">
-<option>Job</option><option>Estimate</option><option>Invoice</option><option>Inspection</option><option>Photo</option><option>Maintenance</option><option>Home Watch</option><option>Rental Turnover</option>
-</select>
-<input id="ptTitle" placeholder="Timeline Title">
-<input id="ptDate" type="date">
-<textarea id="ptNotes" placeholder="Timeline notes"></textarea>
-<button onclick="saveTimeline()">Save Timeline Event</button>
-</div>
-<div class="card">
-<input id="timelineSearch" placeholder="Search by address" oninput="showTimeline()">
-<div id="timelineList"></div>
-</div>
-</section>
-
-<section id="tools">
-<h2>Trailer & Tool Inventory</h2>
-<div class="card">
-<input id="toolName" placeholder="Tool Name">
-<select id="toolCategory">
-<option>Power Tool</option><option>Hand Tool</option><option>Ladder</option><option>Painting</option><option>Plumbing</option><option>Electrical</option><option>Fasteners</option><option>Safety</option><option>Other</option>
-</select>
-<input id="toolLocation" placeholder="Trailer location / shelf / bin">
-<input id="toolSerial" placeholder="Serial Number">
-<input id="toolPurchase" type="date">
-<input id="toolWarranty" type="date">
-<input id="toolValue" type="number" placeholder="Replacement Value $">
-<textarea id="toolNotes" placeholder="Tool notes"></textarea>
-<button onclick="saveTool()">Save Tool</button>
-</div>
-<div id="toolList"></div>
-</section>
-
-<section id="mileage">
-<h2>Mileage Tracker</h2>
-<div class="card">
-<input id="mileCustomer" type="number" placeholder="Customer ID">
-<input id="mileJob" type="number" placeholder="Job ID">
-<input id="mileDate" type="date">
-<input id="mileStart" placeholder="Start Location">
-<input id="mileEnd" placeholder="End Location">
-<input id="mileMiles" type="number" placeholder="Miles">
-<input id="milePurpose" placeholder="Purpose">
-<textarea id="mileNotes" placeholder="Mileage notes"></textarea>
-<button onclick="saveMileage()">Save Mileage</button>
-</div>
-<div id="mileageList"></div>
-</section>
-
-<section id="hub">
-<h2>Customer Hub</h2>
-<div class="card"><input id="hubCustomerId" type="number" placeholder="Customer ID"><button onclick="openCustomerHub()">Open Customer Hub</button></div>
-<div id="hubBox"></div>
-</section>
-
-<section id="route">
-<h2>Route Planner</h2>
-<div class="card">
-<p class="small">Build route from today's appointments.</p>
-<button onclick="buildRoute()">Build Today's Route</button>
-<div id="routeBox"></div>
-</div>
-</section>
-
-<section id="search">
-<h2>Global Search</h2>
-<div class="card"><input id="globalSearch" placeholder="Search customers, jobs, addresses, tools..." oninput="runSearch()"></div>
-<div id="searchResults"></div>
-</section>
-
-<section id="customers">
-<h2>Customers</h2>
-<div class="card">
-<input id="cname" placeholder="Customer Name"><input id="cphone" placeholder="Phone"><input id="cemail" placeholder="Email"><input id="caddress" placeholder="Property Address">
-<select id="ctype"><option>Homeowner</option><option>Landlord</option><option>Investor</option><option>Senior Client</option><option>Property Manager</option></select>
-<textarea id="cnotes" placeholder="Customer notes"></textarea><button onclick="saveCustomer()">Save Customer</button>
-</div>
-<div id="customerList"></div>
-</section>
-
-<section id="jobs">
-<h2>Jobs</h2>
-<div class="card">
-<input id="jcustomer" type="number" placeholder="Customer ID"><input id="jtitle" placeholder="Job Title"><input id="jtype" placeholder="Job Type">
-<select id="jstatus"><option>Scheduled</option><option>In Progress</option><option>Waiting on Materials</option><option>Completed</option><option>Paid</option></select>
-<textarea id="jdesc" placeholder="Job scope"></textarea><input id="jprice" type="number" placeholder="Price $"><input id="jdeposit" type="number" placeholder="Deposit $"><input id="jdue" type="date"><textarea id="jnotes" placeholder="Job notes"></textarea><button onclick="saveJob()">Save Job</button>
-</div>
-<div id="jobList"></div>
-</section>
-
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>JC Handyman CRM V18 Pro</title><style>
+:root{--b:#050505;--c:#1b1b1b;--o:#e86b00;--o2:#ff9b35;--g:#8cff9b;--r:#ff8b8b}
+*{box-sizing:border-box}body{margin:0;font-family:Arial;background:var(--b);color:#fff}
+header{position:sticky;top:0;background:#000;border-bottom:3px solid var(--o);padding:14px;text-align:center;z-index:50}
+h1{margin:0}h2,h3{color:var(--o2)}nav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+nav a,.btn,button{color:#fff;text-decoration:none;border:1px solid var(--o);border-radius:8px;padding:10px 12px;background:#151515;font-weight:bold;cursor:pointer}
+button.primary,.btn.primary{background:var(--o);color:#000}
+section{max-width:1380px;margin:auto;padding:28px 16px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:15px}
+.card{background:var(--c);border:1px solid var(--o);border-radius:14px;padding:16px;margin:10px 0}
+.statcard{background:linear-gradient(135deg,#142850,#0a0a0a);border:1px solid var(--o);border-radius:14px;padding:16px}
+input,select,textarea{width:100%;padding:11px;margin:6px 0;border-radius:7px;border:1px solid #777;background:#fff;color:#000}
+.small{font-size:13px;color:#ccc}.success{color:var(--g);font-weight:bold}.error{color:var(--r);font-weight:bold}.stat{font-size:32px;color:var(--o2);font-weight:900}
+table{width:100%;border-collapse:collapse;background:#111;margin-top:10px}td,th{border:1px solid var(--o);padding:8px;text-align:left;font-size:14px;vertical-align:top}th{color:var(--o2)}
+.print-box{background:#fff;color:#000;padding:24px;border-radius:10px;margin:15px 0}.print-box h2,.print-box h3{color:#000}
+.badge{display:inline-block;padding:4px 8px;border-radius:999px;background:#202020;border:1px solid var(--o);margin:2px}.good{border-color:var(--g)}
+.sig{background:#fff;border:2px solid var(--o);border-radius:8px;width:100%;height:180px;touch-action:none}
+@media print{header,nav,button,.no-print{display:none!important}body{background:#fff;color:#000}.card{border:0}}
+</style></head><body>
+<header><h1>JC Handyman Cloud CRM V18 Professional Operations</h1><p>Dashboard • Customer Hub • Mobile Field Mode • Deployment Hub • Paperwork</p>
+<nav><a href="index.html">Website</a><a href="#dashboard">Dashboard</a><a href="mobile-field.html">Mobile Field Mode</a><a href="deployment-hub.html">Deployment Hub</a><a href="#customerhub">Customer Hub</a><a href="#propertytimeline">Property Timeline</a><a href="#customers">Customers</a><a href="#jobs">Jobs</a><a href="#estimate">Estimate</a><a href="#invoice">Invoice</a><a href="#receipt">Receipt</a><a href="#paperwork">Paperwork</a><a href="#search">Search</a></nav></header>
+<section id="dashboard"><h2>Professional Operations Dashboard</h2><p id="status" class="small">Connecting...</p><button class="primary" onclick="loadData()">Refresh Cloud Data</button><div class="grid">
+<div class="statcard"><h3>Customers</h3><div class="stat" id="statCustomers">0</div></div><div class="statcard"><h3>Jobs</h3><div class="stat" id="statJobs">0</div></div><div class="statcard"><h3>Open Estimates</h3><div class="stat" id="statEstimates">0</div></div><div class="statcard"><h3>Unpaid Invoices</h3><div class="stat" id="statInvoices">0</div></div><div class="statcard"><h3>Collected</h3><div class="stat" id="statCollected">$0</div></div><div class="statcard"><h3>Open Balance</h3><div class="stat" id="statBalance">$0</div></div><div class="statcard"><h3>Timeline Events</h3><div class="stat" id="statTimeline">0</div></div><div class="statcard"><h3>Field Logs</h3><div class="stat" id="statFieldLogs">0</div></div></div>
+<div class="card"><h3>Quick Actions</h3><a class="btn primary" href="mobile-field.html">Open Mobile Field Mode</a> <a class="btn primary" href="deployment-hub.html">Open Deployment Hub</a> <a class="btn" href="#paperwork">Create Paperwork</a><p id="systemBox"></p></div></section>
+<section id="customerhub"><h2>Customer Hub</h2><div class="card"><input id="hubCustomerId" type="number" placeholder="Enter Customer ID"><button class="primary" onclick="openCustomerHub()">Open Customer Hub</button></div><div id="hubBox"></div></section>
+<section id="propertytimeline"><h2>Property Timeline</h2><div class="card"><input id="ptCustomer" type="number" placeholder="Customer ID"><input id="ptAddress" placeholder="Property Address"><select id="ptType"><option>Job</option><option>Estimate</option><option>Invoice</option><option>Inspection</option><option>Photo</option><option>Maintenance</option><option>Home Watch</option><option>Rental Turnover</option></select><input id="ptTitle" placeholder="Timeline Title"><input id="ptDate" type="date"><textarea id="ptNotes" placeholder="Timeline notes"></textarea><button class="primary" onclick="saveTimeline()">Save Timeline Event</button></div><div id="timelineList"></div></section>
+<section id="customers"><h2>Customers</h2><div class="card"><input id="cname" placeholder="Customer Name"><input id="cphone" placeholder="Phone"><input id="cemail" placeholder="Email"><input id="caddress" placeholder="Property Address"><select id="ctype"><option>Homeowner</option><option>Landlord</option><option>Investor</option><option>Senior Client</option><option>Property Manager</option></select><textarea id="cnotes" placeholder="Customer notes"></textarea><button class="primary" onclick="saveCustomer()">Save Customer</button></div><div id="customerList"></div></section>
+<section id="jobs"><h2>Jobs</h2><div class="card"><input id="jcustomer" type="number" placeholder="Customer ID"><input id="jtitle" placeholder="Job Title"><input id="jtype" placeholder="Job Type"><select id="jstatus"><option>Scheduled</option><option>In Progress</option><option>Waiting on Materials</option><option>Completed</option><option>Paid</option></select><textarea id="jdesc" placeholder="Job scope"></textarea><input id="jprice" type="number" placeholder="Price $"><input id="jdeposit" type="number" placeholder="Deposit $"><input id="jdue" type="date"><textarea id="jnotes" placeholder="Job notes"></textarea><button class="primary" onclick="saveJob()">Save Job</button></div><div id="jobList"></div></section>
+<section id="estimate"><h2>Estimate Builder</h2><div class="card"><input id="ecustomer" type="number" placeholder="Customer ID"><input id="etitle" placeholder="Estimate Title"><textarea id="escope" placeholder="Scope of work"></textarea><input id="elabor" type="number" placeholder="Labor $"><input id="ematerials" type="number" placeholder="Materials $"><input id="eextra" type="number" placeholder="Extra/Other $"><textarea id="enotes" placeholder="Notes"></textarea><button class="primary" onclick="saveEstimate()">Save Estimate</button><button onclick="createEstimatePaper()">Create Printable Estimate</button></div><div id="estimateList"></div></section>
+<section id="invoice"><h2>Invoice Builder</h2><div class="card"><input id="icustomer" type="number" placeholder="Customer ID"><input id="ititle" placeholder="Invoice Title"><textarea id="iwork" placeholder="Work completed"></textarea><input id="ilabor" type="number" placeholder="Labor $"><input id="imaterials" type="number" placeholder="Materials $"><input id="ipaid" type="number" placeholder="Paid $"><textarea id="inotes" placeholder="Notes"></textarea><button class="primary" onclick="saveInvoice()">Save Invoice</button><button onclick="createInvoicePaper()">Create Printable Invoice</button></div><div id="invoiceList"></div></section>
+<section id="receipt"><h2>Receipt</h2><div class="card"><input id="rcustomer" type="number" placeholder="Customer ID"><input id="rfor" placeholder="Payment For"><input id="ramount" type="number" placeholder="Amount $"><select id="rmethod"><option>Cash</option><option>Cash App</option><option>PayPal</option><option>Check</option><option>Other</option></select><textarea id="rnotes" placeholder="Notes"></textarea><button class="primary" onclick="saveReceipt()">Save Receipt</button></div><div id="receiptList"></div></section>
+<section id="paperwork"><h2>Professional Paperwork / PDF Print</h2><div class="card"><select id="paperType"><option>Estimate</option><option>Invoice</option><option>Receipt</option><option>Inspection</option><option>Work Order</option><option>Service Plan Agreement</option></select><input id="paperCustomer" type="number" placeholder="Customer ID"><input id="paperTitle" placeholder="Title"><textarea id="paperBody" placeholder="Details / scope / work completed"></textarea><input id="paperLabor" type="number" placeholder="Labor $"><input id="paperMaterials" type="number" placeholder="Materials $"><input id="paperPaid" type="number" placeholder="Paid $"><button class="primary" onclick="makePaperwork()">Create Printable Page</button><button onclick="window.print()">Print / Save PDF</button></div><div id="paperPrint" class="print-box"></div></section>
+<section id="search"><h2>Global Search</h2><div class="card"><input id="globalSearch" placeholder="Search customers, jobs, invoices, estimates, timeline..." oninput="runSearch()"></div><div id="searchResults"></div></section>
 <script type="module">
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 import { SUPABASE_URL, SUPABASE_KEY } from './config.js'
 const supabase=createClient(SUPABASE_URL,SUPABASE_KEY)
-let all={customers:[],jobs:[],appointments:[],upgrades:[],timeline:[],tools:[],mileage:[]}
+let all={customers:[],jobs:[],estimates:[],invoices:[],receipts:[],timeline:[],field:[]}
 const statusBox=document.getElementById('status')
-function money(v){return '$'+Number(v||0).toFixed(2)}
-function setStatus(m,c='small'){statusBox.textContent=m;statusBox.className=c}
-function customerName(id){let c=all.customers.find(x=>Number(x.id)===Number(id));return c?c.name:'Customer ID '+id}
-function customer(id){return all.customers.find(x=>Number(x.id)===Number(id))||{}}
+function money(v){return '$'+Number(v||0).toFixed(2)} function setStatus(m,c='small'){statusBox.textContent=m;statusBox.className=c}
+function customer(id){return all.customers.find(x=>Number(x.id)===Number(id))||{}} function customerName(id){let c=customer(id);return c.name||('Customer ID '+id)}
 function mapsLink(addr){return addr?`<a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addr)}">Directions</a>`:''}
-function phoneLink(v){return v?`<a class="btn" href="tel:${v}">Call</a> ${v}`:''}
-function emailLink(v){return v?`<a class="btn" href="mailto:${v}">Email</a> ${v}`:''}
-function dayDiff(d){return Math.ceil((new Date(d+'T00:00:00')-new Date(new Date().toDateString()))/86400000)}
+function phoneLink(v){return v?`<a class="btn" href="tel:${v}">Call</a> ${v}`:''} function emailLink(v){return v?`<a class="btn" href="mailto:${v}">Email</a> ${v}`:''}
 function table(items,cols){if(!items||!items.length)return '<p class="small">No records yet.</p>';return '<table><tr>'+cols.map(c=>'<th>'+c.label+'</th>').join('')+'</tr>'+items.map(i=>'<tr>'+cols.map(c=>'<td>'+(c.format?c.format(i[c.key],i):(i[c.key]??''))+'</td>').join('')+'</tr>').join('')+'</table>'}
 async function ins(t,r){const {error}=await supabase.from(t).insert([r]);if(error)throw error}
-
 const custCols=[{key:'id',label:'ID'},{key:'name',label:'Name'},{key:'phone',label:'Phone',format:phoneLink},{key:'email',label:'Email',format:emailLink},{key:'address',label:'Address',format:(v)=>v? v+' '+mapsLink(v):''}]
 const jobCols=[{key:'id',label:'Job'},{key:'customer_id',label:'Customer'},{key:'title',label:'Title'},{key:'status',label:'Status'},{key:'price',label:'Price',format:money},{key:'balance',label:'Balance',format:money},{key:'due_date',label:'Due'}]
-const appCols=[{key:'id',label:'ID'},{key:'customer_id',label:'Customer'},{key:'title',label:'Title'},{key:'appointment_date',label:'Date'},{key:'appointment_time',label:'Time'}]
-const upgradeCols=[{key:'id',label:'ID'},{key:'version',label:'Version'},{key:'upgrade_name',label:'Upgrade'},{key:'status',label:'Status'},{key:'created_at',label:'Date'}]
-const timelineCols=[{key:'id',label:'ID'},{key:'customer_id',label:'Customer'},{key:'property_address',label:'Address'},{key:'event_type',label:'Type'},{key:'title',label:'Title'},{key:'event_date',label:'Date'},{key:'notes',label:'Notes'}]
-const toolCols=[{key:'id',label:'ID'},{key:'tool_name',label:'Tool'},{key:'category',label:'Category'},{key:'storage_location',label:'Location'},{key:'serial_number',label:'Serial'},{key:'replacement_value',label:'Value',format:money}]
-const mileageCols=[{key:'id',label:'ID'},{key:'customer_id',label:'Customer'},{key:'trip_date',label:'Date'},{key:'start_location',label:'Start'},{key:'end_location',label:'End'},{key:'miles',label:'Miles'},{key:'purpose',label:'Purpose'}]
-
-window.saveTimeline=async()=>{try{await ins('property_timeline',{customer_id:Number(ptCustomer.value)||null,property_address:ptAddress.value,event_type:ptType.value,title:ptTitle.value,notes:ptNotes.value,event_date:ptDate.value||null});alert('Timeline event saved.');loadData()}catch(e){alert(e.message)}}
-window.saveTool=async()=>{try{await ins('trailer_tools',{tool_name:toolName.value,category:toolCategory.value,storage_location:toolLocation.value,serial_number:toolSerial.value,purchase_date:toolPurchase.value||null,warranty_until:toolWarranty.value||null,replacement_value:Number(toolValue.value)||0,notes:toolNotes.value});alert('Tool saved.');loadData()}catch(e){alert(e.message)}}
-window.saveMileage=async()=>{try{await ins('mileage_log',{customer_id:Number(mileCustomer.value)||null,job_id:Number(mileJob.value)||null,trip_date:mileDate.value||null,start_location:mileStart.value,end_location:mileEnd.value,miles:Number(mileMiles.value)||0,purpose:milePurpose.value,notes:mileNotes.value});alert('Mileage saved.');loadData()}catch(e){alert(e.message)}}
-window.recordUpgrade=async()=>{try{await ins('crm_upgrades',{version:'V17.1',upgrade_name:'Core Enterprise',notes:'Added property timeline, trailer tools, and mileage tracking.',status:'Installed'});systemStatus.textContent='V17.1 upgrade recorded.';systemStatus.className='small success';loadData()}catch(e){systemStatus.textContent=e.message;systemStatus.className='small error'}}
-window.runHealthCheck=()=>{systemChecklist.innerHTML=`<span class="badge good">Customers ${all.customers.length}</span><span class="badge good">Jobs ${all.jobs.length}</span><span class="badge good">Timeline ${all.timeline.length}</span><span class="badge good">Tools ${all.tools.length}</span><span class="badge good">Mileage ${all.mileage.length}</span>`;systemStatus.textContent='Health check complete.';systemStatus.className='small success'}
+const estCols=[{key:'id',label:'ID'},{key:'customer_id',label:'Customer'},{key:'title',label:'Title'},{key:'total',label:'Total',format:money},{key:'status',label:'Status'}]
+const invCols=[{key:'id',label:'ID'},{key:'customer_id',label:'Customer'},{key:'title',label:'Title'},{key:'total',label:'Total',format:money},{key:'paid',label:'Paid',format:money},{key:'balance',label:'Balance',format:money},{key:'status',label:'Status'}]
+const recCols=[{key:'id',label:'ID'},{key:'customer_id',label:'Customer'},{key:'payment_for',label:'For'},{key:'amount',label:'Amount',format:money},{key:'method',label:'Method'}]
+const timeCols=[{key:'id',label:'ID'},{key:'customer_id',label:'Customer'},{key:'property_address',label:'Address'},{key:'event_type',label:'Type'},{key:'title',label:'Title'},{key:'event_date',label:'Date'}]
 window.saveCustomer=async()=>{try{await ins('customers',{name:cname.value,phone:cphone.value,email:cemail.value,address:caddress.value,property_type:ctype.value,notes:cnotes.value});alert('Customer saved.');loadData()}catch(e){alert(e.message)}}
 window.saveJob=async()=>{try{let price=Number(jprice.value)||0,dep=Number(jdeposit.value)||0;await ins('jobs',{customer_id:Number(jcustomer.value),title:jtitle.value,job_type:jtype.value,status:jstatus.value,description:jdesc.value,price,deposit:dep,balance:price-dep,due_date:jdue.value||null,notes:jnotes.value});alert('Job saved.');loadData()}catch(e){alert(e.message)}}
-window.showTimeline=()=>{let q=timelineSearch.value.toLowerCase();let rows=q?all.timeline.filter(x=>(x.property_address||'').toLowerCase().includes(q)||JSON.stringify(x).toLowerCase().includes(q)):all.timeline;timelineList.innerHTML=table(rows,timelineCols)}
-window.openCustomerHub=()=>{let id=Number(hubCustomerId.value);let c=customer(id);hubBox.innerHTML=`<div class="card"><h3>${c.name||customerName(id)}</h3><p>${phoneLink(c.phone)}<br>${emailLink(c.email)}<br>${c.address||''}<br>${mapsLink(c.address)}</p><h3>Jobs</h3>${table(all.jobs.filter(x=>Number(x.customer_id)===id),jobCols)}<h3>Property Timeline</h3>${table(all.timeline.filter(x=>Number(x.customer_id)===id),timelineCols)}<h3>Mileage</h3>${table(all.mileage.filter(x=>Number(x.customer_id)===id),mileageCols)}</div>`}
-window.buildRoute=()=>{let today=new Date().toISOString().slice(0,10);let appts=all.appointments.filter(a=>a.appointment_date===today);let addresses=appts.map(a=>customer(a.customer_id).address).filter(Boolean);if(!addresses.length){routeBox.innerHTML='<p class="warn">No addresses found for today.</p>';return}let url='https://www.google.com/maps/dir/'+addresses.map(encodeURIComponent).join('/');routeBox.innerHTML=`<a class="btn" target="_blank" href="${url}">Open Route in Google Maps</a><p>${addresses.join('<br>')}</p>`}
-window.runSearch=()=>{let q=globalSearch.value.toLowerCase();if(!q){searchResults.innerHTML='';return}searchResults.innerHTML='<h3>Customers</h3>'+table(all.customers.filter(x=>JSON.stringify(x).toLowerCase().includes(q)),custCols)+'<h3>Jobs</h3>'+table(all.jobs.filter(x=>JSON.stringify(x).toLowerCase().includes(q)),jobCols)+'<h3>Tools</h3>'+table(all.tools.filter(x=>JSON.stringify(x).toLowerCase().includes(q)),toolCols)+'<h3>Timeline</h3>'+table(all.timeline.filter(x=>JSON.stringify(x).toLowerCase().includes(q)),timelineCols)}
-
-window.loadData=async()=>{setStatus('Loading cloud data...');for(let t of ['customers','jobs','appointments','crm_upgrades','property_timeline','trailer_tools','mileage_log']){let r=await supabase.from(t).select('*').order('id',{ascending:false});let k=t==='crm_upgrades'?'upgrades':t==='property_timeline'?'timeline':t==='trailer_tools'?'tools':t==='mileage_log'?'mileage':t;all[k]=r.error?[]:r.data;if(r.error)console.warn(t,r.error)}setStatus('Connected to Supabase cloud database.','small success');statCustomers.textContent=all.customers.length;statJobs.textContent=all.jobs.length;statTimeline.textContent=all.timeline.length;statTools.textContent=all.tools.length;statMiles.textContent=all.mileage.reduce((a,m)=>a+Number(m.miles||0),0);statToolValue.textContent=money(all.tools.reduce((a,t)=>a+Number(t.replacement_value||0),0));let today=new Date().toISOString().slice(0,10);todayBox.innerHTML=table(all.appointments.filter(a=>a.appointment_date===today),appCols);healthBox.innerHTML=`<span class="badge good">V17.1 Active</span><span class="badge good">Cloud Connected</span>`;customerList.innerHTML=table(all.customers,custCols);jobList.innerHTML=table(all.jobs,jobCols);upgradeHistory.innerHTML=table(all.upgrades,upgradeCols);toolList.innerHTML=table(all.tools,toolCols);mileageList.innerHTML=table(all.mileage,mileageCols);showTimeline();runHealthCheck()}
+window.saveEstimate=async()=>{try{let total=(Number(elabor.value)||0)+(Number(ematerials.value)||0)+(Number(eextra.value)||0);await ins('estimates',{customer_id:Number(ecustomer.value),title:etitle.value,scope:escope.value,labor:Number(elabor.value)||0,materials:Number(ematerials.value)||0,tax:Number(eextra.value)||0,total,status:'Open',notes:enotes.value});alert('Estimate saved.');loadData()}catch(e){alert(e.message)}}
+window.saveInvoice=async()=>{try{let total=(Number(ilabor.value)||0)+(Number(imaterials.value)||0),paid=Number(ipaid.value)||0;await ins('invoices',{customer_id:Number(icustomer.value),title:ititle.value,work_completed:iwork.value,labor:Number(ilabor.value)||0,materials:Number(imaterials.value)||0,total,paid,balance:total-paid,status:total-paid<=0?'Paid':'Open',notes:inotes.value});alert('Invoice saved.');loadData()}catch(e){alert(e.message)}}
+window.saveReceipt=async()=>{try{await ins('receipts',{customer_id:Number(rcustomer.value),payment_for:rfor.value,amount:Number(ramount.value)||0,method:rmethod.value,notes:rnotes.value});alert('Receipt saved.');loadData()}catch(e){alert(e.message)}}
+window.saveTimeline=async()=>{try{await ins('property_timeline',{customer_id:Number(ptCustomer.value)||null,property_address:ptAddress.value,event_type:ptType.value,title:ptTitle.value,notes:ptNotes.value,event_date:ptDate.value||null});alert('Timeline event saved.');loadData()}catch(e){alert(e.message)}}
+window.makePaperwork=()=>{let c=customer(paperCustomer.value),labor=Number(paperLabor.value)||0,mat=Number(paperMaterials.value)||0,paid=Number(paperPaid.value)||0,total=labor+mat,balance=total-paid;paperPrint.innerHTML=`<h2>JC Handyman & Property Maintenance</h2><h3>${paperType.value}</h3><p><b>Customer:</b> ${c.name||customerName(paperCustomer.value)}<br>${c.phone||''}<br>${c.email||''}<br>${c.address||''}</p><p><b>Title:</b> ${paperTitle.value}</p><p>${paperBody.value.replace(/\n/g,'<br>')}</p><table><tr><th>Labor</th><th>Materials</th><th>Total</th><th>Paid</th><th>Balance</th></tr><tr><td>${money(labor)}</td><td>${money(mat)}</td><td>${money(total)}</td><td>${money(paid)}</td><td>${money(balance)}</td></tr></table><p>Phone: 704-675-2014<br>Email: JerryCook811@gmail.com</p><p>Customer Signature: ___________________________ Date: __________</p>`}
+window.createEstimatePaper=()=>{paperType.value='Estimate';paperCustomer.value=ecustomer.value;paperTitle.value=etitle.value;paperBody.value=escope.value;paperLabor.value=elabor.value;paperMaterials.value=ematerials.value;paperPaid.value=0;makePaperwork();location.hash='#paperwork'}
+window.createInvoicePaper=()=>{paperType.value='Invoice';paperCustomer.value=icustomer.value;paperTitle.value=ititle.value;paperBody.value=iwork.value;paperLabor.value=ilabor.value;paperMaterials.value=imaterials.value;paperPaid.value=ipaid.value;makePaperwork();location.hash='#paperwork'}
+window.openCustomerHub=()=>{let id=Number(hubCustomerId.value);let c=customer(id);hubBox.innerHTML=`<div class="card"><h3>${c.name||customerName(id)}</h3><p>${phoneLink(c.phone)}<br>${emailLink(c.email)}<br>${c.address||''}<br>${mapsLink(c.address)}</p><h3>Jobs</h3>${table(all.jobs.filter(x=>Number(x.customer_id)===id),jobCols)}<h3>Estimates</h3>${table(all.estimates.filter(x=>Number(x.customer_id)===id),estCols)}<h3>Invoices</h3>${table(all.invoices.filter(x=>Number(x.customer_id)===id),invCols)}<h3>Receipts</h3>${table(all.receipts.filter(x=>Number(x.customer_id)===id),recCols)}<h3>Property Timeline</h3>${table(all.timeline.filter(x=>Number(x.customer_id)===id),timeCols)}</div>`}
+window.runSearch=()=>{let q=globalSearch.value.toLowerCase();if(!q){searchResults.innerHTML='';return}searchResults.innerHTML='<h3>Customers</h3>'+table(all.customers.filter(x=>JSON.stringify(x).toLowerCase().includes(q)),custCols)+'<h3>Jobs</h3>'+table(all.jobs.filter(x=>JSON.stringify(x).toLowerCase().includes(q)),jobCols)+'<h3>Estimates</h3>'+table(all.estimates.filter(x=>JSON.stringify(x).toLowerCase().includes(q)),estCols)+'<h3>Invoices</h3>'+table(all.invoices.filter(x=>JSON.stringify(x).toLowerCase().includes(q)),invCols)+'<h3>Timeline</h3>'+table(all.timeline.filter(x=>JSON.stringify(x).toLowerCase().includes(q)),timeCols)}
+window.loadData=async()=>{setStatus('Loading cloud data...');for(let t of ['customers','jobs','estimates','invoices','receipts','property_timeline','field_checkins']){let r=await supabase.from(t).select('*').order('id',{ascending:false});let k=t==='property_timeline'?'timeline':t==='field_checkins'?'field':t;all[k]=r.error?[]:r.data;if(r.error)console.warn(t,r.error)}setStatus('Connected to Supabase cloud database.','small success');statCustomers.textContent=all.customers.length;statJobs.textContent=all.jobs.length;statEstimates.textContent=all.estimates.filter(e=>e.status!=='Closed').length;statInvoices.textContent=all.invoices.filter(i=>Number(i.balance||0)>0).length;statCollected.textContent=money(all.receipts.reduce((a,r)=>a+Number(r.amount||0),0));statBalance.textContent=money(all.invoices.reduce((a,i)=>a+Number(i.balance||0),0));statTimeline.textContent=all.timeline.length;statFieldLogs.textContent=all.field.length;systemBox.innerHTML='<span class="badge good">V18 Active</span><span class="badge good">Cloud Connected</span><span class="badge good">Mobile Field Ready</span><span class="badge good">Deployment Hub Ready</span>';customerList.innerHTML=table(all.customers,custCols);jobList.innerHTML=table(all.jobs,jobCols);estimateList.innerHTML=table(all.estimates,estCols);invoiceList.innerHTML=table(all.invoices,invCols);receiptList.innerHTML=table(all.receipts,recCols);timelineList.innerHTML=table(all.timeline,timeCols)}
 loadData()
-if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js')
-</script>
-</body>
-</html>
+</script></body></html>
