@@ -262,15 +262,15 @@ window.openHub=()=>{
 }
 
 window.loadAll=async()=>{
- status.textContent='Loading cloud data...'
+ document.getElementById('status').textContent='Loading cloud data...'
  const mapping={customers:'customers',properties:'properties',jobs:'jobs',job_history:'history',job_photos:'photos',customer_documents:'documents'}
  for(const tableName in mapping){
   const result=await db.from(tableName).select('*').order('id',{ascending:false})
   all[mapping[tableName]]=result.error?[]:result.data
   if(result.error)console.warn(tableName,result.error)
  }
- status.textContent='Connected to Supabase cloud database.'
- status.className='small success'
+ document.getElementById('status').textContent='Connected to Supabase cloud database.'
+ document.getElementById('status').className='small success'
  statCustomers.textContent=all.customers.length
  statProperties.textContent=all.properties.length
  statJobs.textContent=all.jobs.length
