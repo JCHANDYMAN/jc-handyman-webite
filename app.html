@@ -2,337 +2,199 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>JC Handyman CRM V18 Enterprise Phase 2</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JC Handyman CRM V18 Enterprise Phase 3</title>
 <style>
-:root{--bg:#050505;--card:#171717;--o:#e86b00;--o2:#ff9b35;--green:#8cff9b;--red:#ff8b8b}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#fff;font-family:Arial,sans-serif}
-header{background:#000;border-bottom:3px solid var(--o);padding:14px;text-align:center;position:sticky;top:0;z-index:50}
-h1{margin:0}h2,h3{color:var(--o2)}nav{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin-top:10px}
-nav button,.btn,button{background:#151515;color:#fff;border:1px solid var(--o);border-radius:8px;padding:10px 12px;font-weight:700;cursor:pointer;text-decoration:none}
-.primary{background:var(--o)!important;color:#000!important}.danger{border-color:#b33!important;color:#ff9a9a!important}
-section{display:none;max-width:1450px;margin:auto;padding:22px 12px}.active{display:block}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
-.card{background:var(--card);border:1px solid var(--o);border-radius:14px;padding:16px;margin:10px 0}
+:root{--b:#050505;--c:#171717;--o:#e86b00;--o2:#ff9b35;--g:#8cff9b;--r:#ff8b8b}
+*{box-sizing:border-box}body{margin:0;background:var(--b);color:#fff;font-family:Arial}
+header{background:#000;border-bottom:3px solid var(--o);padding:14px;text-align:center;position:sticky;top:0;z-index:40}
+h1{margin:0}h2,h3{color:var(--o2)}nav{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:9px}
+button,.btn{background:#151515;color:#fff;border:1px solid var(--o);border-radius:8px;padding:10px 12px;font-weight:700;cursor:pointer;text-decoration:none}
+.primary{background:var(--o);color:#000}.danger{border-color:#a33;color:#ff9b9b}
+section{display:none;max-width:1450px;margin:auto;padding:18px 10px}.active{display:block}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.card{background:var(--c);border:1px solid var(--o);border-radius:14px;padding:15px;margin:10px 0}
 .stat{font-size:30px;font-weight:900;color:var(--o2)}
 input,select,textarea{width:100%;padding:11px;margin:6px 0;border-radius:7px;border:1px solid #777;background:#fff;color:#000}
 table{width:100%;border-collapse:collapse;background:#111;margin-top:10px}th,td{border:1px solid var(--o);padding:8px;text-align:left;font-size:14px;vertical-align:top}th{color:var(--o2)}
-.small{font-size:13px;color:#ccc}.success{color:var(--green);font-weight:700}.error{color:var(--red);font-weight:700}
-.gallery{display:flex;flex-wrap:wrap;gap:10px}.photo-card{background:#151515;border:1px solid var(--o);border-radius:10px;padding:8px;width:200px}.photo-card img{width:100%;height:135px;object-fit:cover;border-radius:8px}
-.actions{display:flex;gap:6px;flex-wrap:wrap}.searchbar{display:grid;grid-template-columns:1fr auto;gap:8px}
-@media(max-width:700px){header{position:relative}section{padding:14px 8px}.searchbar{grid-template-columns:1fr}}
+.actions{display:flex;gap:6px;flex-wrap:wrap}.small{font-size:13px;color:#ccc}.success{color:var(--g)}.error{color:var(--r)}
+.printbox{background:#fff;color:#000;padding:22px;border-radius:10px}.printbox h2,.printbox h3{color:#000}
+@media(max-width:700px){header{position:relative}section{padding:12px 7px}}
+@media print{header,nav,.no-print{display:none!important}section{display:none!important}#workorders{display:block!important}body{background:#fff;color:#000}.printbox{display:block}}
 </style>
 </head>
 <body>
 <header>
-<h1>JC Handyman Cloud CRM V18 Enterprise — Phase 2</h1>
-<p>Search • Edit • Properties • Job History • Photos • Documents • Customer Hub</p>
+<h1>JC Handyman Cloud CRM V18 Enterprise — Phase 3</h1>
+<p>Customers → Properties → Estimates → Jobs → Invoices → Payments</p>
 <nav>
-<button onclick="showPage('dashboard')">Dashboard</button>
-<button onclick="showPage('customers')">Customers</button>
-<button onclick="showPage('properties')">Properties</button>
-<button onclick="showPage('history')">Job History</button>
-<button onclick="showPage('photos')">Photos</button>
-<button onclick="showPage('documents')">Documents</button>
-<button onclick="showPage('customerhub')">Customer Hub</button>
+<button onclick="go('dashboard')">Dashboard</button>
+<button onclick="go('customers')">Customers</button>
+<button onclick="go('properties')">Properties</button>
+<button onclick="go('estimates')">Estimates</button>
+<button onclick="go('invoices')">Invoices</button>
+<button onclick="go('payments')">Payments</button>
+<button onclick="go('calendar')">Calendar</button>
+<button onclick="go('checkin')">Check-In</button>
+<button onclick="go('materials')">Materials</button>
+<button onclick="go('workorders')">Work Orders</button>
 <a class="btn" href="index.html">Website</a>
 </nav>
 </header>
 
 <section id="dashboard" class="active">
-<h2>Phase 2 Dashboard</h2>
+<h2>Business Dashboard</h2>
 <p id="appStatus" class="small">Connecting...</p>
 <button class="primary" onclick="loadAll()">Refresh Cloud Data</button>
 <div class="grid">
-<div class="card"><h3>Customers</h3><div class="stat" id="statCustomers">0</div></div>
-<div class="card"><h3>Properties</h3><div class="stat" id="statProperties">0</div></div>
-<div class="card"><h3>Jobs</h3><div class="stat" id="statJobs">0</div></div>
-<div class="card"><h3>History Records</h3><div class="stat" id="statHistory">0</div></div>
-<div class="card"><h3>Photos</h3><div class="stat" id="statPhotos">0</div></div>
-<div class="card"><h3>Documents</h3><div class="stat" id="statDocuments">0</div></div>
+<div class="card"><h3>Customers</h3><div id="sCustomers" class="stat">0</div></div>
+<div class="card"><h3>Properties</h3><div id="sProperties" class="stat">0</div></div>
+<div class="card"><h3>Open Estimates</h3><div id="sEstimates" class="stat">0</div></div>
+<div class="card"><h3>Unpaid Invoices</h3><div id="sInvoices" class="stat">0</div></div>
+<div class="card"><h3>Collected</h3><div id="sCollected" class="stat">$0</div></div>
+<div class="card"><h3>Outstanding</h3><div id="sOutstanding" class="stat">$0</div></div>
+<div class="card"><h3>Appointments</h3><div id="sAppointments" class="stat">0</div></div>
+<div class="card"><h3>Material Cost</h3><div id="sMaterials" class="stat">$0</div></div>
 </div>
 </section>
 
-<section id="customers">
-<h2>Customer Database</h2>
-<div class="card searchbar">
-<input id="customerSearch" placeholder="Search by name, phone, email, or address" oninput="renderCustomers()">
-<button onclick="clearCustomerSearch()">Clear Search</button>
-</div>
+<section id="customers"><h2>Customers</h2><div id="customerList"></div></section>
+<section id="properties"><h2>Properties</h2><div id="propertyList"></div></section>
+
+<section id="estimates">
+<h2>Estimates</h2>
 <div class="card">
-<input id="cId" type="hidden">
-<input id="cName" placeholder="Customer name">
-<input id="cPhone" placeholder="Phone">
-<input id="cEmail" placeholder="Email">
-<input id="cAddress" placeholder="Primary address">
-<select id="cType"><option>Homeowner</option><option>Landlord</option><option>Investor</option><option>Senior Client</option><option>Property Manager</option></select>
-<textarea id="cNotes" placeholder="Customer notes"></textarea>
-<div class="actions">
-<button class="primary" onclick="saveCustomer()">Save Customer</button>
-<button onclick="clearCustomerForm()">Clear Form</button>
-</div>
-</div>
-<div id="customerList"></div>
+<input id="eId" type="hidden"><select id="eCustomer"></select><select id="eProperty"></select>
+<input id="eTitle" placeholder="Estimate title"><textarea id="eScope" placeholder="Scope of work"></textarea>
+<input id="eLabor" type="number" placeholder="Labor $"><input id="eMaterials" type="number" placeholder="Materials $"><input id="eOther" type="number" placeholder="Other $">
+<select id="eStatus"><option>Open</option><option>Approved</option><option>Declined</option><option>Converted</option></select>
+<input id="eValid" type="date"><textarea id="eNotes" placeholder="Notes"></textarea>
+<div class="actions"><button class="primary" onclick="saveEstimate()">Save Estimate</button><button onclick="clearEstimate()">Clear</button><button onclick="estimateToWorkOrder()">Print Estimate</button></div>
+</div><div id="estimateList"></div>
 </section>
 
-<section id="properties">
-<h2>Property Records</h2>
+<section id="invoices">
+<h2>Invoices</h2>
 <div class="card">
-<input id="pId" type="hidden">
-<select id="pCustomer"></select>
-<input id="pName" placeholder="Property name">
-<input id="pAddress" placeholder="Street address">
-<input id="pCity" placeholder="City">
-<input id="pState" placeholder="State">
-<input id="pZip" placeholder="ZIP code">
-<select id="pType"><option>Primary Home</option><option>Rental Property</option><option>Vacation Home</option><option>Commercial Property</option><option>Other</option></select>
-<textarea id="pAccess" placeholder="Access notes, gate code, lockbox, key location"></textarea>
-<textarea id="pNotes" placeholder="Property notes"></textarea>
-<div class="actions">
-<button class="primary" onclick="saveProperty()">Save Property</button>
-<button onclick="clearPropertyForm()">Clear Form</button>
-</div>
-</div>
-<div id="propertyList"></div>
+<input id="iId" type="hidden"><select id="iCustomer"></select><select id="iProperty"></select>
+<input id="iJob" type="number" placeholder="Job ID"><input id="iEstimate" type="number" placeholder="Estimate ID">
+<input id="iTitle" placeholder="Invoice title"><textarea id="iWork" placeholder="Work completed"></textarea>
+<input id="iLabor" type="number" placeholder="Labor $"><input id="iMaterials" type="number" placeholder="Materials $"><input id="iOther" type="number" placeholder="Other $">
+<input id="iPaid" type="number" placeholder="Already paid $"><input id="iDue" type="date">
+<textarea id="iNotes" placeholder="Notes"></textarea>
+<div class="actions"><button class="primary" onclick="saveInvoice()">Save Invoice</button><button onclick="clearInvoice()">Clear</button><button onclick="invoiceToWorkOrder()">Print Invoice</button></div>
+</div><div id="invoiceList"></div>
 </section>
 
-<section id="history">
-<h2>Job History</h2>
+<section id="payments">
+<h2>Payments</h2>
 <div class="card">
-<input id="hId" type="hidden">
-<select id="hCustomer"></select>
-<select id="hProperty"></select>
-<input id="hJob" type="number" placeholder="Job ID">
-<select id="hType"><option>Job Completed</option><option>Estimate</option><option>Invoice</option><option>Inspection</option><option>Maintenance</option><option>Follow-Up</option></select>
-<input id="hTitle" placeholder="History title">
-<textarea id="hWork" placeholder="Work completed"></textarea>
-<input id="hDate" type="date">
-<input id="hAmount" type="number" placeholder="Amount $">
-<textarea id="hNotes" placeholder="Notes"></textarea>
-<div class="actions">
-<button class="primary" onclick="saveHistory()">Save History Record</button>
-<button onclick="clearHistoryForm()">Clear Form</button>
-</div>
-</div>
-<div id="historyList"></div>
+<select id="payCustomer"></select><select id="payInvoice"></select>
+<input id="payAmount" type="number" placeholder="Payment amount $">
+<select id="payMethod"><option>Cash</option><option>Cash App</option><option>PayPal</option><option>Check</option><option>Credit Card</option><option>Other</option></select>
+<input id="payDate" type="date"><input id="payRef" placeholder="Reference number"><textarea id="payNotes" placeholder="Notes"></textarea>
+<button class="primary" onclick="savePayment()">Record Payment</button>
+</div><div id="paymentList"></div>
 </section>
 
-<section id="photos">
-<h2>Before and After Photos</h2>
+<section id="calendar">
+<h2>Calendar & Scheduling</h2>
 <div class="card">
-<select id="phCustomer"></select>
-<input id="phJob" type="number" placeholder="Job ID">
-<select id="phType"><option>Before Photo</option><option>After Photo</option><option>Progress Photo</option><option>Property Photo</option><option>Damage Photo</option></select>
-<input id="phFile" type="file" accept="image/*" capture="environment">
-<textarea id="phNotes" placeholder="Photo notes"></textarea>
-<button class="primary" onclick="uploadPhoto()">Upload Photo</button>
-<p id="phMsg" class="small">Ready.</p>
-</div>
-<div id="photoGallery" class="gallery"></div>
+<input id="aId" type="hidden"><select id="aCustomer"></select><select id="aProperty"></select>
+<input id="aTitle" placeholder="Appointment title"><select id="aType"><option>Job</option><option>Estimate</option><option>Inspection</option><option>Follow-Up</option><option>Emergency</option></select>
+<input id="aDate" type="date"><input id="aTime" type="time"><select id="aStatus"><option>Scheduled</option><option>Confirmed</option><option>Completed</option><option>Cancelled</option></select>
+<textarea id="aNotes" placeholder="Notes"></textarea>
+<div class="actions"><button class="primary" onclick="saveAppointment()">Save Appointment</button><button onclick="clearAppointment()">Clear</button></div>
+</div><div id="appointmentList"></div>
 </section>
 
-<section id="documents">
-<h2>Customer Documents</h2>
+<section id="checkin">
+<h2>Mobile Check-In / Check-Out</h2>
 <div class="card">
-<select id="dCustomer"></select>
-<select id="dProperty"></select>
-<input id="dJob" type="number" placeholder="Job ID">
-<select id="dType"><option>Contract</option><option>Estimate</option><option>Invoice</option><option>Receipt</option><option>Inspection</option><option>Warranty</option><option>Photo Document</option><option>Other</option></select>
-<input id="dTitle" placeholder="Document title">
-<input id="dFile" type="file">
-<textarea id="dNotes" placeholder="Document notes"></textarea>
-<button class="primary" onclick="uploadDocument()">Upload Document</button>
-<p id="dMsg" class="small">Ready.</p>
-</div>
-<div id="documentList"></div>
+<select id="cCustomer"></select><select id="cProperty"></select><input id="cJob" type="number" placeholder="Job ID">
+<select id="cType"><option>Checked In</option><option>Started Work</option><option>Paused Work</option><option>Checked Out</option><option>Completed</option></select>
+<input id="cLat" placeholder="Latitude"><input id="cLng" placeholder="Longitude"><input id="cLocation" placeholder="Location note">
+<button onclick="useGPS()">Use My Location</button><textarea id="cNotes" placeholder="Notes"></textarea>
+<button class="primary" onclick="saveCheckin()">Save Check-In</button><p id="cMsg" class="small"></p>
+</div><div id="checkinList"></div>
 </section>
 
-<section id="customerhub">
-<h2>Customer Hub</h2>
+<section id="materials">
+<h2>Material Tracking</h2>
 <div class="card">
-<select id="hubId"></select>
-<button class="primary" onclick="openHub()">Open Customer Hub</button>
-</div>
-<div id="hubBox"></div>
+<input id="mId" type="hidden"><select id="mCustomer"></select><select id="mProperty"></select><input id="mJob" type="number" placeholder="Job ID">
+<input id="mItem" placeholder="Material or item"><input id="mQty" type="number" placeholder="Quantity" value="1"><input id="mUnit" type="number" placeholder="Unit cost $">
+<select id="mPurchased"><option value="false">Not Purchased</option><option value="true">Purchased</option></select><input id="mSupplier" placeholder="Supplier"><textarea id="mNotes" placeholder="Notes"></textarea>
+<div class="actions"><button class="primary" onclick="saveMaterial()">Save Material</button><button onclick="clearMaterial()">Clear</button></div>
+</div><div id="materialList"></div>
+</section>
+
+<section id="workorders">
+<h2>Printable Work Orders</h2>
+<div class="card no-print">
+<select id="wType"><option>Work Order</option><option>Estimate</option><option>Invoice</option><option>Receipt</option></select>
+<select id="wCustomer"></select><select id="wProperty"></select><input id="wTitle" placeholder="Title"><textarea id="wBody" placeholder="Details"></textarea>
+<input id="wLabor" type="number" placeholder="Labor $"><input id="wMaterials" type="number" placeholder="Materials $"><input id="wPaid" type="number" placeholder="Paid $">
+<button class="primary" onclick="makeWorkOrder()">Build Printable Page</button><button onclick="window.print()">Print / Save PDF</button>
+</div><div id="workOrderPrint" class="printbox"></div>
 </section>
 
 <script type="module">
 import {createClient} from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 import {SUPABASE_URL,SUPABASE_KEY} from './config.js'
 const db=createClient(SUPABASE_URL,SUPABASE_KEY)
-let all={customers:[],properties:[],jobs:[],history:[],photos:[],documents:[]}
-
-window.showPage=id=>{
- document.querySelectorAll('section').forEach(x=>x.classList.remove('active'))
- document.getElementById(id).classList.add('active')
- scrollTo(0,0)
+let all={customers:[],properties:[],jobs:[],estimates:[],invoices:[],payments:[],appointments:[],checkins:[],materials:[]}
+window.go=id=>{document.querySelectorAll('section').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');scrollTo(0,0)}
+const money=v=>'$'+Number(v||0).toFixed(2), customer=id=>all.customers.find(x=>+x.id===+id)||{}, property=id=>all.properties.find(x=>+x.id===+id)||{}
+const customerName=id=>customer(id).name||('Customer ID '+id), propertyName=id=>property(id).property_name||property(id).address||('Property ID '+id)
+function table(rows,cols){if(!rows.length)return '<p class="small">No records yet.</p>';return '<table><tr>'+cols.map(c=>'<th>'+c.l+'</th>').join('')+'</tr>'+rows.map(r=>'<tr>'+cols.map(c=>'<td>'+(c.f?c.f(r[c.k],r):(r[c.k]??''))+'</td>').join('')+'</tr>').join('')+'</table>'}
+async function ins(t,row){let r=await db.from(t).insert([row]);if(r.error)throw r.error}
+async function upd(t,id,row){let r=await db.from(t).update(row).eq('id',id);if(r.error)throw r.error}
+async function del(t,id){let r=await db.from(t).delete().eq('id',id);if(r.error)throw r.error}
+function fill(){
+ let co='<option value="">Select customer</option>'+all.customers.map(x=>`<option value="${x.id}">${x.id} — ${x.name}</option>`).join('')
+ let po='<option value="">Select property</option>'+all.properties.map(x=>`<option value="${x.id}">${x.id} — ${x.property_name||x.address}</option>`).join('')
+ ;['eCustomer','iCustomer','payCustomer','aCustomer','cCustomer','mCustomer','wCustomer'].forEach(id=>document.getElementById(id).innerHTML=co)
+ ;['eProperty','iProperty','aProperty','cProperty','mProperty','wProperty'].forEach(id=>document.getElementById(id).innerHTML=po)
+ payInvoice.innerHTML='<option value="">Select invoice</option>'+all.invoices.map(x=>`<option value="${x.id}">${x.id} — ${x.title||'Invoice'} — ${money(x.balance)}</option>`).join('')
 }
-const money=v=>'$'+Number(v||0).toFixed(2)
-const getCustomer=id=>all.customers.find(x=>Number(x.id)===Number(id))||{}
-const getProperty=id=>all.properties.find(x=>Number(x.id)===Number(id))||{}
-function customerName(id){const c=getCustomer(id);return c.name||('Customer ID '+id)}
-function propertyName(id){const p=getProperty(id);return p.property_name||p.address||('Property ID '+id)}
-function table(rows,cols){
- if(!rows?.length)return '<p class="small">No records yet.</p>'
- return '<table><tr>'+cols.map(c=>'<th>'+c.label+'</th>').join('')+'</tr>'+
- rows.map(r=>'<tr>'+cols.map(c=>'<td>'+(c.format?c.format(r[c.key],r):(r[c.key]??''))+'</td>').join('')+'</tr>').join('')+'</table>'
-}
-async function insert(tableName,row){const {error}=await db.from(tableName).insert([row]);if(error)throw error}
-async function update(tableName,id,row){const {error}=await db.from(tableName).update(row).eq('id',id);if(error)throw error}
-async function remove(tableName,id){const {error}=await db.from(tableName).delete().eq('id',id);if(error)throw error}
-async function upload(bucket,file,prefix){
- const safe=file.name.replace(/[^a-z0-9_.-]/gi,'_')
- const path=prefix+'/'+Date.now()+'_'+safe
- const result=await db.storage.from(bucket).upload(path,file,{upsert:false})
- if(result.error)throw result.error
- return db.storage.from(bucket).getPublicUrl(path).data.publicUrl
-}
-
-function customerOptions(){
- const options='<option value="">Select customer</option>'+all.customers.map(c=>`<option value="${c.id}">${c.id} — ${c.name||'Unnamed'}</option>`).join('')
- ;['pCustomer','hCustomer','phCustomer','dCustomer','hubId'].forEach(id=>document.getElementById(id).innerHTML=options)
-}
-function propertyOptions(){
- const options='<option value="">Select property</option>'+all.properties.map(p=>`<option value="${p.id}">${p.id} — ${p.property_name||p.address||'Property'}</option>`).join('')
- ;['hProperty','dProperty'].forEach(id=>document.getElementById(id).innerHTML=options)
-}
-
-window.clearCustomerSearch=()=>{customerSearch.value='';renderCustomers()}
-window.clearCustomerForm=()=>{cId.value='';cName.value='';cPhone.value='';cEmail.value='';cAddress.value='';cType.value='Homeowner';cNotes.value=''}
-window.editCustomer=id=>{
- const c=getCustomer(id);cId.value=c.id;cName.value=c.name||'';cPhone.value=c.phone||'';cEmail.value=c.email||'';cAddress.value=c.address||'';cType.value=c.property_type||'Homeowner';cNotes.value=c.notes||'';showPage('customers')
-}
-window.deleteCustomer=async id=>{
- if(!confirm('Delete this customer?'))return
- try{await remove('customers',id);await loadAll()}catch(e){alert(e.message)}
-}
-window.saveCustomer=async()=>{
- try{
-  const row={name:cName.value,phone:cPhone.value,email:cEmail.value,address:cAddress.value,property_type:cType.value,notes:cNotes.value}
-  if(cId.value)await update('customers',cId.value,row);else await insert('customers',row)
-  alert(cId.value?'Customer updated.':'Customer saved.')
-  clearCustomerForm();await loadAll()
- }catch(e){alert(e.message)}
-}
-window.renderCustomers=()=>{
- const q=(customerSearch.value||'').toLowerCase()
- const rows=all.customers.filter(c=>JSON.stringify(c).toLowerCase().includes(q))
- customerList.innerHTML=table(rows,[
-  {key:'id',label:'ID'},{key:'name',label:'Name'},{key:'phone',label:'Phone'},
-  {key:'email',label:'Email'},{key:'address',label:'Address'},
-  {key:'id',label:'Actions',format:(v)=>`<div class="actions"><button onclick="editCustomer(${v})">Edit</button><button class="danger" onclick="deleteCustomer(${v})">Delete</button></div>`}
- ])
-}
-
-window.clearPropertyForm=()=>{pId.value='';pCustomer.value='';pName.value='';pAddress.value='';pCity.value='';pState.value='';pZip.value='';pType.value='Primary Home';pAccess.value='';pNotes.value=''}
-window.editProperty=id=>{
- const p=getProperty(id);pId.value=p.id;pCustomer.value=p.customer_id||'';pName.value=p.property_name||'';pAddress.value=p.address||'';pCity.value=p.city||'';pState.value=p.state||'';pZip.value=p.zip_code||'';pType.value=p.property_type||'Primary Home';pAccess.value=p.access_notes||'';pNotes.value=p.notes||'';showPage('properties')
-}
-window.deleteProperty=async id=>{if(!confirm('Delete this property?'))return;try{await remove('properties',id);await loadAll()}catch(e){alert(e.message)}}
-window.saveProperty=async()=>{
- try{
-  const row={customer_id:+pCustomer.value||null,property_name:pName.value,address:pAddress.value,city:pCity.value,state:pState.value,zip_code:pZip.value,property_type:pType.value,access_notes:pAccess.value,notes:pNotes.value}
-  if(pId.value)await update('properties',pId.value,row);else await insert('properties',row)
-  alert(pId.value?'Property updated.':'Property saved.')
-  clearPropertyForm();await loadAll()
- }catch(e){alert(e.message)}
-}
-
-window.clearHistoryForm=()=>{hId.value='';hCustomer.value='';hProperty.value='';hJob.value='';hType.value='Job Completed';hTitle.value='';hWork.value='';hDate.value='';hAmount.value='';hNotes.value=''}
-window.editHistory=id=>{
- const h=all.history.find(x=>+x.id===+id)||{};hId.value=h.id||'';hCustomer.value=h.customer_id||'';hProperty.value=h.property_id||'';hJob.value=h.job_id||'';hType.value=h.event_type||'Job Completed';hTitle.value=h.title||'';hWork.value=h.work_completed||'';hDate.value=h.event_date||'';hAmount.value=h.amount||'';hNotes.value=h.notes||'';showPage('history')
-}
-window.deleteHistory=async id=>{if(!confirm('Delete this history record?'))return;try{await remove('job_history',id);await loadAll()}catch(e){alert(e.message)}}
-window.saveHistory=async()=>{
- try{
-  const row={customer_id:+hCustomer.value||null,property_id:+hProperty.value||null,job_id:+hJob.value||null,event_type:hType.value,title:hTitle.value,work_completed:hWork.value,event_date:hDate.value||null,amount:+hAmount.value||0,notes:hNotes.value}
-  if(hId.value)await update('job_history',hId.value,row);else await insert('job_history',row)
-  alert(hId.value?'History updated.':'History saved.')
-  clearHistoryForm();await loadAll()
- }catch(e){alert(e.message)}
-}
-
-window.uploadPhoto=async()=>{
- try{
-  phMsg.textContent='Uploading...'
-  const file=phFile.files[0];if(!file)throw new Error('Choose a photo first.')
-  const url=await upload('job-files',file,'photos')
-  await insert('job_photos',{customer_id:+phCustomer.value||null,job_id:+phJob.value||null,photo_type:phType.value,photo_url:url,notes:phNotes.value})
-  phMsg.textContent='Photo uploaded.';phMsg.className='small success';await loadAll()
- }catch(e){phMsg.textContent=e.message;phMsg.className='small error'}
-}
-window.deletePhoto=async id=>{if(!confirm('Delete this photo record?'))return;try{await remove('job_photos',id);await loadAll()}catch(e){alert(e.message)}}
-
-window.uploadDocument=async()=>{
- try{
-  dMsg.textContent='Uploading...'
-  const file=dFile.files[0];if(!file)throw new Error('Choose a document first.')
-  const url=await upload('job-files',file,'documents')
-  await insert('customer_documents',{customer_id:+dCustomer.value||null,property_id:+dProperty.value||null,job_id:+dJob.value||null,document_type:dType.value,title:dTitle.value,document_url:url,notes:dNotes.value})
-  dMsg.textContent='Document uploaded.';dMsg.className='small success';await loadAll()
- }catch(e){dMsg.textContent=e.message;dMsg.className='small error'}
-}
-window.deleteDocument=async id=>{if(!confirm('Delete this document record?'))return;try{await remove('customer_documents',id);await loadAll()}catch(e){alert(e.message)}}
-
-window.openHub=()=>{
- const id=+hubId.value
- const c=getCustomer(id)
- hubBox.innerHTML=`<div class="card">
- <h3>${c.name||'Customer ID '+id}</h3>
- <p>${c.phone||''}<br>${c.email||''}<br>${c.address||''}</p>
- <h3>Properties</h3>${table(all.properties.filter(x=>+x.customer_id===id),[
-  {key:'id',label:'ID'},{key:'property_name',label:'Property'},{key:'address',label:'Address'},{key:'property_type',label:'Type'}
- ])}
- <h3>Jobs</h3>${table(all.jobs.filter(x=>+x.customer_id===id),[
-  {key:'id',label:'ID'},{key:'title',label:'Job'},{key:'status',label:'Status'},{key:'price',label:'Price',format:money}
- ])}
- <h3>Job History</h3>${table(all.history.filter(x=>+x.customer_id===id),[
-  {key:'event_date',label:'Date'},{key:'event_type',label:'Type'},{key:'title',label:'Title'},{key:'amount',label:'Amount',format:money}
- ])}
- <h3>Photos</h3><div class="gallery">${all.photos.filter(x=>+x.customer_id===id).map(x=>`<div class="photo-card"><a target="_blank" href="${x.photo_url}"><img src="${x.photo_url}"></a><p>${x.photo_type||''}</p></div>`).join('')}</div>
- <h3>Documents</h3>${table(all.documents.filter(x=>+x.customer_id===id),[
-  {key:'document_type',label:'Type'},{key:'title',label:'Title'},{key:'document_url',label:'Open',format:v=>v?`<a class="btn" target="_blank" href="${v}">Open</a>`:''}
- ])}
- </div>`
-}
+window.clearEstimate=()=>{eId.value='';eCustomer.value='';eProperty.value='';eTitle.value='';eScope.value='';eLabor.value='';eMaterials.value='';eOther.value='';eStatus.value='Open';eValid.value='';eNotes.value=''}
+window.saveEstimate=async()=>{try{let total=(+eLabor.value||0)+(+eMaterials.value||0)+(+eOther.value||0),row={customer_id:+eCustomer.value||null,property_id:+eProperty.value||null,title:eTitle.value,scope:eScope.value,labor:+eLabor.value||0,materials:+eMaterials.value||0,other:+eOther.value||0,total,status:eStatus.value,valid_until:eValid.value||null,notes:eNotes.value};eId.value?await upd('phase3_estimates',eId.value,row):await ins('phase3_estimates',row);alert('Estimate saved.');clearEstimate();loadAll()}catch(e){alert(e.message)}}
+window.editEstimate=id=>{let x=all.estimates.find(r=>+r.id===+id)||{};eId.value=x.id;eCustomer.value=x.customer_id||'';eProperty.value=x.property_id||'';eTitle.value=x.title||'';eScope.value=x.scope||'';eLabor.value=x.labor||'';eMaterials.value=x.materials||'';eOther.value=x.other||'';eStatus.value=x.status||'Open';eValid.value=x.valid_until||'';eNotes.value=x.notes||'';go('estimates')}
+window.deleteEstimate=async id=>{if(confirm('Delete estimate?')){await del('phase3_estimates',id);loadAll()}}
+window.clearInvoice=()=>{iId.value='';iCustomer.value='';iProperty.value='';iJob.value='';iEstimate.value='';iTitle.value='';iWork.value='';iLabor.value='';iMaterials.value='';iOther.value='';iPaid.value='';iDue.value='';iNotes.value=''}
+window.saveInvoice=async()=>{try{let total=(+iLabor.value||0)+(+iMaterials.value||0)+(+iOther.value||0),paid=+iPaid.value||0,row={customer_id:+iCustomer.value||null,property_id:+iProperty.value||null,job_id:+iJob.value||null,estimate_id:+iEstimate.value||null,title:iTitle.value,work_completed:iWork.value,labor:+iLabor.value||0,materials:+iMaterials.value||0,other:+iOther.value||0,total,paid,balance:total-paid,status:total-paid<=0?'Paid':paid>0?'Partial':'Open',due_date:iDue.value||null,notes:iNotes.value};iId.value?await upd('phase3_invoices',iId.value,row):await ins('phase3_invoices',row);alert('Invoice saved.');clearInvoice();loadAll()}catch(e){alert(e.message)}}
+window.editInvoice=id=>{let x=all.invoices.find(r=>+r.id===+id)||{};iId.value=x.id;iCustomer.value=x.customer_id||'';iProperty.value=x.property_id||'';iJob.value=x.job_id||'';iEstimate.value=x.estimate_id||'';iTitle.value=x.title||'';iWork.value=x.work_completed||'';iLabor.value=x.labor||'';iMaterials.value=x.materials||'';iOther.value=x.other||'';iPaid.value=x.paid||'';iDue.value=x.due_date||'';iNotes.value=x.notes||'';go('invoices')}
+window.deleteInvoice=async id=>{if(confirm('Delete invoice?')){await del('phase3_invoices',id);loadAll()}}
+window.savePayment=async()=>{try{let amount=+payAmount.value||0;await ins('phase3_payments',{customer_id:+payCustomer.value||null,invoice_id:+payInvoice.value||null,amount,payment_method:payMethod.value,payment_date:payDate.value||new Date().toISOString().slice(0,10),reference:payRef.value,notes:payNotes.value});let inv=all.invoices.find(x=>+x.id===+payInvoice.value);if(inv){let paid=(+inv.paid||0)+amount,balance=(+inv.total||0)-paid;await upd('phase3_invoices',inv.id,{paid,balance,status:balance<=0?'Paid':'Partial'})}alert('Payment recorded.');loadAll()}catch(e){alert(e.message)}}
+window.clearAppointment=()=>{aId.value='';aCustomer.value='';aProperty.value='';aTitle.value='';aType.value='Job';aDate.value='';aTime.value='';aStatus.value='Scheduled';aNotes.value=''}
+window.saveAppointment=async()=>{try{let row={customer_id:+aCustomer.value||null,property_id:+aProperty.value||null,title:aTitle.value,appointment_type:aType.value,appointment_date:aDate.value||null,appointment_time:aTime.value||null,status:aStatus.value,notes:aNotes.value};aId.value?await upd('phase3_appointments',aId.value,row):await ins('phase3_appointments',row);alert('Appointment saved.');clearAppointment();loadAll()}catch(e){alert(e.message)}}
+window.editAppointment=id=>{let x=all.appointments.find(r=>+r.id===+id)||{};aId.value=x.id;aCustomer.value=x.customer_id||'';aProperty.value=x.property_id||'';aTitle.value=x.title||'';aType.value=x.appointment_type||'Job';aDate.value=x.appointment_date||'';aTime.value=x.appointment_time||'';aStatus.value=x.status||'Scheduled';aNotes.value=x.notes||'';go('calendar')}
+window.deleteAppointment=async id=>{if(confirm('Delete appointment?')){await del('phase3_appointments',id);loadAll()}}
+window.useGPS=()=>navigator.geolocation?.getCurrentPosition(p=>{cLat.value=p.coords.latitude;cLng.value=p.coords.longitude;cMsg.textContent='Location added.'},e=>cMsg.textContent=e.message)
+window.saveCheckin=async()=>{try{await ins('phase3_checkins',{customer_id:+cCustomer.value||null,property_id:+cProperty.value||null,job_id:+cJob.value||null,checkin_type:cType.value,latitude:+cLat.value||null,longitude:+cLng.value||null,location_note:cLocation.value,notes:cNotes.value});cMsg.textContent='Check-in saved.';loadAll()}catch(e){cMsg.textContent=e.message}}
+window.clearMaterial=()=>{mId.value='';mCustomer.value='';mProperty.value='';mJob.value='';mItem.value='';mQty.value=1;mUnit.value='';mPurchased.value='false';mSupplier.value='';mNotes.value=''}
+window.saveMaterial=async()=>{try{let total=(+mQty.value||0)*(+mUnit.value||0),row={customer_id:+mCustomer.value||null,property_id:+mProperty.value||null,job_id:+mJob.value||null,item:mItem.value,quantity:+mQty.value||0,unit_cost:+mUnit.value||0,total_cost:total,purchased:mPurchased.value==='true',supplier:mSupplier.value,notes:mNotes.value};mId.value?await upd('phase3_materials',mId.value,row):await ins('phase3_materials',row);alert('Material saved.');clearMaterial();loadAll()}catch(e){alert(e.message)}}
+window.editMaterial=id=>{let x=all.materials.find(r=>+r.id===+id)||{};mId.value=x.id;mCustomer.value=x.customer_id||'';mProperty.value=x.property_id||'';mJob.value=x.job_id||'';mItem.value=x.item||'';mQty.value=x.quantity||1;mUnit.value=x.unit_cost||'';mPurchased.value=String(!!x.purchased);mSupplier.value=x.supplier||'';mNotes.value=x.notes||'';go('materials')}
+window.deleteMaterial=async id=>{if(confirm('Delete material?')){await del('phase3_materials',id);loadAll()}}
+window.makeWorkOrder=()=>{let c=customer(wCustomer.value),p=property(wProperty.value),l=+wLabor.value||0,m=+wMaterials.value||0,paid=+wPaid.value||0,t=l+m;workOrderPrint.innerHTML=`<h2>JC Handyman & Property Maintenance</h2><h3>${wType.value}</h3><p><b>Customer:</b> ${c.name||''}<br>${c.phone||''}<br>${c.email||''}</p><p><b>Property:</b> ${p.property_name||''}<br>${p.address||''}</p><h3>${wTitle.value}</h3><p>${wBody.value.replace(/\n/g,'<br>')}</p><table><tr><th>Labor</th><th>Materials</th><th>Total</th><th>Paid</th><th>Balance</th></tr><tr><td>${money(l)}</td><td>${money(m)}</td><td>${money(t)}</td><td>${money(paid)}</td><td>${money(t-paid)}</td></tr></table><p>Customer Signature: ____________________ Date: ________</p>`}
+window.estimateToWorkOrder=()=>{wType.value='Estimate';wCustomer.value=eCustomer.value;wProperty.value=eProperty.value;wTitle.value=eTitle.value;wBody.value=eScope.value;wLabor.value=eLabor.value;wMaterials.value=eMaterials.value;wPaid.value=0;go('workorders');makeWorkOrder()}
+window.invoiceToWorkOrder=()=>{wType.value='Invoice';wCustomer.value=iCustomer.value;wProperty.value=iProperty.value;wTitle.value=iTitle.value;wBody.value=iWork.value;wLabor.value=iLabor.value;wMaterials.value=iMaterials.value;wPaid.value=iPaid.value;go('workorders');makeWorkOrder()}
 
 window.loadAll=async()=>{
- document.getElementById('appStatus').textContent='Loading cloud data...'
- const mapping={customers:'customers',properties:'properties',jobs:'jobs',job_history:'history',job_photos:'photos',customer_documents:'documents'}
- for(const tableName in mapping){
-  const result=await db.from(tableName).select('*').order('id',{ascending:false})
-  all[mapping[tableName]]=result.error?[]:result.data
-  if(result.error)console.warn(tableName,result.error)
- }
- document.getElementById('appStatus').textContent='Connected to Supabase cloud database.'
- document.getElementById('appStatus').className='small success'
- statCustomers.textContent=all.customers.length
- statProperties.textContent=all.properties.length
- statJobs.textContent=all.jobs.length
- statHistory.textContent=all.history.length
- statPhotos.textContent=all.photos.length
- statDocuments.textContent=all.documents.length
- customerOptions();propertyOptions();renderCustomers()
- propertyList.innerHTML=table(all.properties,[
-  {key:'id',label:'ID'},{key:'customer_id',label:'Customer',format:v=>customerName(v)},
-  {key:'property_name',label:'Property'},{key:'address',label:'Address'},
-  {key:'property_type',label:'Type'},
-  {key:'id',label:'Actions',format:v=>`<div class="actions"><button onclick="editProperty(${v})">Edit</button><button class="danger" onclick="deleteProperty(${v})">Delete</button></div>`}
- ])
- historyList.innerHTML=table(all.history,[
-  {key:'id',label:'ID'},{key:'customer_id',label:'Customer',format:v=>customerName(v)},
-  {key:'property_id',label:'Property',format:v=>v?propertyName(v):''},
-  {key:'event_type',label:'Type'},{key:'title',label:'Title'},{key:'event_date',label:'Date'},
-  {key:'amount',label:'Amount',format:money},
-  {key:'id',label:'Actions',format:v=>`<div class="actions"><button onclick="editHistory(${v})">Edit</button><button class="danger" onclick="deleteHistory(${v})">Delete</button></div>`}
- ])
- documentList.innerHTML=table(all.documents,[
-  {key:'id',label:'ID'},{key:'customer_id',label:'Customer',format:v=>customerName(v)},
-  {key:'document_type',label:'Type'},{key:'title',label:'Title'},
-  {key:'document_url',label:'Open',format:v=>v?`<a class="btn" target="_blank" href="${v}">Open</a>`:''},
-  {key:'id',label:'Actions',format:v=>`<button class="danger" onclick="deleteDocument(${v})">Delete</button>`}
- ])
- photoGallery.innerHTML=all.photos.map(x=>`<div class="photo-card"><a target="_blank" href="${x.photo_url}"><img src="${x.photo_url}" title="${x.photo_type||''}"></a><p>${customerName(x.customer_id)}</p><p>${x.photo_type||''}</p><button class="danger" onclick="deletePhoto(${x.id})">Delete</button></div>`).join('')
+ appStatus.textContent='Loading cloud data...'
+ let mp={customers:'customers',properties:'properties',jobs:'jobs',phase3_estimates:'estimates',phase3_invoices:'invoices',phase3_payments:'payments',phase3_appointments:'appointments',phase3_checkins:'checkins',phase3_materials:'materials'}
+ for(let t in mp){let r=await db.from(t).select('*').order('id',{ascending:false});all[mp[t]]=r.error?[]:r.data;if(r.error)console.warn(t,r.error)}
+ appStatus.textContent='Connected to Supabase cloud database.';appStatus.className='small success';fill()
+ sCustomers.textContent=all.customers.length;sProperties.textContent=all.properties.length;sEstimates.textContent=all.estimates.filter(x=>x.status==='Open').length;sInvoices.textContent=all.invoices.filter(x=>+x.balance>0).length;sCollected.textContent=money(all.payments.reduce((a,x)=>a+(+x.amount||0),0));sOutstanding.textContent=money(all.invoices.reduce((a,x)=>a+(+x.balance||0),0));sAppointments.textContent=all.appointments.filter(x=>x.status!=='Completed'&&x.status!=='Cancelled').length;sMaterials.textContent=money(all.materials.reduce((a,x)=>a+(+x.total_cost||0),0))
+ customerList.innerHTML=table(all.customers,[{k:'id',l:'ID'},{k:'name',l:'Name'},{k:'phone',l:'Phone'},{k:'email',l:'Email'}])
+ propertyList.innerHTML=table(all.properties,[{k:'id',l:'ID'},{k:'customer_id',l:'Customer',f:customerName},{k:'property_name',l:'Property'},{k:'address',l:'Address'}])
+ estimateList.innerHTML=table(all.estimates,[{k:'id',l:'ID'},{k:'customer_id',l:'Customer',f:customerName},{k:'title',l:'Title'},{k:'total',l:'Total',f:money},{k:'status',l:'Status'},{k:'id',l:'Actions',f:v=>`<button onclick="editEstimate(${v})">Edit</button> <button class="danger" onclick="deleteEstimate(${v})">Delete</button>`}])
+ invoiceList.innerHTML=table(all.invoices,[{k:'id',l:'ID'},{k:'customer_id',l:'Customer',f:customerName},{k:'title',l:'Title'},{k:'total',l:'Total',f:money},{k:'paid',l:'Paid',f:money},{k:'balance',l:'Balance',f:money},{k:'status',l:'Status'},{k:'id',l:'Actions',f:v=>`<button onclick="editInvoice(${v})">Edit</button> <button class="danger" onclick="deleteInvoice(${v})">Delete</button>`}])
+ paymentList.innerHTML=table(all.payments,[{k:'id',l:'ID'},{k:'customer_id',l:'Customer',f:customerName},{k:'invoice_id',l:'Invoice'},{k:'amount',l:'Amount',f:money},{k:'payment_method',l:'Method'},{k:'payment_date',l:'Date'}])
+ appointmentList.innerHTML=table(all.appointments,[{k:'appointment_date',l:'Date'},{k:'appointment_time',l:'Time'},{k:'customer_id',l:'Customer',f:customerName},{k:'title',l:'Title'},{k:'status',l:'Status'},{k:'id',l:'Actions',f:v=>`<button onclick="editAppointment(${v})">Edit</button> <button class="danger" onclick="deleteAppointment(${v})">Delete</button>`}])
+ checkinList.innerHTML=table(all.checkins,[{k:'created_at',l:'Time'},{k:'customer_id',l:'Customer',f:customerName},{k:'job_id',l:'Job'},{k:'checkin_type',l:'Type'},{k:'location_note',l:'Location'}])
+ materialList.innerHTML=table(all.materials,[{k:'item',l:'Item'},{k:'quantity',l:'Qty'},{k:'unit_cost',l:'Unit',f:money},{k:'total_cost',l:'Total',f:money},{k:'purchased',l:'Purchased',f:v=>v?'Yes':'No'},{k:'id',l:'Actions',f:v=>`<button onclick="editMaterial(${v})">Edit</button> <button class="danger" onclick="deleteMaterial(${v})">Delete</button>`}])
 }
 loadAll()
 </script>
