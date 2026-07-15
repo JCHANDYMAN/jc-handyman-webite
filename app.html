@@ -1,132 +1,27 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>JC Handyman CRM V18 Enterprise Phase 4</title>
+<html><head><meta charset="utf-8">
+<title>JC Handyman CRM V18 Enterprise - Phase 5</title>
 <style>
-:root{--b:#050505;--c:#171717;--o:#e86b00;--o2:#ff9b35;--g:#8cff9b;--r:#ff8b8b}
-*{box-sizing:border-box}body{margin:0;background:var(--b);color:#fff;font-family:Arial}
-header{background:#000;border-bottom:3px solid var(--o);padding:12px;text-align:center;position:sticky;top:0;z-index:50}
-h1{margin:0;font-size:25px}h2,h3{color:var(--o2)}nav{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-top:8px}
-button,.btn{background:#151515;color:#fff;border:1px solid var(--o);border-radius:8px;padding:9px 11px;font-weight:700;cursor:pointer;text-decoration:none}
-.primary{background:var(--o);color:#000}.danger{border-color:#a33;color:#ff9b9b}.good{color:var(--g)}.bad{color:var(--r)}
-section{display:none;max-width:1480px;margin:auto;padding:16px 9px}.active{display:block}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
-.card{background:var(--c);border:1px solid var(--o);border-radius:13px;padding:14px;margin:9px 0}
-.stat{font-size:28px;font-weight:900;color:var(--o2)}
-input,select,textarea{width:100%;padding:10px;margin:5px 0;border-radius:7px;border:1px solid #777;background:#fff;color:#000}
-table{width:100%;border-collapse:collapse;background:#111;margin-top:8px}th,td{border:1px solid var(--o);padding:7px;text-align:left;font-size:13px;vertical-align:top}th{color:var(--o2)}
-.actions{display:flex;gap:5px;flex-wrap:wrap}.small{font-size:13px;color:#ccc}
-.gallery{display:flex;flex-wrap:wrap;gap:9px}.photo{width:195px;background:#111;border:1px solid var(--o);border-radius:9px;padding:7px}.photo img{width:100%;height:130px;object-fit:cover;border-radius:7px}
-canvas{width:100%;height:180px;background:#fff;border:2px solid var(--o);border-radius:8px;touch-action:none}
-.mobile-card{font-size:18px}.mobile-card button{font-size:17px;padding:13px}
-@media(max-width:700px){header{position:relative}h1{font-size:20px}section{padding:10px 6px}nav button,.btn{font-size:12px;padding:8px}.desktop-heavy{overflow-x:auto}}
-</style></head><body>
-<header><h1>JC Handyman Cloud CRM V18 Enterprise — Phase 4</h1>
-<p>Field Service • Photos • Signatures • Expenses • P&L • Search</p>
-<nav>
-<button onclick="go('dashboard')">Dashboard</button><button onclick="go('customers')">Customers</button>
-<button onclick="go('estimates')">Estimates</button><button onclick="go('invoices')">Invoices</button>
-<button onclick="go('calendar')">Calendar</button><button onclick="go('field')">Field Mode</button>
-<button onclick="go('photos')">Photos</button><button onclick="go('signatures')">Signatures</button>
-<button onclick="go('expenses')">Expenses</button><button onclick="go('files')">Files</button>
-<button onclick="go('reviews')">Ratings</button><button onclick="go('reminders')">Reminders</button>
-<button onclick="go('search')">Search</button><a class="btn" href="index.html">Website</a>
-</nav></header>
-
-<section id="dashboard" class="active"><h2>Phase 4 Dashboard</h2><p id="appStatus" class="small">Connecting...</p><button class="primary" onclick="loadAll()">Refresh</button>
-<div class="grid">
-<div class="card"><h3>Customers</h3><div id="dCustomers" class="stat">0</div></div>
-<div class="card"><h3>Open Estimates</h3><div id="dEstimates" class="stat">0</div></div>
-<div class="card"><h3>Outstanding</h3><div id="dOutstanding" class="stat">$0</div></div>
-<div class="card"><h3>Collected</h3><div id="dCollected" class="stat">$0</div></div>
-<div class="card"><h3>Expenses</h3><div id="dExpenses" class="stat">$0</div></div>
-<div class="card"><h3>Net Profit</h3><div id="dProfit" class="stat">$0</div></div>
-<div class="card"><h3>Pending Reminders</h3><div id="dReminders" class="stat">0</div></div>
-<div class="card"><h3>Average Rating</h3><div id="dRating" class="stat">0.0</div></div>
-</div></section>
-
-<section id="customers"><h2>Customers & Directions</h2><div id="customerList" class="desktop-heavy"></div></section>
-<section id="estimates"><h2>Estimates</h2><div id="estimateList" class="desktop-heavy"></div></section>
-<section id="invoices"><h2>Invoices</h2><div id="invoiceList" class="desktop-heavy"></div></section>
-<section id="calendar"><h2>Appointments</h2><div id="appointmentList" class="desktop-heavy"></div></section>
-
-<section id="field"><h2>Mobile Field Mode</h2>
-<div class="card mobile-card"><select id="fCustomer"></select><select id="fProperty"></select><input id="fJob" type="number" placeholder="Job ID">
-<select id="fType"><option>Checked In</option><option>Started Work</option><option>Paused Work</option><option>Checked Out</option><option>Completed</option></select>
-<input id="fLat" placeholder="Latitude"><input id="fLng" placeholder="Longitude"><input id="fLocation" placeholder="Location note">
-<textarea id="fNotes" placeholder="Field notes"></textarea>
-<div class="actions"><button onclick="gps()">Use GPS</button><button onclick="directionsFromProperty()">Directions</button><button class="primary" onclick="saveField()">Save Field Entry</button></div><p id="fMsg"></p></div>
-<div id="fieldList" class="desktop-heavy"></div></section>
-
-<section id="photos"><h2>Job Photos</h2><div class="card"><select id="phCustomer"></select><select id="phProperty"></select><input id="phJob" type="number" placeholder="Job ID">
-<select id="phType"><option>Before</option><option>After</option><option>Progress</option><option>Damage</option><option>Property</option></select>
-<input id="phFile" type="file" accept="image/*" capture="environment"><input id="phCaption" placeholder="Caption"><button class="primary" onclick="savePhoto()">Upload Photo</button><p id="phMsg"></p></div><div id="photoGallery" class="gallery"></div></section>
-
-<section id="signatures"><h2>Signature Capture</h2><div class="card"><select id="sigCustomer"></select><select id="sigProperty"></select><input id="sigJob" type="number" placeholder="Job ID">
-<select id="sigDocType"><option>Estimate Approval</option><option>Invoice Approval</option><option>Work Completion</option><option>Contract</option></select><input id="sigDocId" type="number" placeholder="Estimate/Invoice ID"><input id="sigName" placeholder="Signer name"><canvas id="sigCanvas"></canvas>
-<div class="actions"><button onclick="clearSig()">Clear</button><button class="primary" onclick="saveSignature()">Save Signature</button></div><p id="sigMsg"></p></div><div id="signatureList"></div></section>
-
-<section id="expenses"><h2>Expenses & Profit</h2><div class="card"><select id="exCustomer"></select><select id="exProperty"></select><input id="exJob" type="number" placeholder="Job ID"><input id="exDate" type="date">
-<select id="exCategory"><option>Materials</option><option>Fuel</option><option>Tools</option><option>Subcontractor</option><option>Disposal</option><option>Office</option><option>Other</option></select>
-<input id="exVendor" placeholder="Vendor"><input id="exDesc" placeholder="Description"><input id="exAmount" type="number" placeholder="Amount $"><input id="exReceipt" type="file"><select id="exReimb"><option value="false">Not Reimbursable</option><option value="true">Reimbursable</option></select><textarea id="exNotes" placeholder="Notes"></textarea><button class="primary" onclick="saveExpense()">Save Expense</button><p id="exMsg"></p></div><div id="expenseList"></div></section>
-
-<section id="files"><h2>Attachments</h2><div class="card"><select id="fileCustomer"></select><select id="fileProperty"></select><input id="fileJob" type="number" placeholder="Job ID">
-<select id="fileType"><option>Permit</option><option>Receipt</option><option>Warranty</option><option>Manual</option><option>Contract</option><option>PDF</option><option>Other</option></select><input id="fileTitle" placeholder="Title"><input id="fileInput" type="file"><textarea id="fileNotes" placeholder="Notes"></textarea><button class="primary" onclick="saveAttachment()">Upload File</button><p id="fileMsg"></p></div><div id="attachmentList"></div></section>
-
-<section id="reviews"><h2>Customer Ratings & Follow-Up</h2><div class="card"><select id="rvCustomer"></select><input id="rvJob" type="number" placeholder="Job ID"><select id="rvRating"><option value="5">5 Stars</option><option value="4">4 Stars</option><option value="3">3 Stars</option><option value="2">2 Stars</option><option value="1">1 Star</option></select><textarea id="rvText" placeholder="Review or feedback"></textarea><input id="rvFollow" type="date"><select id="rvStatus"><option>Pending</option><option>Contacted</option><option>Completed</option></select><textarea id="rvNotes" placeholder="Notes"></textarea><button class="primary" onclick="saveReview()">Save Rating</button></div><div id="reviewList"></div></section>
-
-<section id="reminders"><h2>Appointment Reminder Tracking</h2><div class="card"><select id="rmCustomer"></select><select id="rmAppointment"></select><input id="rmDate" type="date"><input id="rmTime" type="time"><select id="rmType"><option>Phone Call</option><option>Text Message</option><option>Email</option><option>Internal Reminder</option></select><textarea id="rmMessage" placeholder="Reminder message"></textarea><select id="rmStatus"><option>Pending</option><option>Sent</option><option>Completed</option></select><button class="primary" onclick="saveReminder()">Save Reminder</button></div><div id="reminderList"></div></section>
-
-<section id="search"><h2>Global Search</h2><div class="card"><input id="globalQ" placeholder="Search names, phone numbers, addresses, invoices, jobs..." oninput="renderSearch()"></div><div id="searchResults"></div></section>
-
-<script type="module">
-import {createClient} from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
-import {SUPABASE_URL,SUPABASE_KEY} from './config.js'
-const db=createClient(SUPABASE_URL,SUPABASE_KEY)
-let A={customers:[],properties:[],estimates:[],invoices:[],payments:[],appointments:[],checkins:[],photos:[],signatures:[],expenses:[],attachments:[],reviews:[],reminders:[]}
-window.go=id=>{document.querySelectorAll('section').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');scrollTo(0,0)}
-const money=v=>'$'+Number(v||0).toFixed(2), c=id=>A.customers.find(x=>+x.id===+id)||{}, p=id=>A.properties.find(x=>+x.id===+id)||{}
-const cname=id=>c(id).name||('Customer '+id), pname=id=>p(id).property_name||p(id).address||('Property '+id)
-function table(rows,cols){if(!rows.length)return '<p class="small">No records yet.</p>';return '<table><tr>'+cols.map(x=>'<th>'+x[1]+'</th>').join('')+'</tr>'+rows.map(r=>'<tr>'+cols.map(x=>'<td>'+(x[2]?x[2](r[x[0]],r):(r[x[0]]??''))+'</td>').join('')+'</tr>').join('')+'</table>'}
-async function ins(t,row){let r=await db.from(t).insert([row]);if(r.error)throw r.error}
-async function upd(t,id,row){let r=await db.from(t).update(row).eq('id',id);if(r.error)throw r.error}
-async function del(t,id){let r=await db.from(t).delete().eq('id',id);if(r.error)throw r.error}
-async function upload(file,prefix){let path=prefix+'/'+Date.now()+'_'+file.name.replace(/[^a-z0-9_.-]/gi,'_'),r=await db.storage.from('job-files').upload(path,file);if(r.error)throw r.error;return db.storage.from('job-files').getPublicUrl(path).data.publicUrl}
-function fill(){let co='<option value="">Select customer</option>'+A.customers.map(x=>`<option value="${x.id}">${x.id} — ${x.name}</option>`).join(''),po='<option value="">Select property</option>'+A.properties.map(x=>`<option value="${x.id}">${x.id} — ${x.property_name||x.address}</option>`).join('')
-;['fCustomer','phCustomer','sigCustomer','exCustomer','fileCustomer','rvCustomer','rmCustomer'].forEach(id=>document.getElementById(id).innerHTML=co)
-;['fProperty','phProperty','sigProperty','exProperty','fileProperty'].forEach(id=>document.getElementById(id).innerHTML=po)
-rmAppointment.innerHTML='<option value="">Select appointment</option>'+A.appointments.map(x=>`<option value="${x.id}">${x.appointment_date||''} — ${x.title||'Appointment'}</option>`).join('')}
-window.gps=()=>navigator.geolocation.getCurrentPosition(x=>{fLat.value=x.coords.latitude;fLng.value=x.coords.longitude;fMsg.textContent='GPS added.'},e=>fMsg.textContent=e.message)
-window.directionsFromProperty=()=>{let q=encodeURIComponent(p(fProperty.value).address||fLocation.value);if(q)window.open('https://www.google.com/maps/dir/?api=1&destination='+q,'_blank')}
-window.saveField=async()=>{try{await ins('phase3_checkins',{customer_id:+fCustomer.value||null,property_id:+fProperty.value||null,job_id:+fJob.value||null,checkin_type:fType.value,latitude:+fLat.value||null,longitude:+fLng.value||null,location_note:fLocation.value,notes:fNotes.value});fMsg.textContent='Saved.';loadAll()}catch(e){fMsg.textContent=e.message}}
-window.savePhoto=async()=>{try{let f=phFile.files[0];if(!f)throw Error('Choose a photo.');phMsg.textContent='Uploading...';let u=await upload(f,'phase4/photos');await ins('phase4_photos',{customer_id:+phCustomer.value||null,property_id:+phProperty.value||null,job_id:+phJob.value||null,photo_type:phType.value,photo_url:u,caption:phCaption.value});phMsg.textContent='Uploaded.';loadAll()}catch(e){phMsg.textContent=e.message}}
-const cv=document.getElementById('sigCanvas'),ctx=cv.getContext('2d');cv.width=900;cv.height=180;ctx.strokeStyle='#000';ctx.lineWidth=3;let drawing=false;function pos(e){let r=cv.getBoundingClientRect(),t=e.touches?e.touches[0]:e;return{x:(t.clientX-r.left)*(cv.width/r.width),y:(t.clientY-r.top)*(cv.height/r.height)}}function start(e){drawing=true;let q=pos(e);ctx.beginPath();ctx.moveTo(q.x,q.y);e.preventDefault()}function move(e){if(!drawing)return;let q=pos(e);ctx.lineTo(q.x,q.y);ctx.stroke();e.preventDefault()}cv.addEventListener('mousedown',start);cv.addEventListener('mousemove',move);cv.addEventListener('mouseup',()=>drawing=false);cv.addEventListener('touchstart',start);cv.addEventListener('touchmove',move);cv.addEventListener('touchend',()=>drawing=false)
-window.clearSig=()=>ctx.clearRect(0,0,cv.width,cv.height)
-window.saveSignature=async()=>{try{let blob=await(await fetch(cv.toDataURL())).blob(),f=new File([blob],'signature.png',{type:'image/png'}),u=await upload(f,'phase4/signatures');await ins('phase4_signatures',{customer_id:+sigCustomer.value||null,property_id:+sigProperty.value||null,job_id:+sigJob.value||null,document_type:sigDocType.value,document_id:+sigDocId.value||null,signer_name:sigName.value,signature_url:u,signed_date:new Date().toISOString().slice(0,10)});sigMsg.textContent='Signature saved.';clearSig();loadAll()}catch(e){sigMsg.textContent=e.message}}
-window.saveExpense=async()=>{try{let u='';if(exReceipt.files[0])u=await upload(exReceipt.files[0],'phase4/receipts');await ins('phase4_expenses',{customer_id:+exCustomer.value||null,property_id:+exProperty.value||null,job_id:+exJob.value||null,expense_date:exDate.value||new Date().toISOString().slice(0,10),category:exCategory.value,vendor:exVendor.value,description:exDesc.value,amount:+exAmount.value||0,receipt_url:u,reimbursable:exReimb.value==='true',notes:exNotes.value});exMsg.textContent='Expense saved.';loadAll()}catch(e){exMsg.textContent=e.message}}
-window.saveAttachment=async()=>{try{let f=fileInput.files[0];if(!f)throw Error('Choose a file.');let u=await upload(f,'phase4/files');await ins('phase4_attachments',{customer_id:+fileCustomer.value||null,property_id:+fileProperty.value||null,job_id:+fileJob.value||null,file_type:fileType.value,title:fileTitle.value,file_url:u,notes:fileNotes.value});fileMsg.textContent='File uploaded.';loadAll()}catch(e){fileMsg.textContent=e.message}}
-window.saveReview=async()=>{try{await ins('phase4_customer_reviews',{customer_id:+rvCustomer.value||null,job_id:+rvJob.value||null,rating:+rvRating.value,review_text:rvText.value,follow_up_date:rvFollow.value||null,follow_up_status:rvStatus.value,notes:rvNotes.value});alert('Rating saved.');loadAll()}catch(e){alert(e.message)}}
-window.saveReminder=async()=>{try{await ins('phase4_reminders',{customer_id:+rmCustomer.value||null,appointment_id:+rmAppointment.value||null,reminder_date:rmDate.value||null,reminder_time:rmTime.value||null,reminder_type:rmType.value,message:rmMessage.value,status:rmStatus.value});alert('Reminder saved.');loadAll()}catch(e){alert(e.message)}}
-window.emailEstimate=id=>{let x=A.estimates.find(r=>+r.id===+id),cc=c(x.customer_id),sub=encodeURIComponent('Estimate from JC Handyman'),body=encodeURIComponent(`Hello ${cc.name||''},\n\nEstimate: ${x.title||''}\nTotal: ${money(x.total)}\n\n${x.scope||''}\n\nJC Handyman & Property Maintenance\n704-675-2014`);location.href=`mailto:${cc.email||''}?subject=${sub}&body=${body}`}
-window.emailInvoice=id=>{let x=A.invoices.find(r=>+r.id===+id),cc=c(x.customer_id),sub=encodeURIComponent('Invoice from JC Handyman'),body=encodeURIComponent(`Hello ${cc.name||''},\n\nInvoice: ${x.title||''}\nTotal: ${money(x.total)}\nPaid: ${money(x.paid)}\nBalance: ${money(x.balance)}\n\nJC Handyman & Property Maintenance\n704-675-2014`);location.href=`mailto:${cc.email||''}?subject=${sub}&body=${body}`}
-window.renderSearch=()=>{let q=globalQ.value.toLowerCase(),match=a=>a.filter(x=>JSON.stringify(x).toLowerCase().includes(q));searchResults.innerHTML='<h3>Customers</h3>'+table(match(A.customers),[['id','ID'],['name','Name'],['phone','Phone'],['address','Address']])+'<h3>Properties</h3>'+table(match(A.properties),[['id','ID'],['property_name','Property'],['address','Address']])+'<h3>Invoices</h3>'+table(match(A.invoices),[['id','ID'],['title','Title'],['balance','Balance',money]])}
-window.loadAll=async()=>{appStatus.textContent='Loading...';let mp={customers:'customers',properties:'properties',phase3_estimates:'estimates',phase3_invoices:'invoices',phase3_payments:'payments',phase3_appointments:'appointments',phase3_checkins:'checkins',phase4_photos:'photos',phase4_signatures:'signatures',phase4_expenses:'expenses',phase4_attachments:'attachments',phase4_customer_reviews:'reviews',phase4_reminders:'reminders'}
-for(let t in mp){let r=await db.from(t).select('*').order('id',{ascending:false});A[mp[t]]=r.error?[]:r.data;if(r.error)console.warn(t,r.error)}
-appStatus.textContent='Connected to Supabase.';appStatus.className='small good';fill()
-let collected=A.payments.reduce((s,x)=>s+(+x.amount||0),0),expenses=A.expenses.reduce((s,x)=>s+(+x.amount||0),0),rating=A.reviews.length?A.reviews.reduce((s,x)=>s+(+x.rating||0),0)/A.reviews.length:0
-dCustomers.textContent=A.customers.length;dEstimates.textContent=A.estimates.filter(x=>x.status==='Open').length;dOutstanding.textContent=money(A.invoices.reduce((s,x)=>s+(+x.balance||0),0));dCollected.textContent=money(collected);dExpenses.textContent=money(expenses);dProfit.textContent=money(collected-expenses);dReminders.textContent=A.reminders.filter(x=>x.status==='Pending').length;dRating.textContent=rating.toFixed(1)
-customerList.innerHTML=table(A.customers,[['id','ID'],['name','Name'],['phone','Phone'],['email','Email'],['address','Address'],['address','Directions',v=>v?`<a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(v)}">Map</a>`:'']])
-estimateList.innerHTML=table(A.estimates,[['id','ID'],['customer_id','Customer',cname],['title','Title'],['total','Total',money],['status','Status'],['id','Email',v=>`<button onclick="emailEstimate(${v})">Email</button>`]])
-invoiceList.innerHTML=table(A.invoices,[['id','ID'],['customer_id','Customer',cname],['title','Title'],['total','Total',money],['paid','Paid',money],['balance','Balance',money],['id','Email',v=>`<button onclick="emailInvoice(${v})">Email</button>`]])
-appointmentList.innerHTML=table(A.appointments,[['appointment_date','Date'],['appointment_time','Time'],['customer_id','Customer',cname],['title','Title'],['status','Status']])
-fieldList.innerHTML=table(A.checkins,[['created_at','Time'],['customer_id','Customer',cname],['job_id','Job'],['checkin_type','Type'],['location_note','Location']])
-photoGallery.innerHTML=A.photos.map(x=>`<div class="photo"><a target="_blank" href="${x.photo_url}"><img src="${x.photo_url}"></a><b>${x.photo_type||''}</b><p>${x.caption||''}</p></div>`).join('')
-signatureList.innerHTML=table(A.signatures,[['signed_date','Date'],['customer_id','Customer',cname],['signer_name','Signer'],['document_type','Type'],['signature_url','Signature',v=>`<a class="btn" target="_blank" href="${v}">Open</a>`]])
-expenseList.innerHTML=table(A.expenses,[['expense_date','Date'],['category','Category'],['vendor','Vendor'],['description','Description'],['amount','Amount',money],['receipt_url','Receipt',v=>v?`<a class="btn" target="_blank" href="${v}">Open</a>`:'']])
-attachmentList.innerHTML=table(A.attachments,[['created_at','Date'],['customer_id','Customer',cname],['file_type','Type'],['title','Title'],['file_url','File',v=>`<a class="btn" target="_blank" href="${v}">Open</a>`]])
-reviewList.innerHTML=table(A.reviews,[['customer_id','Customer',cname],['rating','Rating',v=>'★'.repeat(+v)],['review_text','Review'],['follow_up_date','Follow-Up'],['follow_up_status','Status']])
-reminderList.innerHTML=table(A.reminders,[['reminder_date','Date'],['reminder_time','Time'],['customer_id','Customer',cname],['reminder_type','Type'],['message','Message'],['status','Status']])
-}
-loadAll()
-</script></body></html>
+body{font-family:Arial;background:#111;color:#fff}
+h1{color:#ff9800}
+.card{border:1px solid #ff9800;padding:16px;margin:12px;border-radius:8px}
+</style>
+</head>
+<body>
+<h1>JC Handyman Cloud CRM V18 Enterprise — Phase 5</h1>
+<div class="card">
+<h2>Phase 5 Preview</h2>
+<ul>
+<li>Scheduling Dashboard</li>
+<li>Employee Management</li>
+<li>Route Planner</li>
+<li>Customer Map</li>
+<li>SMS Reminder Center</li>
+<li>Online Estimate Approval</li>
+<li>Payment Tracking</li>
+<li>Business Reports</li>
+<li>Property Timeline</li>
+</ul>
+<p>This is the Phase 5 starter page.</p>
+</div>
+</body></html>
