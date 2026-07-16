@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>JC Handyman CRM V18 Enterprise Phase 4</title>
+<title>JC Handyman CRM V19 Enterprise</title>
 <style>
 :root{--b:#050505;--c:#171717;--o:#e86b00;--o2:#ff9b35;--g:#8cff9b;--r:#ff8b8b}
 *{box-sizing:border-box}body{margin:0;background:var(--b);color:#fff;font-family:Arial}
@@ -20,12 +20,16 @@ table{width:100%;border-collapse:collapse;background:#111;margin-top:8px}th,td{b
 .gallery{display:flex;flex-wrap:wrap;gap:9px}.photo{width:195px;background:#111;border:1px solid var(--o);border-radius:9px;padding:7px}.photo img{width:100%;height:130px;object-fit:cover;border-radius:7px}
 canvas{width:100%;height:180px;background:#fff;border:2px solid var(--o);border-radius:8px;touch-action:none}
 .mobile-card{font-size:18px}.mobile-card button{font-size:17px;padding:13px}
+.property-header{display:grid;grid-template-columns:2fr 1fr;gap:12px}
+.timeline-item{border-left:4px solid var(--o);background:#111;padding:10px 12px;margin:8px 0;border-radius:6px}
+.timeline-date{color:var(--o2);font-weight:800}.badge{display:inline-block;border:1px solid var(--o);border-radius:20px;padding:3px 8px;margin:2px;font-size:12px}
+@media(max-width:800px){.property-header{grid-template-columns:1fr}}
 @media(max-width:700px){header{position:relative}h1{font-size:20px}section{padding:10px 6px}nav button,.btn{font-size:12px;padding:8px}.desktop-heavy{overflow-x:auto}}
 </style></head><body>
-<header><h1>JC Handyman Cloud CRM V18 Enterprise — Phase 6</h1>
-<p>Estimate Engine • Pricing Catalog • PDFs • Email • Full Field Service</p>
+<header><h1>JC Handyman Cloud CRM V19 Enterprise — Property Dashboard</h1>
+<p>Property Dashboard • Estimate Engine • Timeline • Full Field Service</p>
 <nav>
-<button onclick="go('dashboard')">Dashboard</button><button onclick="go('customers')">Customers</button>
+<button onclick="go('dashboard')">Dashboard</button><button onclick="go('customers')">Customers</button><button onclick="go('properties')">Properties</button><button onclick="go('propertydashboard')">Property Dashboard</button>
 <button onclick="go('estimates')">Estimates</button><button onclick="go('invoices')">Invoices</button>
 <button onclick="go('calendar')">Calendar</button><button onclick="go('field')">Field Mode</button>
 <button onclick="go('photos')">Photos</button><button onclick="go('signatures')">Signatures</button>
@@ -34,7 +38,7 @@ canvas{width:100%;height:180px;background:#fff;border:2px solid var(--o);border-
 <button onclick="go('search')">Search</button><a class="btn" href="index.html">Website</a>
 </nav></header>
 
-<section id="dashboard" class="active"><h2>Phase 4 Dashboard</h2><p id="appStatus" class="small">Connecting...</p><button class="primary" onclick="loadAll()">Refresh</button>
+<section id="dashboard" class="active"><h2>V19 Business Dashboard</h2><p id="appStatus" class="small">Connecting...</p><button class="primary" onclick="loadAll()">Refresh</button>
 <div class="grid">
 <div class="card"><h3>Customers</h3><div id="dCustomers" class="stat">0</div></div>
 <div class="card"><h3>Open Estimates</h3><div id="dEstimates" class="stat">0</div></div>
@@ -47,6 +51,46 @@ canvas{width:100%;height:180px;background:#fff;border:2px solid var(--o);border-
 </div></section>
 
 <section id="customers"><h2>Customers & Directions</h2><div id="customerList" class="desktop-heavy"></div></section>
+<section id="properties">
+<h2>V19 Property Center</h2>
+<div class="grid">
+<div class="card">
+<h3>Add or Edit Property</h3>
+<input id="propId" type="hidden">
+<select id="propCustomer"></select>
+<input id="propName" placeholder="Property name, such as Main Home or Rental #1">
+<input id="propAddress" placeholder="Street address">
+<div class="grid">
+<input id="propCity" placeholder="City">
+<input id="propState" placeholder="State" value="NC">
+<input id="propZip" placeholder="ZIP code">
+<select id="propType"><option>Primary Home</option><option>Rental Property</option><option>Vacation Home</option><option>Commercial Property</option><option>Other</option></select>
+</div>
+<textarea id="propAccess" placeholder="Gate code, lockbox, key location, access instructions"></textarea>
+<textarea id="propNotes" placeholder="General property notes"></textarea>
+<div class="actions">
+<button class="primary" onclick="saveV19Property()">Save Property</button>
+<button onclick="clearV19Property()">Clear</button>
+</div>
+</div>
+<div class="card">
+<h3>Property Search</h3>
+<input id="propSearch" placeholder="Search property, customer, address, city, ZIP..." oninput="renderV19Properties()">
+<p class="small">Open a property dashboard to see its complete history, totals, photos, documents, equipment, and maintenance.</p>
+</div>
+</div>
+<div id="v19PropertyList" class="desktop-heavy"></div>
+</section>
+
+<section id="propertydashboard">
+<h2>Property Dashboard</h2>
+<div class="card">
+<select id="pdSelect"></select>
+<button class="primary" onclick="openPropertyDashboard()">Open Property Dashboard</button>
+</div>
+<div id="propertyDashboardBox"></div>
+</section>
+
 
 <section id="estimates"><h2>Phase 6 Estimate Engine</h2>
 <div class="grid">
@@ -142,7 +186,7 @@ canvas{width:100%;height:180px;background:#fff;border:2px solid var(--o);border-
 import {createClient} from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 import {SUPABASE_URL,SUPABASE_KEY} from './config.js'
 const db=createClient(SUPABASE_URL,SUPABASE_KEY)
-let A={customers:[],properties:[],estimates:[],estimateItems:[],pricing:[],invoices:[],payments:[],appointments:[],checkins:[],photos:[],signatures:[],expenses:[],attachments:[],reviews:[],reminders:[]}; let draftLines=[]
+let A={customers:[],properties:[],estimates:[],estimateItems:[],pricing:[],invoices:[],payments:[],appointments:[],checkins:[],photos:[],signatures:[],expenses:[],attachments:[],reviews:[],reminders:[],propertyDetails:[],maintenance:[]}; let draftLines=[]
 window.go=id=>{document.querySelectorAll('section').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');scrollTo(0,0)}
 const money=v=>'$'+Number(v||0).toFixed(2), c=id=>A.customers.find(x=>+x.id===+id)||{}, p=id=>A.properties.find(x=>+x.id===+id)||{}
 const cname=id=>c(id).name||('Customer '+id), pname=id=>p(id).property_name||p(id).address||('Property '+id)
@@ -152,8 +196,9 @@ async function upd(t,id,row){let r=await db.from(t).update(row).eq('id',id);if(r
 async function del(t,id){let r=await db.from(t).delete().eq('id',id);if(r.error)throw r.error}
 async function upload(file,prefix){let path=prefix+'/'+Date.now()+'_'+file.name.replace(/[^a-z0-9_.-]/gi,'_'),r=await db.storage.from('job-files').upload(path,file);if(r.error)throw r.error;return db.storage.from('job-files').getPublicUrl(path).data.publicUrl}
 function fill(){let co='<option value="">Select customer</option>'+A.customers.map(x=>`<option value="${x.id}">${x.id} — ${x.name}</option>`).join(''),po='<option value="">Select property</option>'+A.properties.map(x=>`<option value="${x.id}">${x.id} — ${x.property_name||x.address}</option>`).join('')
-;['fCustomer','phCustomer','sigCustomer','exCustomer','fileCustomer','rvCustomer','rmCustomer','estCustomer'].forEach(id=>document.getElementById(id).innerHTML=co)
+;['fCustomer','phCustomer','sigCustomer','exCustomer','fileCustomer','rvCustomer','rmCustomer','estCustomer','propCustomer'].forEach(id=>document.getElementById(id).innerHTML=co)
 ;['fProperty','phProperty','sigProperty','exProperty','fileProperty','estProperty'].forEach(id=>document.getElementById(id).innerHTML=po)
+pdSelect.innerHTML='<option value="">Select property</option>'+A.properties.map(x=>`<option value="${x.id}">${x.id} — ${x.property_name||x.address||'Property'} — ${cname(x.customer_id)}</option>`).join('');
 pricePicker.innerHTML='<option value="">Choose catalog item</option>'+A.pricing.map(x=>`<option value="${x.id}">${x.category||'Service'} — ${x.name} — ${money(x.default_price)}</option>`).join(''); rmAppointment.innerHTML='<option value="">Select appointment</option>'+A.appointments.map(x=>`<option value="${x.id}">${x.appointment_date||''} — ${x.title||'Appointment'}</option>`).join('')}
 
 window.usePriceItem=()=>{let x=A.pricing.find(r=>+r.id===+pricePicker.value);if(!x)return;lineName.value=x.name||'';lineDescription.value=x.description||'';lineUnit.value=x.unit||'each';linePrice.value=x.default_price||0;lineType.value=x.item_type||'Service'}
@@ -169,6 +214,36 @@ window.savePriceCatalog=async()=>{try{if(!pcName.value.trim())throw Error('Enter
 window.deletePriceCatalog=async id=>{if(confirm('Delete this pricing item?')){await del('phase6_pricing_catalog',id);loadAll()}}
 window.printEstimateEngine=()=>{if(!estTitle.value&&!estId.value)return alert('Open or create an estimate first.');let cc=c(estCustomer.value),pp=p(estProperty.value),sub=draftLines.reduce((s,x)=>s+(+x.line_total||0),0),disc=+estDiscount.value||0,tax=Math.max(0,sub-disc)*((+estTaxRate.value||0)/100),total=Math.max(0,sub-disc)+tax,w=window.open('','_blank');w.document.write(`<html><head><title>Estimate</title><style>body{font-family:Arial;padding:30px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #444;padding:8px;text-align:left}h1{color:#e86b00}.right{text-align:right}</style></head><body><h1>JC Handyman & Property Maintenance</h1><p>704-675-2014 • JerryCook811@gmail.com</p><hr><h2>Estimate: ${estTitle.value}</h2><p><b>Customer:</b> ${cc.name||''}<br>${cc.phone||''}<br>${cc.email||''}</p><p><b>Property:</b> ${pp.property_name||''}<br>${pp.address||cc.address||''}</p><p>${estScope.value.replace(/\n/g,'<br>')}</p><table><tr><th>Item</th><th>Description</th><th>Qty</th><th>Unit</th><th>Price</th><th>Total</th></tr>${draftLines.map(x=>`<tr><td>${x.name}</td><td>${x.description||''}</td><td>${x.quantity}</td><td>${x.unit}</td><td>${money(x.unit_price)}</td><td>${money(x.line_total)}</td></tr>`).join('')}<tr><td colspan="5" class="right">Subtotal</td><td>${money(sub)}</td></tr><tr><td colspan="5" class="right">Discount</td><td>${money(disc)}</td></tr><tr><td colspan="5" class="right">Tax</td><td>${money(tax)}</td></tr><tr><td colspan="5" class="right"><b>Total</b></td><td><b>${money(total)}</b></td></tr></table><p>${estNotes.value.replace(/\n/g,'<br>')}</p><p>Customer approval: _________________________ Date: __________</p><script>window.print()<\/script></body></html>`);w.document.close()}
 
+
+window.clearV19Property=()=>{propId.value='';propCustomer.value='';propName.value='';propAddress.value='';propCity.value='';propState.value='NC';propZip.value='';propType.value='Primary Home';propAccess.value='';propNotes.value=''}
+window.saveV19Property=async()=>{try{if(!propCustomer.value)throw Error('Select a customer.');if(!propAddress.value.trim())throw Error('Enter the property address.');let row={customer_id:+propCustomer.value,property_name:propName.value,address:propAddress.value,city:propCity.value,state:propState.value,zip_code:propZip.value,property_type:propType.value,access_notes:propAccess.value,notes:propNotes.value};if(propId.value)await upd('properties',propId.value,row);else await ins('properties',row);alert(propId.value?'Property updated.':'Property saved.');clearV19Property();await loadAll()}catch(e){alert(e.message)}}
+window.editV19Property=id=>{let x=A.properties.find(r=>+r.id===+id)||{};propId.value=x.id||'';propCustomer.value=x.customer_id||'';propName.value=x.property_name||'';propAddress.value=x.address||'';propCity.value=x.city||'';propState.value=x.state||'NC';propZip.value=x.zip_code||'';propType.value=x.property_type||'Primary Home';propAccess.value=x.access_notes||'';propNotes.value=x.notes||'';go('properties')}
+window.deleteV19Property=async id=>{if(!confirm('Delete this property record? Existing estimates, invoices, photos, and files will not be deleted.'))return;try{await del('properties',id);await loadAll()}catch(e){alert(e.message)}}
+window.renderV19Properties=()=>{let q=(propSearch?.value||'').toLowerCase(),rows=A.properties.filter(x=>{let cc=c(x.customer_id);return JSON.stringify({...x,customer_name:cc.name}).toLowerCase().includes(q)});v19PropertyList.innerHTML=table(rows,[['id','ID'],['customer_id','Customer',cname],['property_name','Property'],['address','Address'],['property_type','Type'],['id','Actions',v=>`<div class="actions"><button class="primary" onclick="pdSelect.value=${v};openPropertyDashboard()">Dashboard</button><button onclick="editV19Property(${v})">Edit</button><a class="btn" target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent((A.properties.find(x=>+x.id===+v)||{}).address||'')}">Directions</a><button class="danger" onclick="deleteV19Property(${v})">Delete</button></div>`]])}
+window.savePropertyDetails=async propertyId=>{try{let existing=A.propertyDetails.find(x=>+x.property_id===+propertyId),row={property_id:+propertyId,roof_type:pdRoof.value,roof_age:pdRoofAge.value,hvac_type:pdHvac.value,hvac_filter_size:pdFilter.value,water_heater:pdWater.value,electrical_panel:pdPanel.value,paint_colors:pdPaint.value,appliances:pdAppliances.value,warranty_notes:pdWarranty.value,emergency_notes:pdEmergency.value};existing?await upd('v19_property_details',existing.id,row):await ins('v19_property_details',row);alert('Property details saved.');await loadAll();pdSelect.value=propertyId;openPropertyDashboard()}catch(e){alert(e.message)}}
+window.addMaintenance=async propertyId=>{try{if(!mtTitle.value.trim())throw Error('Enter a maintenance item.');await ins('v19_maintenance_timeline',{property_id:+propertyId,customer_id:+(A.properties.find(x=>+x.id===+propertyId)||{}).customer_id||null,title:mtTitle.value,category:mtCategory.value,status:mtStatus.value,recommended_date:mtDate.value||null,completed_date:null,cost:+mtCost.value||0,notes:mtNotes.value});await loadAll();pdSelect.value=propertyId;openPropertyDashboard()}catch(e){alert(e.message)}}
+window.completeMaintenance=async id=>{await upd('v19_maintenance_timeline',id,{status:'Completed',completed_date:new Date().toISOString().slice(0,10)});await loadAll();openPropertyDashboard()}
+window.deleteMaintenance=async id=>{if(confirm('Delete this maintenance entry?')){await del('v19_maintenance_timeline',id);await loadAll();openPropertyDashboard()}}
+window.openPropertyDashboard=()=>{let id=+pdSelect.value;if(!id)return alert('Select a property.');let x=A.properties.find(r=>+r.id===id)||{},cc=c(x.customer_id),details=A.propertyDetails.find(r=>+r.property_id===id)||{},est=A.estimates.filter(r=>+r.property_id===id),inv=A.invoices.filter(r=>+r.property_id===id),appts=A.appointments.filter(r=>+r.property_id===id),pics=A.photos.filter(r=>+r.property_id===id),ex=A.expenses.filter(r=>+r.property_id===id),files=A.attachments.filter(r=>+r.property_id===id),maint=A.maintenance.filter(r=>+r.property_id===id),estimateTotal=est.reduce((s,r)=>s+(+r.total||0),0),invoiceTotal=inv.reduce((s,r)=>s+(+r.total||0),0),balance=inv.reduce((s,r)=>s+(+r.balance||0),0),expenseTotal=ex.reduce((s,r)=>s+(+r.amount||0),0);
+let events=[];
+est.forEach(r=>events.push({date:r.created_at,type:'Estimate',title:r.title||'Estimate',amount:r.total,status:r.status}));
+inv.forEach(r=>events.push({date:r.created_at,type:'Invoice',title:r.title||'Invoice',amount:r.total,status:r.status}));
+appts.forEach(r=>events.push({date:r.appointment_date,type:'Appointment',title:r.title||'Appointment',amount:null,status:r.status}));
+pics.forEach(r=>events.push({date:r.created_at,type:'Photo',title:(r.photo_type||'Photo')+' — '+(r.caption||''),amount:null,status:''}));
+ex.forEach(r=>events.push({date:r.expense_date||r.created_at,type:'Expense',title:r.description||r.category||'Expense',amount:r.amount,status:''}));
+files.forEach(r=>events.push({date:r.created_at,type:'File',title:r.title||r.file_type||'File',amount:null,status:''}));
+maint.forEach(r=>events.push({date:r.completed_date||r.recommended_date||r.created_at,type:'Maintenance',title:r.title,amount:r.cost,status:r.status}));
+events.sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));
+propertyDashboardBox.innerHTML=`<div class="property-header">
+<div class="card"><h2>${x.property_name||'Property'}</h2><p><b>Customer:</b> ${cc.name||''}<br><b>Phone:</b> ${cc.phone||''}<br><b>Email:</b> ${cc.email||''}</p><p><b>Address:</b><br>${x.address||''}<br>${x.city||''}, ${x.state||''} ${x.zip_code||''}</p><p><b>Type:</b> ${x.property_type||''}</p><p><b>Access:</b> ${x.access_notes||''}</p><div class="actions"><a class="btn primary" target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(x.address||'')}">Driving Directions</a><button onclick="editV19Property(${id})">Edit Property</button></div></div>
+<div class="card"><h3>Property Totals</h3><p><span class="badge">${est.length} estimates</span><span class="badge">${inv.length} invoices</span><span class="badge">${pics.length} photos</span><span class="badge">${files.length} files</span></p><p><b>Estimate total:</b> ${money(estimateTotal)}</p><p><b>Invoice total:</b> ${money(invoiceTotal)}</p><p><b>Balance due:</b> ${money(balance)}</p><p><b>Expenses:</b> ${money(expenseTotal)}</p></div></div>
+<div class="card"><h3>Property Equipment & Important Details</h3><div class="grid"><input id="pdRoof" placeholder="Roof type" value="${details.roof_type||''}"><input id="pdRoofAge" placeholder="Roof age/year" value="${details.roof_age||''}"><input id="pdHvac" placeholder="HVAC type/model" value="${details.hvac_type||''}"><input id="pdFilter" placeholder="HVAC filter size" value="${details.hvac_filter_size||''}"><input id="pdWater" placeholder="Water heater" value="${details.water_heater||''}"><input id="pdPanel" placeholder="Electrical panel" value="${details.electrical_panel||''}"></div><textarea id="pdPaint" placeholder="Paint colors">${details.paint_colors||''}</textarea><textarea id="pdAppliances" placeholder="Appliances and model numbers">${details.appliances||''}</textarea><textarea id="pdWarranty" placeholder="Warranty notes">${details.warranty_notes||''}</textarea><textarea id="pdEmergency" placeholder="Emergency notes">${details.emergency_notes||''}</textarea><button class="primary" onclick="savePropertyDetails(${id})">Save Property Details</button></div>
+<div class="card"><h3>Add Maintenance Recommendation</h3><div class="grid"><input id="mtTitle" placeholder="Maintenance item"><select id="mtCategory"><option>General</option><option>Roof</option><option>HVAC</option><option>Plumbing</option><option>Electrical</option><option>Painting</option><option>Inspection</option><option>Appliance</option></select><select id="mtStatus"><option>Recommended</option><option>Scheduled</option><option>In Progress</option><option>Completed</option></select><input id="mtDate" type="date"><input id="mtCost" type="number" step="0.01" placeholder="Estimated/actual cost"></div><textarea id="mtNotes" placeholder="Maintenance notes"></textarea><button class="primary" onclick="addMaintenance(${id})">Add Maintenance</button></div>
+<div class="card"><h3>Maintenance List</h3>${table(maint,[['recommended_date','Recommended'],['title','Item'],['category','Category'],['status','Status'],['cost','Cost',money],['id','Actions',v=>`<div class="actions"><button onclick="completeMaintenance(${v})">Complete</button><button class="danger" onclick="deleteMaintenance(${v})">Delete</button></div>`]])}</div>
+<div class="card"><h3>Photos</h3><div class="gallery">${pics.map(r=>`<div class="photo"><a target="_blank" href="${r.photo_url}"><img src="${r.photo_url}"></a><b>${r.photo_type||''}</b><p>${r.caption||''}</p></div>`).join('')||'<p class="small">No property photos yet.</p>'}</div></div>
+<div class="card"><h3>Complete Property Timeline</h3>${events.map(r=>`<div class="timeline-item"><div class="timeline-date">${String(r.date||'').slice(0,10)} — ${r.type}</div><b>${r.title||''}</b>${r.amount!=null?`<div>${money(r.amount)}</div>`:''}${r.status?`<span class="badge">${r.status}</span>`:''}</div>`).join('')||'<p class="small">No history yet.</p>'}</div>`;
+go('propertydashboard')}
+
 window.gps=()=>navigator.geolocation.getCurrentPosition(x=>{fLat.value=x.coords.latitude;fLng.value=x.coords.longitude;fMsg.textContent='GPS added.'},e=>fMsg.textContent=e.message)
 window.directionsFromProperty=()=>{let q=encodeURIComponent(p(fProperty.value).address||fLocation.value);if(q)window.open('https://www.google.com/maps/dir/?api=1&destination='+q,'_blank')}
 window.saveField=async()=>{try{await ins('phase3_checkins',{customer_id:+fCustomer.value||null,property_id:+fProperty.value||null,job_id:+fJob.value||null,checkin_type:fType.value,latitude:+fLat.value||null,longitude:+fLng.value||null,location_note:fLocation.value,notes:fNotes.value});fMsg.textContent='Saved.';loadAll()}catch(e){fMsg.textContent=e.message}}
@@ -183,12 +258,12 @@ window.saveReminder=async()=>{try{await ins('phase4_reminders',{customer_id:+rmC
 window.emailEstimate=id=>{let x=A.estimates.find(r=>+r.id===+id),cc=c(x.customer_id),sub=encodeURIComponent('Estimate from JC Handyman'),body=encodeURIComponent(`Hello ${cc.name||''},\n\nEstimate: ${x.title||''}\nTotal: ${money(x.total)}\n\n${x.scope||''}\n\nJC Handyman & Property Maintenance\n704-675-2014`);location.href=`mailto:${cc.email||''}?subject=${sub}&body=${body}`}
 window.emailInvoice=id=>{let x=A.invoices.find(r=>+r.id===+id),cc=c(x.customer_id),sub=encodeURIComponent('Invoice from JC Handyman'),body=encodeURIComponent(`Hello ${cc.name||''},\n\nInvoice: ${x.title||''}\nTotal: ${money(x.total)}\nPaid: ${money(x.paid)}\nBalance: ${money(x.balance)}\n\nJC Handyman & Property Maintenance\n704-675-2014`);location.href=`mailto:${cc.email||''}?subject=${sub}&body=${body}`}
 window.renderSearch=()=>{let q=globalQ.value.toLowerCase(),match=a=>a.filter(x=>JSON.stringify(x).toLowerCase().includes(q));searchResults.innerHTML='<h3>Customers</h3>'+table(match(A.customers),[['id','ID'],['name','Name'],['phone','Phone'],['address','Address']])+'<h3>Properties</h3>'+table(match(A.properties),[['id','ID'],['property_name','Property'],['address','Address']])+'<h3>Invoices</h3>'+table(match(A.invoices),[['id','ID'],['title','Title'],['balance','Balance',money]])}
-window.loadAll=async()=>{appStatus.textContent='Loading...';let mp={customers:'customers',properties:'properties',phase3_estimates:'estimates',phase6_estimate_items:'estimateItems',phase6_pricing_catalog:'pricing',phase3_invoices:'invoices',phase3_payments:'payments',phase3_appointments:'appointments',phase3_checkins:'checkins',phase4_photos:'photos',phase4_signatures:'signatures',phase4_expenses:'expenses',phase4_attachments:'attachments',phase4_customer_reviews:'reviews',phase4_reminders:'reminders'}
+window.loadAll=async()=>{appStatus.textContent='Loading...';let mp={customers:'customers',properties:'properties',phase3_estimates:'estimates',phase6_estimate_items:'estimateItems',phase6_pricing_catalog:'pricing',phase3_invoices:'invoices',phase3_payments:'payments',phase3_appointments:'appointments',phase3_checkins:'checkins',phase4_photos:'photos',phase4_signatures:'signatures',phase4_expenses:'expenses',phase4_attachments:'attachments',phase4_customer_reviews:'reviews',phase4_reminders:'reminders',v19_property_details:'propertyDetails',v19_maintenance_timeline:'maintenance'}
 for(let t in mp){let r=await db.from(t).select('*').order('id',{ascending:false});A[mp[t]]=r.error?[]:r.data;if(r.error)console.warn(t,r.error)}
 appStatus.textContent='Connected to Supabase.';appStatus.className='small good';fill()
 let collected=A.payments.reduce((s,x)=>s+(+x.amount||0),0),expenses=A.expenses.reduce((s,x)=>s+(+x.amount||0),0),rating=A.reviews.length?A.reviews.reduce((s,x)=>s+(+x.rating||0),0)/A.reviews.length:0
 dCustomers.textContent=A.customers.length;dEstimates.textContent=A.estimates.filter(x=>x.status==='Open').length;dOutstanding.textContent=money(A.invoices.reduce((s,x)=>s+(+x.balance||0),0));dCollected.textContent=money(collected);dExpenses.textContent=money(expenses);dProfit.textContent=money(collected-expenses);dReminders.textContent=A.reminders.filter(x=>x.status==='Pending').length;dRating.textContent=rating.toFixed(1)
-customerList.innerHTML=table(A.customers,[['id','ID'],['name','Name'],['phone','Phone'],['email','Email'],['address','Address'],['address','Directions',v=>v?`<a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(v)}">Map</a>`:'']])
+renderV19Properties();customerList.innerHTML=table(A.customers,[['id','ID'],['name','Name'],['phone','Phone'],['email','Email'],['address','Address'],['address','Directions',v=>v?`<a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(v)}">Map</a>`:'']])
 estimateList.innerHTML=table(A.estimates,[['id','ID'],['customer_id','Customer',cname],['title','Title'],['total','Total',money],['status','Status'],['id','Actions',v=>`<div class="actions"><button onclick="editEstimateEngine(${v})">Edit</button><button onclick="emailEstimate(${v})">Email</button><button class="danger" onclick="deleteEstimateEngine(${v})">Delete</button></div>`]]);pricingCatalogList.innerHTML=table(A.pricing,[['category','Category'],['name','Service'],['unit','Unit'],['default_price','Price',money],['id','Actions',v=>`<button class="danger" onclick="deletePriceCatalog(${v})">Delete</button>`]]);renderDraftLines()
 invoiceList.innerHTML=table(A.invoices,[['id','ID'],['customer_id','Customer',cname],['title','Title'],['total','Total',money],['paid','Paid',money],['balance','Balance',money],['id','Email',v=>`<button onclick="emailInvoice(${v})">Email</button>`]])
 appointmentList.innerHTML=table(A.appointments,[['appointment_date','Date'],['appointment_time','Time'],['customer_id','Customer',cname],['title','Title'],['status','Status']])
