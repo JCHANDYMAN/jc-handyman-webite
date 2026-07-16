@@ -26,8 +26,8 @@ canvas{width:100%;height:180px;background:#fff;border:2px solid var(--o);border-
 @media(max-width:800px){.property-header{grid-template-columns:1fr}}
 @media(max-width:700px){header{position:relative}h1{font-size:20px}section{padding:10px 6px}nav button,.btn{font-size:12px;padding:8px}.desktop-heavy{overflow-x:auto}}
 </style></head><body>
-<header><h1>JC Handyman Cloud CRM V22.2 Enterprise — Customer Management</h1>
-<p>New Customers • Account Numbers • Customer Hub • Quick Actions</p>
+<header><h1>JC Handyman Cloud CRM V22.3 Enterprise — Launch Workflow</h1>
+<p>Customer • Property • Estimate • Invoice • Schedule • Inspection</p>
 <nav>
 <button onclick="go('dashboard')">Dashboard</button><button onclick="go('customers')">Customers</button><button onclick="go('smartassistant')">Smart Assistant</button><button onclick="go('estimateintelligence')">Estimate Intelligence</button><button onclick="go('properties')">Properties</button><button onclick="go('propertydashboard')">Property Dashboard</button><button onclick="go('propertyintelligence')">Property Intelligence</button><button onclick="go('inspections')">Inspections</button><button onclick="go('propertyreports')">Property Reports</button>
 <button onclick="go('estimates')">Estimates</button><button onclick="go('invoices')">Invoices</button>
@@ -44,11 +44,11 @@ canvas{width:100%;height:180px;background:#fff;border:2px solid var(--o);border-
 <a class="btn" href="index.html">Website</a>
 </nav></header>
 
-<section id="dashboard" class="active"><h2>V22.2 Customer Management Command Center</h2><p id="appStatus" class="small">Connecting...</p><button class="primary" onclick="loadAll()">Refresh</button>
+<section id="dashboard" class="active"><h2>V22.3 Launch Workflow Command Center</h2><p id="appStatus" class="small">Connecting...</p><button class="primary" onclick="loadAll()">Refresh</button>
 <div class="card launch-banner">
-<span class="assistant-badge">V22.2 Customer Management</span>
-<h2>JC Handyman Customer Management Center</h2>
-<p>Add, edit, search, contact, and manage each customer from one complete Customer Hub.</p>
+<span class="assistant-badge">V22.3 Launch Workflow</span>
+<h2>JC Handyman Production Workflow</h2>
+<p>Run the complete job workflow from customer setup through invoice, scheduling, inspection, and history.</p>
 <button class="primary" onclick="go('smartassistant')">Open Smart Assistant</button>
 </div>
 
@@ -669,7 +669,37 @@ canvas{width:100%;height:180px;background:#fff;border:2px solid var(--o);border-
 </div>
 <div class="card"><h3>Saved Estimates</h3><div id="estimateList" class="desktop-heavy"></div></div>
 </section>
-<section id="invoices"><h2>Invoices</h2><div id="invoiceList" class="desktop-heavy"></div></section>
+
+<section id="invoices">
+<h2>Invoice Center</h2>
+<div class="dashboard-columns">
+<div class="card">
+<h3>Create or Edit Invoice</h3>
+<input id="invId" type="hidden">
+<select id="invCustomer"></select>
+<select id="invProperty"></select>
+<select id="invEstimate"><option value="">Optional: select estimate</option></select>
+<input id="invTitle" placeholder="Invoice title">
+<div class="grid">
+<input id="invTotal" type="number" step="0.01" placeholder="Invoice total $">
+<input id="invPaid" type="number" step="0.01" value="0" placeholder="Amount paid $">
+<input id="invDueDate" type="date">
+<select id="invStatus"><option>Unpaid</option><option>Partially Paid</option><option>Paid</option><option>Void</option></select>
+</div>
+<textarea id="invNotes" placeholder="Invoice notes and payment terms"></textarea>
+<div class="actions">
+<button class="primary" onclick="saveLaunchInvoice()">Save Invoice</button>
+<button onclick="clearLaunchInvoice()">New Invoice</button>
+</div>
+<p id="invMessage" class="small"></p>
+</div>
+<div class="card">
+<h3>Invoice Summary</h3>
+<div id="invPreview" class="estimate-summary">Create an invoice or convert an approved estimate.</div>
+</div>
+</div>
+<div class="card"><h3>Saved Invoices</h3><div id="invoiceList" class="desktop-heavy"></div></div>
+</section>
 
 <section id="dispatch">
 <h2>V20.4 Weekly Dispatch Center</h2>
@@ -756,7 +786,36 @@ canvas{width:100%;height:180px;background:#fff;border:2px solid var(--o);border-
 <div class="card doc-alert"><h3>Expiring Documents & Warranties</h3><div id="vaultAlerts"></div></div>
 <div class="card"><h3>All Vault Documents</h3><div id="vaultDocumentList"></div></div>
 </section>
-<section id="calendar"><h2>Appointments</h2><div id="appointmentList" class="desktop-heavy"></div></section>
+
+<section id="calendar">
+<h2>Appointment Center</h2>
+<div class="dashboard-columns">
+<div class="card">
+<h3>Schedule Appointment</h3>
+<input id="apptId" type="hidden">
+<select id="apptCustomer"></select>
+<select id="apptProperty"></select>
+<input id="apptTitle" placeholder="Appointment title">
+<div class="grid">
+<input id="apptDate" type="date">
+<input id="apptTime" type="time">
+<select id="apptStatus"><option>Scheduled</option><option>Confirmed</option><option>In Progress</option><option>Completed</option><option>Cancelled</option></select>
+</div>
+<textarea id="apptNotes" placeholder="Appointment notes"></textarea>
+<div class="actions">
+<button class="primary" onclick="saveLaunchAppointment()">Save Appointment</button>
+<button onclick="clearLaunchAppointment()">New Appointment</button>
+</div>
+<p id="apptMessage" class="small"></p>
+</div>
+<div class="card">
+<h3>Quick Schedule</h3>
+<p>Select a customer and property, choose the date and time, then save.</p>
+<button onclick="openGoogleCalendarDraft()">Open Google Calendar</button>
+</div>
+</div>
+<div class="card"><h3>Appointments</h3><div id="appointmentList" class="desktop-heavy"></div></div>
+</section>
 
 
 
@@ -1030,12 +1089,14 @@ async function upd(t,id,row){let r=await db.from(t).update(row).eq('id',id);if(r
 async function del(t,id){let r=await db.from(t).delete().eq('id',id);if(r.error)throw r.error}
 async function upload(file,prefix){let path=prefix+'/'+Date.now()+'_'+file.name.replace(/[^a-z0-9_.-]/gi,'_'),r=await db.storage.from('job-files').upload(path,file);if(r.error)throw r.error;return db.storage.from('job-files').getPublicUrl(path).data.publicUrl}
 function fill(){let co='<option value="">Select customer</option>'+A.customers.map(x=>`<option value="${x.id}">${x.account_number||x.id} — ${x.name}</option>`).join(''),po='<option value="">Select property</option>'+A.properties.map(x=>`<option value="${x.id}">${x.id} — ${x.property_name||x.address}</option>`).join('')
-;['fCustomer','phCustomer','sigCustomer','exCustomer','fileCustomer','rvCustomer','rmCustomer','estCustomer','propCustomer','inspCustomer','rentCustomer','eqCustomer','portalCustomer','assignCustomer','ntCustomer','foCustomer','shopCustomer','coCustomer','recCustomer','dvCustomer','aiCustomer','eiCustomer','msgCustomer','moCustomer'].forEach(id=>document.getElementById(id).innerHTML=co)
-;['fProperty','phProperty','sigProperty','exProperty','fileProperty','estProperty','inspProperty','rentProperty','eqProperty','reportProperty','assignProperty','piProperty','foProperty','shopProperty','coProperty','recProperty','mapProperty','dvProperty','aiProperty','eiProperty','moProperty'].forEach(id=>document.getElementById(id).innerHTML=po)
+;['fCustomer','phCustomer','sigCustomer','exCustomer','fileCustomer','rvCustomer','rmCustomer','estCustomer','propCustomer','inspCustomer','rentCustomer','eqCustomer','portalCustomer','assignCustomer','ntCustomer','foCustomer','shopCustomer','coCustomer','recCustomer','dvCustomer','aiCustomer','eiCustomer','msgCustomer','moCustomer','invCustomer','apptCustomer'].forEach(id=>document.getElementById(id).innerHTML=co)
+;['fProperty','phProperty','sigProperty','exProperty','fileProperty','estProperty','inspProperty','rentProperty','eqProperty','reportProperty','assignProperty','piProperty','foProperty','shopProperty','coProperty','recProperty','mapProperty','dvProperty','aiProperty','eiProperty','moProperty','invProperty','apptProperty'].forEach(id=>document.getElementById(id).innerHTML=po)
 pdSelect.innerHTML='<option value="">Select property</option>'+A.properties.map(x=>`<option value="${x.id}">${x.id} — ${x.property_name||x.address||'Property'} — ${cname(x.customer_id)}</option>`).join('');
 dispEmployee.innerHTML='<option value="">Select employee</option>'+A.employees.map(x=>`<option value="${x.id}">${x.name} — ${x.role||''}</option>`).join('');assignEmployee.innerHTML='<option value="">Select employee</option>'+A.employees.map(x=>`<option value="${x.id}">${x.name} — ${x.role||''}</option>`).join('');
 dispAppointment.innerHTML='<option value="">Select appointment</option>'+A.appointments.map(x=>`<option value="${x.id}">${x.appointment_date||''} — ${x.title||'Appointment'} — ${cname(x.customer_id)}</option>`).join('');stockItem.innerHTML='<option value="">Select inventory item</option>'+A.inventory.map(x=>`<option value="${x.id}">${x.name} — Qty ${x.quantity||0}</option>`).join('');
-pricePicker.innerHTML='<option value="">Choose catalog item</option>'+A.pricing.map(x=>`<option value="${x.id}">${x.category||'Service'} — ${x.name} — ${money(x.default_price)}</option>`).join(''); rmAppointment.innerHTML='<option value="">Select appointment</option>'+A.appointments.map(x=>`<option value="${x.id}">${x.appointment_date||''} — ${x.title||'Appointment'}</option>`).join('')}
+pricePicker.innerHTML='<option value="">Choose catalog item</option>'+A.pricing.map(x=>`<option value="${x.id}">${x.category||'Service'} — ${x.name} — ${money(x.default_price)}</option>`).join('');
+invEstimate.innerHTML='<option value="">Optional: select estimate</option>'+A.estimates.map(x=>`<option value="${x.id}">${x.id} — ${cname(x.customer_id)} — ${x.title} — ${money(x.total)}</option>`).join('');
+ rmAppointment.innerHTML='<option value="">Select appointment</option>'+A.appointments.map(x=>`<option value="${x.id}">${x.appointment_date||''} — ${x.title||'Appointment'}</option>`).join('')}
 
 window.usePriceItem=()=>{let x=A.pricing.find(r=>+r.id===+pricePicker.value);if(!x)return;lineName.value=x.name||'';lineDescription.value=x.description||'';lineUnit.value=x.unit||'each';linePrice.value=x.default_price||0;lineType.value=x.item_type||'Service'}
 window.addEstimateLine=()=>{let q=+lineQty.value||1,pv=+linePrice.value||0;if(!lineName.value.trim())return alert('Enter a service or material name.');draftLines.push({name:lineName.value.trim(),description:lineDescription.value,quantity:q,unit:lineUnit.value||'each',unit_price:pv,item_type:lineType.value,line_total:q*pv});lineName.value='';lineDescription.value='';lineQty.value=1;lineUnit.value='';linePrice.value='';renderDraftLines()}
@@ -1488,6 +1549,69 @@ window.customerHubAppointment=()=>{let x=customerHubSelected();if(!x.id)return a
 window.customerHubProperty=()=>{let x=customerHubSelected();if(!x.id)return alert('Select a customer first.');propCustomer.value=x.id;go('properties')};
 window.customerHubInspection=()=>{let x=customerHubSelected();if(!x.id)return alert('Select a customer first.');inspCustomer.value=x.id;go('inspections')};
 
+
+window.clearLaunchInvoice=()=>{invId.value='';invCustomer.value='';invProperty.value='';invEstimate.value='';invTitle.value='';invTotal.value='';invPaid.value='0';invDueDate.value='';invStatus.value='Unpaid';invNotes.value='';invMessage.textContent='';invPreview.textContent='Create an invoice or convert an approved estimate.'}
+
+invEstimate.addEventListener('change',()=>{
+ let x=A.estimates.find(r=>+r.id===+invEstimate.value);
+ if(!x)return;
+ invCustomer.value=x.customer_id||'';
+ invProperty.value=x.property_id||'';
+ invTitle.value=x.title||'Invoice';
+ invTotal.value=x.total||0;
+ invPaid.value=0;
+ invStatus.value='Unpaid';
+ invNotes.value=`Converted from estimate #${x.id}\n${x.scope||''}`;
+ updateInvoicePreview();
+});
+['invTotal','invPaid','invTitle','invDueDate','invStatus'].forEach(id=>document.getElementById(id).addEventListener('input',updateInvoicePreview));
+function updateInvoicePreview(){
+ let total=+invTotal.value||0,paid=+invPaid.value||0,balance=Math.max(0,total-paid);
+ invPreview.textContent=`INVOICE PREVIEW\n\nCustomer: ${cname(invCustomer.value)}\nTitle: ${invTitle.value||''}\nTotal: ${money(total)}\nPaid: ${money(paid)}\nBalance: ${money(balance)}\nDue: ${invDueDate.value||'Not set'}\nStatus: ${invStatus.value}`;
+}
+window.saveLaunchInvoice=async()=>{
+ try{
+  if(!invCustomer.value)throw Error('Select a customer.');
+  if(!invTitle.value.trim())throw Error('Enter an invoice title.');
+  let total=+invTotal.value||0,paid=+invPaid.value||0,balance=Math.max(0,total-paid);
+  let status=paid>=total&&total>0?'Paid':paid>0?'Partially Paid':invStatus.value;
+  let row={customer_id:+invCustomer.value,property_id:+invProperty.value||null,title:invTitle.value.trim(),total,paid,balance,status,due_date:invDueDate.value||null,notes:invNotes.value};
+  if(invId.value)await upd('phase3_invoices',+invId.value,row);
+  else{
+   let r=await db.from('phase3_invoices').insert([row]).select('id').single();
+   if(r.error)throw r.error;
+   invId.value=r.data.id;
+   if(paid>0)await ins('phase3_payments',{invoice_id:r.data.id,customer_id:+invCustomer.value,amount:paid,payment_date:new Date().toISOString().slice(0,10),payment_method:'Other',notes:'Entered with invoice'});
+  }
+  if(invEstimate.value)await upd('phase3_estimates',+invEstimate.value,{status:'Converted'});
+  invMessage.textContent='Invoice saved successfully.';
+  await loadAll();
+ }catch(e){invMessage.textContent='Could not save invoice: '+e.message}
+}
+window.editLaunchInvoice=id=>{let x=A.invoices.find(r=>+r.id===+id)||{};invId.value=x.id||'';invCustomer.value=x.customer_id||'';invProperty.value=x.property_id||'';invTitle.value=x.title||'';invTotal.value=x.total||0;invPaid.value=x.paid||0;invDueDate.value=x.due_date||'';invStatus.value=x.status||'Unpaid';invNotes.value=x.notes||'';updateInvoicePreview();go('invoices')}
+window.deleteLaunchInvoice=async id=>{if(!confirm('Delete this invoice?'))return;try{await db.from('phase3_payments').delete().eq('invoice_id',id);await del('phase3_invoices',id);await loadAll()}catch(e){alert(e.message)}}
+window.convertEstimateToInvoice=id=>{let x=A.estimates.find(r=>+r.id===+id);if(!x)return;go('invoices');invEstimate.value=x.id;invEstimate.dispatchEvent(new Event('change'))}
+
+window.clearLaunchAppointment=()=>{apptId.value='';apptCustomer.value='';apptProperty.value='';apptTitle.value='';apptDate.value='';apptTime.value='';apptStatus.value='Scheduled';apptNotes.value='';apptMessage.textContent=''}
+window.saveLaunchAppointment=async()=>{
+ try{
+  if(!apptCustomer.value)throw Error('Select a customer.');
+  if(!apptTitle.value.trim())throw Error('Enter an appointment title.');
+  if(!apptDate.value)throw Error('Choose an appointment date.');
+  let row={customer_id:+apptCustomer.value,property_id:+apptProperty.value||null,title:apptTitle.value.trim(),appointment_date:apptDate.value,appointment_time:apptTime.value||null,status:apptStatus.value,notes:apptNotes.value};
+  if(apptId.value)await upd('phase3_appointments',+apptId.value,row);else await ins('phase3_appointments',row);
+  apptMessage.textContent='Appointment saved.';
+  clearLaunchAppointment();
+  await loadAll();
+ }catch(e){apptMessage.textContent='Could not save appointment: '+e.message}
+}
+window.editLaunchAppointment=id=>{let x=A.appointments.find(r=>+r.id===+id)||{};apptId.value=x.id||'';apptCustomer.value=x.customer_id||'';apptProperty.value=x.property_id||'';apptTitle.value=x.title||'';apptDate.value=x.appointment_date||'';apptTime.value=x.appointment_time||'';apptStatus.value=x.status||'Scheduled';apptNotes.value=x.notes||'';go('calendar')}
+window.deleteLaunchAppointment=async id=>{if(confirm('Delete this appointment?')){await del('phase3_appointments',id);await loadAll()}}
+window.openGoogleCalendarDraft=()=>{let title=encodeURIComponent(apptTitle.value||'JC Handyman Appointment'),details=encodeURIComponent(apptNotes.value||''),loc=encodeURIComponent((p(apptProperty.value).address||c(apptCustomer.value).address||''));window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&location=${loc}`,'_blank')}
+
+window.customerHubInvoice=()=>{let x=customerHubSelected();if(!x.id)return alert('Select a customer first.');go('invoices');invCustomer.value=x.id}
+window.customerHubAppointment=()=>{let x=customerHubSelected();if(!x.id)return alert('Select a customer first.');go('calendar');apptCustomer.value=x.id}
+
 window.gps=()=>navigator.geolocation.getCurrentPosition(x=>{fLat.value=x.coords.latitude;fLng.value=x.coords.longitude;fMsg.textContent='GPS added.'},e=>fMsg.textContent=e.message)
 window.directionsFromProperty=()=>{let q=encodeURIComponent(p(fProperty.value).address||fLocation.value);if(q)window.open('https://www.google.com/maps/dir/?api=1&destination='+q,'_blank')}
 window.saveField=async()=>{try{await ins('phase3_checkins',{customer_id:+fCustomer.value||null,property_id:+fProperty.value||null,job_id:+fJob.value||null,checkin_type:fType.value,latitude:+fLat.value||null,longitude:+fLng.value||null,location_note:fLocation.value,notes:fNotes.value});fMsg.textContent='Saved.';loadAll()}catch(e){fMsg.textContent=e.message}}
@@ -1532,9 +1656,9 @@ appStatus.textContent='Connected to Supabase.';appStatus.className='small good';
 let collected=A.payments.reduce((s,x)=>s+(+x.amount||0),0),expenses=A.expenses.reduce((s,x)=>s+(+x.amount||0),0),rating=A.reviews.length?A.reviews.reduce((s,x)=>s+(+x.rating||0),0)/A.reviews.length:0
 dCustomers.textContent=A.customers.length;dEstimates.textContent=A.estimates.filter(x=>x.status==='Open').length;dOutstanding.textContent=money(A.invoices.reduce((s,x)=>s+(+x.balance||0),0));dCollected.textContent=money(collected);dExpenses.textContent=money(expenses);dProfit.textContent=money(collected-expenses);dReminders.textContent=A.reminders.filter(x=>x.status==='Pending').length;dRating.textContent=rating.toFixed(1);dRequests.textContent=A.serviceRequests.filter(x=>!['Completed','Cancelled'].includes(x.status)).length;dEmployees.textContent=A.employees.filter(x=>x.status==='Active').length;dInventory.textContent=money(A.inventory.reduce((s,x)=>s+(+x.quantity||0)*(+x.unit_cost||0),0));dApprovals.textContent=A.estimates.filter(x=>['Open','Draft'].includes(x.status)).length
 renderV19Properties();renderCustomerHub();if(selectedCustomerHubId)renderCustomerHubHistory();
-estimateList.innerHTML=table(A.estimates,[['id','ID'],['customer_id','Customer',cname],['title','Title'],['total','Total',money],['status','Status'],['id','Actions',v=>`<div class="actions"><button onclick="editEstimateEngine(${v})">Edit</button><button onclick="emailEstimate(${v})">Email</button><button class="danger" onclick="deleteEstimateEngine(${v})">Delete</button></div>`]]);pricingCatalogList.innerHTML=table(A.pricing,[['category','Category'],['name','Service'],['unit','Unit'],['default_price','Price',money],['id','Actions',v=>`<button class="danger" onclick="deletePriceCatalog(${v})">Delete</button>`]]);renderDraftLines()
-invoiceList.innerHTML=table(A.invoices,[['id','ID'],['customer_id','Customer',cname],['title','Title'],['total','Total',money],['paid','Paid',money],['balance','Balance',money],['id','Email',v=>`<button onclick="emailInvoice(${v})">Email</button>`]])
-appointmentList.innerHTML=table(A.appointments,[['appointment_date','Date'],['appointment_time','Time'],['customer_id','Customer',cname],['title','Title'],['status','Status']])
+estimateList.innerHTML=table(A.estimates,[['id','ID'],['customer_id','Customer',cname],['title','Title'],['total','Total',money],['status','Status'],['id','Actions',v=>`<div class="actions"><button onclick="editEstimateEngine(${v})">Edit</button><button onclick="convertEstimateToInvoice(${v})">Convert to Invoice</button><button onclick="emailEstimate(${v})">Email</button><button class="danger" onclick="deleteEstimateEngine(${v})">Delete</button></div>`]]);pricingCatalogList.innerHTML=table(A.pricing,[['category','Category'],['name','Service'],['unit','Unit'],['default_price','Price',money],['id','Actions',v=>`<button class="danger" onclick="deletePriceCatalog(${v})">Delete</button>`]]);renderDraftLines()
+invoiceList.innerHTML=table(A.invoices,[['id','ID'],['customer_id','Customer',cname],['title','Title'],['total','Total',money],['paid','Paid',money],['balance','Balance',money],['status','Status'],['id','Actions',v=>`<div class="actions"><button onclick="editLaunchInvoice(${v})">Edit</button><button onclick="emailInvoice(${v})">Email</button><button class="danger" onclick="deleteLaunchInvoice(${v})">Delete</button></div>`]])
+appointmentList.innerHTML=table(A.appointments,[['appointment_date','Date'],['appointment_time','Time'],['customer_id','Customer',cname],['title','Title'],['status','Status'],['id','Actions',v=>`<div class="actions"><button onclick="editLaunchAppointment(${v})">Edit</button><button class="danger" onclick="deleteLaunchAppointment(${v})">Delete</button></div>`]])
 fieldList.innerHTML=table(A.checkins,[['created_at','Time'],['customer_id','Customer',cname],['job_id','Job'],['checkin_type','Type'],['location_note','Location']])
 photoGallery.innerHTML=A.photos.map(x=>`<div class="photo"><a target="_blank" href="${x.photo_url}"><img src="${x.photo_url}"></a><b>${x.photo_type||''}</b><p>${x.caption||''}</p></div>`).join('')
 signatureList.innerHTML=table(A.signatures,[['signed_date','Date'],['customer_id','Customer',cname],['signer_name','Signer'],['document_type','Type'],['signature_url','Signature',v=>`<a class="btn" target="_blank" href="${v}">Open</a>`]])
