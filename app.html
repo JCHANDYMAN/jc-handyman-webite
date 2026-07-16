@@ -29,12 +29,19 @@ canvas{width:100%;height:180px;background:#fff;border:2px solid var(--o);border-
 <div id="runtimeNotice" style="display:none;position:fixed;left:10px;right:10px;bottom:10px;z-index:9999;background:#511;color:#fff;border:2px solid #e86b00;border-radius:10px;padding:10px"></div>
 <script>
 window.addEventListener('error',function(e){
+ const n=document.getElementById('runtimeNotice');
+ if(n){n.style.display='block';n.textContent='CRM notice: '+(e.message||'An error occurred. Refresh the page.');}
+});
+</script>
+<div id="runtimeNotice" style="display:none;position:fixed;left:10px;right:10px;bottom:10px;z-index:9999;background:#511;color:#fff;border:2px solid #e86b00;border-radius:10px;padding:10px"></div>
+<script>
+window.addEventListener('error',function(e){
   const n=document.getElementById('runtimeNotice');
   if(n){n.style.display='block';n.textContent='CRM notice: '+(e.message||'An error occurred. Refresh the page.');}
 });
 </script>
-<header><h1>JC Handyman Cloud CRM V23.2.1 Production — Customer Restore</h1>
-<p>Customers • Properties • Scheduling • Inspections • Stability</p>
+<header><h1>JC Handyman Cloud CRM V23.3 Production — Core Stability Repair</h1>
+<p>Customers • Properties • Calendar • Inspections • Reliable Loading</p>
 <nav>
 <button onclick="go('dashboard')">Dashboard</button><button onclick="go('production')">Production</button><button onclick="go('customers')">Customers</button><button onclick="go('smartassistant')">Smart Assistant</button><button onclick="go('estimateintelligence')">Estimate Intelligence</button><button onclick="go('properties')">Properties</button><button onclick="go('propertydashboard')">Property Dashboard</button><button onclick="go('propertyintelligence')">Property Intelligence</button><button onclick="go('inspections')">Inspections</button><button onclick="go('propertyreports')">Property Reports</button>
 <button onclick="go('estimates')">Estimates</button><button onclick="go('invoices')">Invoices</button>
@@ -244,7 +251,7 @@ window.addEventListener('error',function(e){
 </section>
 
 <section id="customers">
-<h2>Customer Management Center</h2>
+<h2>Customer Management Center</h2><div id="customerCloudDiagnostic" class="small"></div>
 
 <div class="dashboard-columns">
 <div class="card customer-card">
@@ -289,7 +296,7 @@ window.addEventListener('error',function(e){
 </div>
 
 <div class="card">
-<h3>Find a Customer</h3>
+<h3>Find a Customer</h3><button onclick="refreshWorkflowData()">Reload Customers from Cloud</button>
 <input id="custSearch" placeholder="Search account number, name, phone, email, or address" oninput="renderCustomerHub()">
 <div id="custSearchCount" class="small"></div>
 <div class="customer-summary-grid">
@@ -1187,15 +1194,31 @@ async function ins(t,row){let r=await db.from(t).insert([row]);if(r.error)throw 
 async function upd(t,id,row){let r=await db.from(t).update(row).eq('id',id);if(r.error)throw r.error}
 async function del(t,id){let r=await db.from(t).delete().eq('id',id);if(r.error)throw r.error}
 async function upload(file,prefix){let path=prefix+'/'+Date.now()+'_'+file.name.replace(/[^a-z0-9_.-]/gi,'_'),r=await db.storage.from('job-files').upload(path,file);if(r.error)throw r.error;return db.storage.from('job-files').getPublicUrl(path).data.publicUrl}
-function fill(){let co='<option value="">Select customer</option>'+A.customers.map(x=>`<option value="${x.id}">${x.account_number||x.id} — ${x.name}</option>`).join(''),po='<option value="">Select property</option>'+A.properties.map(x=>`<option value="${x.id}">${x.id} — ${x.property_name||x.address}</option>`).join('')
-;['fCustomer','phCustomer','sigCustomer','exCustomer','fileCustomer','rvCustomer','rmCustomer','estCustomer','propCustomer','inspCustomer','rentCustomer','eqCustomer','portalCustomer','assignCustomer','ntCustomer','foCustomer','shopCustomer','coCustomer','recCustomer','dvCustomer','aiCustomer','eiCustomer','msgCustomer','moCustomer','invCustomer','apptCustomer','schedCustomer','prodInspectionCustomer'].forEach(id=>document.getElementById(id).innerHTML=co)
-;['fProperty','phProperty','sigProperty','exProperty','fileProperty','estProperty','inspProperty','rentProperty','eqProperty','reportProperty','assignProperty','piProperty','foProperty','shopProperty','coProperty','recProperty','mapProperty','dvProperty','aiProperty','eiProperty','moProperty','invProperty','apptProperty','schedProperty','prodInspectionProperty'].forEach(id=>document.getElementById(id).innerHTML=po)
-pdSelect.innerHTML='<option value="">Select property</option>'+A.properties.map(x=>`<option value="${x.id}">${x.id} — ${x.property_name||x.address||'Property'} — ${cname(x.customer_id)}</option>`).join('');
-dispEmployee.innerHTML='<option value="">Select employee</option>'+A.employees.map(x=>`<option value="${x.id}">${x.name} — ${x.role||''}</option>`).join('');assignEmployee.innerHTML='<option value="">Select employee</option>'+A.employees.map(x=>`<option value="${x.id}">${x.name} — ${x.role||''}</option>`).join('');
-dispAppointment.innerHTML='<option value="">Select appointment</option>'+A.appointments.map(x=>`<option value="${x.id}">${x.appointment_date||''} — ${x.title||'Appointment'} — ${cname(x.customer_id)}</option>`).join('');stockItem.innerHTML='<option value="">Select inventory item</option>'+A.inventory.map(x=>`<option value="${x.id}">${x.name} — Qty ${x.quantity||0}</option>`).join('');
-pricePicker.innerHTML='<option value="">Choose catalog item</option>'+A.pricing.map(x=>`<option value="${x.id}">${x.category||'Service'} — ${x.name} — ${money(x.default_price)}</option>`).join('');
-invEstimate.innerHTML='<option value="">Optional: select estimate</option>'+A.estimates.map(x=>`<option value="${x.id}">${x.id} — ${cname(x.customer_id)} — ${x.title} — ${money(x.total)}</option>`).join('');
- rmAppointment.innerHTML='<option value="">Select appointment</option>'+A.appointments.map(x=>`<option value="${x.id}">${x.appointment_date||''} — ${x.title||'Appointment'}</option>`).join('')}
+function fill(){
+  let co='<option value="">Select customer</option>'+A.customers.map(x=>`<option value="${x.id}">${x.account_number||x.id} — ${x.name}</option>`).join('');
+  let po='<option value="">Select property</option>'+A.properties.map(x=>`<option value="${x.id}">${x.id} — ${x.property_name||x.address||'Property'}</option>`).join('');
+  const setOptions=(ids,markup)=>ids.forEach(id=>{let el=document.getElementById(id);if(el)el.innerHTML=markup});
+
+  setOptions(['fCustomer','phCustomer','sigCustomer','exCustomer','fileCustomer','rvCustomer','rmCustomer','estCustomer','propCustomer','rentCustomer','eqCustomer','portalCustomer','assignCustomer','ntCustomer','foCustomer','shopCustomer','coCustomer','recCustomer','dvCustomer','aiCustomer','eiCustomer','msgCustomer','moCustomer','invCustomer','schedCustomer','prodInspectionCustomer'],co);
+  setOptions(['fProperty','phProperty','sigProperty','exProperty','fileProperty','estProperty','rentProperty','eqProperty','reportProperty','assignProperty','piProperty','foProperty','shopProperty','coProperty','recProperty','mapProperty','dvProperty','aiProperty','eiProperty','moProperty','invProperty','schedProperty','prodInspectionProperty'],po);
+
+  let el=document.getElementById('pdSelect');
+  if(el)el.innerHTML='<option value="">Select property</option>'+A.properties.map(x=>`<option value="${x.id}">${x.id} — ${x.property_name||x.address||'Property'} — ${cname(x.customer_id)}</option>`).join('');
+  el=document.getElementById('dispEmployee');
+  if(el)el.innerHTML='<option value="">Select employee</option>'+A.employees.map(x=>`<option value="${x.id}">${x.name} — ${x.role||''}</option>`).join('');
+  el=document.getElementById('assignEmployee');
+  if(el)el.innerHTML='<option value="">Select employee</option>'+A.employees.map(x=>`<option value="${x.id}">${x.name} — ${x.role||''}</option>`).join('');
+  el=document.getElementById('dispAppointment');
+  if(el)el.innerHTML='<option value="">Select appointment</option>'+A.appointments.map(x=>`<option value="${x.id}">${x.appointment_date||''} — ${x.title||'Appointment'} — ${cname(x.customer_id)}</option>`).join('');
+  el=document.getElementById('stockItem');
+  if(el)el.innerHTML='<option value="">Select inventory item</option>'+A.inventory.map(x=>`<option value="${x.id}">${x.name} — Qty ${x.quantity||0}</option>`).join('');
+  el=document.getElementById('pricePicker');
+  if(el)el.innerHTML='<option value="">Choose catalog item</option>'+A.pricing.map(x=>`<option value="${x.id}">${x.category||'Service'} — ${x.name} — ${money(x.default_price)}</option>`).join('');
+  el=document.getElementById('invEstimate');
+  if(el)el.innerHTML='<option value="">Optional: select estimate</option>'+A.estimates.map(x=>`<option value="${x.id}">${x.id} — ${cname(x.customer_id)} — ${x.title} — ${money(x.total)}</option>`).join('');
+  el=document.getElementById('rmAppointment');
+  if(el)el.innerHTML='<option value="">Select appointment</option>'+A.appointments.map(x=>`<option value="${x.id}">${x.appointment_date||''} — ${x.title||'Appointment'}</option>`).join('');
+}
 
 window.usePriceItem=()=>{let x=A.pricing.find(r=>+r.id===+pricePicker.value);if(!x)return;lineName.value=x.name||'';lineDescription.value=x.description||'';lineUnit.value=x.unit||'each';linePrice.value=x.default_price||0;lineType.value=x.item_type||'Service'}
 window.addEstimateLine=()=>{let q=+lineQty.value||1,pv=+linePrice.value||0;if(!lineName.value.trim())return alert('Enter a service or material name.');draftLines.push({name:lineName.value.trim(),description:lineDescription.value,quantity:q,unit:lineUnit.value||'each',unit_price:pv,item_type:lineType.value,line_total:q*pv});lineName.value='';lineDescription.value='';lineQty.value=1;lineUnit.value='';linePrice.value='';renderDraftLines()}
@@ -1869,6 +1892,7 @@ window.refreshWorkflowData=async()=>{
   await loadAll();
 };
 
+window.refreshWorkflowData=async()=>{let n=document.getElementById('runtimeNotice');if(n)n.style.display='none';await loadAll()}
 window.gps=()=>navigator.geolocation.getCurrentPosition(x=>{fLat.value=x.coords.latitude;fLng.value=x.coords.longitude;fMsg.textContent='GPS added.'},e=>fMsg.textContent=e.message)
 window.directionsFromProperty=()=>{let q=encodeURIComponent(p(fProperty.value).address||fLocation.value);if(q)window.open('https://www.google.com/maps/dir/?api=1&destination='+q,'_blank')}
 window.saveField=async()=>{try{await ins('phase3_checkins',{customer_id:+fCustomer.value||null,property_id:+fProperty.value||null,job_id:+fJob.value||null,checkin_type:fType.value,latitude:+fLat.value||null,longitude:+fLng.value||null,location_note:fLocation.value,notes:fNotes.value});fMsg.textContent='Saved.';loadAll()}catch(e){fMsg.textContent=e.message}}
@@ -1909,7 +1933,10 @@ function renderBusinessDashboard(){let now=new Date(),todayStr=now.toISOString()
 
 window.loadAll=async()=>{appStatus.textContent='Loading...';let mp={customers:'customers',properties:'properties',phase3_estimates:'estimates',phase6_estimate_items:'estimateItems',phase6_pricing_catalog:'pricing',phase3_invoices:'invoices',phase3_payments:'payments',phase3_appointments:'appointments',phase3_checkins:'checkins',phase4_photos:'photos',phase4_signatures:'signatures',phase4_expenses:'expenses',phase4_attachments:'attachments',phase4_customer_reviews:'reviews',phase4_reminders:'reminders',v19_property_details:'propertyDetails',v19_maintenance_timeline:'maintenance',v19_1_inspections:'inspections',v19_1_rental_income:'rentalIncome',v19_1_equipment_records:'equipment',v20_service_requests:'serviceRequests',v20_estimate_approvals:'estimateApprovals',v20_portal_uploads:'portalUploads',v20_employees:'employees',v20_assignments:'assignments',v20_inventory:'inventory',v20_stock_activity:'stockActivity',v20_notifications:'notifications',v20_2_maintenance_schedules:'maintenanceSchedules',v20_2_health_checks:'healthChecks',v20_2_before_after:'beforeAfter',v20_3_route_logs:'routeLogs',v20_3_shopping_items:'shoppingItems',v20_3_job_closeouts:'closeouts',v20_4_document_vault:'vaultDocuments',v20_4_dispatch_assignments:'dispatchAssignments',v21_assistant_drafts:'assistantDrafts',v21_2_estimate_intelligence:'estimateIntelligence',v22_mobile_activity:'mobileActivity'}
 for(let t in mp){let r=await db.from(t).select('*').order('id',{ascending:false});A[mp[t]]=r.error?[]:r.data;if(r.error)console.warn(t,r.error)}
-appStatus.textContent='Connected to Supabase.';appStatus.className='small good';fill()
+appStatus.textContent='Connected to Supabase.';appStatus.className='small good';
+let diag=document.getElementById('customerCloudDiagnostic');
+if(diag)diag.textContent=`Cloud records loaded: ${A.customers.length} customer(s), ${A.properties.length} property record(s).`;
+fill()
 let collected=A.payments.reduce((s,x)=>s+(+x.amount||0),0),expenses=A.expenses.reduce((s,x)=>s+(+x.amount||0),0),rating=A.reviews.length?A.reviews.reduce((s,x)=>s+(+x.rating||0),0)/A.reviews.length:0
 dCustomers.textContent=A.customers.length;dEstimates.textContent=A.estimates.filter(x=>x.status==='Open').length;dOutstanding.textContent=money(A.invoices.reduce((s,x)=>s+(+x.balance||0),0));dCollected.textContent=money(collected);dExpenses.textContent=money(expenses);dProfit.textContent=money(collected-expenses);dReminders.textContent=A.reminders.filter(x=>x.status==='Pending').length;dRating.textContent=rating.toFixed(1);dRequests.textContent=A.serviceRequests.filter(x=>!['Completed','Cancelled'].includes(x.status)).length;dEmployees.textContent=A.employees.filter(x=>x.status==='Active').length;dInventory.textContent=money(A.inventory.reduce((s,x)=>s+(+x.quantity||0)*(+x.unit_cost||0),0));dApprovals.textContent=A.estimates.filter(x=>['Open','Draft'].includes(x.status)).length
 try{renderV19Properties()}catch(e){console.warn('Property list render',e)};try{renderCustomerHub()}catch(e){console.warn('Customer hub render',e)};if(selectedCustomerHubId){try{renderCustomerHubHistory()}catch(e){console.warn('Customer history render',e)}};
