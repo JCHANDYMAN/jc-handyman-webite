@@ -13,7 +13,7 @@ button,.btn{background:#151515;color:#fff;border:1px solid var(--o);border-radiu
 section{display:none;max-width:1480px;margin:auto;padding:16px 9px}.active{display:block}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
 .card{background:var(--c);border:1px solid var(--o);border-radius:13px;padding:14px;margin:9px 0}
-.stat{font-size:28px;font-weight:900;color:var(--o2)}.module-title{display:flex;justify-content:space-between;align-items:center;gap:8px}.kpi-note{font-size:12px;color:#bbb}.portal-shell{display:grid;grid-template-columns:280px 1fr;gap:12px}.portal-menu button{width:100%;text-align:left;margin:4px 0}.highlight{border-color:var(--blue)!important}.status-pill{display:inline-block;padding:3px 8px;border-radius:20px;border:1px solid var(--o);font-size:12px}.report-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}@media(max-width:850px){.portal-shell{grid-template-columns:1fr}}
+.stat{font-size:28px;font-weight:900;color:var(--o2)}.module-title{display:flex;justify-content:space-between;align-items:center;gap:8px}.kpi-note{font-size:12px;color:#bbb}.portal-shell{display:grid;grid-template-columns:280px 1fr;gap:12px}.portal-menu button{width:100%;text-align:left;margin:4px 0}.highlight{border-color:var(--blue)!important}.status-pill{display:inline-block;padding:3px 8px;border-radius:20px;border:1px solid var(--o);font-size:12px}.report-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}.quick-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}.quick-action{min-height:82px;font-size:16px}.dashboard-columns{display:grid;grid-template-columns:1fr 1fr;gap:12px}.chart-wrap{background:#fff;border-radius:10px;padding:10px;overflow:auto}.chart-wrap canvas{background:#fff;border:0;height:260px}@media(max-width:900px){.dashboard-columns{grid-template-columns:1fr}}@media(max-width:850px){.portal-shell{grid-template-columns:1fr}}
 input,select,textarea{width:100%;padding:10px;margin:5px 0;border-radius:7px;border:1px solid #777;background:#fff;color:#000}
 table{width:100%;border-collapse:collapse;background:#111;margin-top:8px}th,td{border:1px solid var(--o);padding:7px;text-align:left;font-size:13px;vertical-align:top}th{color:var(--o2)}
 .actions{display:flex;gap:5px;flex-wrap:wrap}.small{font-size:13px;color:#ccc}
@@ -26,8 +26,8 @@ canvas{width:100%;height:180px;background:#fff;border:2px solid var(--o);border-
 @media(max-width:800px){.property-header{grid-template-columns:1fr}}
 @media(max-width:700px){header{position:relative}h1{font-size:20px}section{padding:10px 6px}nav button,.btn{font-size:12px;padding:8px}.desktop-heavy{overflow-x:auto}}
 </style></head><body>
-<header><h1>JC Handyman Cloud CRM V20 Enterprise — Business Platform</h1>
-<p>CRM • Portals • Employees • Inventory • Reports • Field Service</p>
+<header><h1>JC Handyman Cloud CRM V20.1 Enterprise — Executive Dashboard</h1>
+<p>Executive Dashboard • Today’s Work • Charts • Quick Actions</p>
 <nav>
 <button onclick="go('dashboard')">Dashboard</button><button onclick="go('customers')">Customers</button><button onclick="go('properties')">Properties</button><button onclick="go('propertydashboard')">Property Dashboard</button><button onclick="go('inspections')">Inspections</button><button onclick="go('propertyreports')">Property Reports</button>
 <button onclick="go('estimates')">Estimates</button><button onclick="go('invoices')">Invoices</button>
@@ -44,7 +44,33 @@ canvas{width:100%;height:180px;background:#fff;border:2px solid var(--o);border-
 <a class="btn" href="index.html">Website</a>
 </nav></header>
 
-<section id="dashboard" class="active"><h2>V20 Executive Dashboard</h2><p id="appStatus" class="small">Connecting...</p><button class="primary" onclick="loadAll()">Refresh</button>
+<section id="dashboard" class="active"><h2>V20.1 Executive Command Center</h2><p id="appStatus" class="small">Connecting...</p><button class="primary" onclick="loadAll()">Refresh</button>
+<div class="card">
+<h3>Quick Create</h3>
+<div class="quick-grid">
+<button class="quick-action primary" onclick="go('customers')">+ Customer</button>
+<button class="quick-action primary" onclick="go('properties')">+ Property</button>
+<button class="quick-action primary" onclick="go('estimates')">+ Estimate</button>
+<button class="quick-action primary" onclick="go('calendar')">+ Appointment</button>
+<button class="quick-action primary" onclick="go('inspections')">+ Inspection</button>
+<button class="quick-action primary" onclick="go('expenses')">+ Expense</button>
+<button class="quick-action primary" onclick="go('clientportal')">+ Service Request</button>
+<button class="quick-action primary" onclick="go('inventory')">+ Inventory</button>
+</div>
+</div>
+<div class="dashboard-columns">
+<div class="card"><h3>Today’s Schedule</h3><div id="todaySchedule"></div></div>
+<div class="card"><h3>Today’s Reminders</h3><div id="todayReminders"></div></div>
+</div>
+<div class="dashboard-columns">
+<div class="card"><h3>Revenue vs Expenses — Last 6 Months</h3><div class="chart-wrap"><canvas id="financeChart" width="900" height="260"></canvas></div></div>
+<div class="card"><h3>Jobs & Activity — Last 6 Months</h3><div class="chart-wrap"><canvas id="jobsChart" width="900" height="260"></canvas></div></div>
+</div>
+<div class="dashboard-columns">
+<div class="card"><h3>Overdue & Attention Needed</h3><div id="attentionList"></div></div>
+<div class="card"><h3>Low Stock & Maintenance Due</h3><div id="operationsAlerts"></div></div>
+</div>
+
 <div class="grid">
 <div class="card"><h3>Customers</h3><div id="dCustomers" class="stat">0</div></div>
 <div class="card"><h3>Open Estimates</h3><div id="dEstimates" class="stat">0</div></div>
@@ -58,6 +84,10 @@ canvas{width:100%;height:180px;background:#fff;border:2px solid var(--o);border-
 <div class="card"><h3>Active Employees</h3><div id="dEmployees" class="stat">0</div></div>
 <div class="card"><h3>Inventory Value</h3><div id="dInventory" class="stat">$0</div></div>
 <div class="card"><h3>Pending Approvals</h3><div id="dApprovals" class="stat">0</div></div>
+<div class="card"><h3>Collected Today</h3><div id="dCollectedToday" class="stat">$0</div></div>
+<div class="card"><h3>Completed Today</h3><div id="dCompletedToday" class="stat">0</div></div>
+<div class="card"><h3>Jobs This Week</h3><div id="dWeekJobs" class="stat">0</div></div>
+<div class="card"><h3>Overdue Invoices</h3><div id="dOverdue" class="stat">0</div></div>
 </div></section>
 
 <section id="customers"><h2>Customers & Directions</h2><div id="customerList" class="desktop-heavy"></div></section>
@@ -498,6 +528,23 @@ window.saveReminder=async()=>{try{await ins('phase4_reminders',{customer_id:+rmC
 window.emailEstimate=id=>{let x=A.estimates.find(r=>+r.id===+id),cc=c(x.customer_id),sub=encodeURIComponent('Estimate from JC Handyman'),body=encodeURIComponent(`Hello ${cc.name||''},\n\nEstimate: ${x.title||''}\nTotal: ${money(x.total)}\n\n${x.scope||''}\n\nJC Handyman & Property Maintenance\n704-675-2014`);location.href=`mailto:${cc.email||''}?subject=${sub}&body=${body}`}
 window.emailInvoice=id=>{let x=A.invoices.find(r=>+r.id===+id),cc=c(x.customer_id),sub=encodeURIComponent('Invoice from JC Handyman'),body=encodeURIComponent(`Hello ${cc.name||''},\n\nInvoice: ${x.title||''}\nTotal: ${money(x.total)}\nPaid: ${money(x.paid)}\nBalance: ${money(x.balance)}\n\nJC Handyman & Property Maintenance\n704-675-2014`);location.href=`mailto:${cc.email||''}?subject=${sub}&body=${body}`}
 window.renderSearch=()=>{let q=globalQ.value.toLowerCase(),match=a=>a.filter(x=>JSON.stringify(x).toLowerCase().includes(q));searchResults.innerHTML='<h3>Customers</h3>'+table(match(A.customers),[['id','ID'],['name','Name'],['phone','Phone'],['address','Address']])+'<h3>Properties</h3>'+table(match(A.properties),[['id','ID'],['property_name','Property'],['address','Address']])+'<h3>Invoices</h3>'+table(match(A.invoices),[['id','ID'],['title','Title'],['balance','Balance',money]])}
+
+function monthKey(d){let x=new Date(d);return Number.isNaN(x.getTime())?'':`${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}`}
+function lastMonths(n=6){let out=[],d=new Date();d.setDate(1);for(let i=n-1;i>=0;i--){let x=new Date(d.getFullYear(),d.getMonth()-i,1);out.push({key:`${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}`,label:x.toLocaleString('en-US',{month:'short'})})}return out}
+function drawBarChart(canvasId,labels,series){let cv=document.getElementById(canvasId);if(!cv)return;let ctx=cv.getContext('2d'),w=cv.width,h=cv.height,pad=42;ctx.clearRect(0,0,w,h);ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);let max=Math.max(1,...series.flatMap(s=>s.values));ctx.strokeStyle='#333';ctx.beginPath();ctx.moveTo(pad,10);ctx.lineTo(pad,h-pad);ctx.lineTo(w-10,h-pad);ctx.stroke();let group=(w-pad-20)/labels.length,bar=Math.max(8,(group-12)/series.length);ctx.font='13px Arial';ctx.fillStyle='#111';labels.forEach((lab,i)=>ctx.fillText(lab,pad+i*group+group/2-10,h-16));series.forEach((s,si)=>{ctx.fillStyle=s.color;labels.forEach((_,i)=>{let v=s.values[i]||0,bh=(v/max)*(h-pad-25),x=pad+i*group+6+si*bar,y=h-pad-bh;ctx.fillRect(x,y,bar-3,bh)});ctx.fillRect(w-170,15+si*20,12,12);ctx.fillStyle='#111';ctx.fillText(s.name,w-150,26+si*20)})}
+function renderExecutiveDashboard(){
+ let today=new Date().toISOString().slice(0,10),now=new Date(),weekEnd=new Date(now);weekEnd.setDate(now.getDate()+7);let weekEndStr=weekEnd.toISOString().slice(0,10);
+ let todayAppts=A.appointments.filter(x=>x.appointment_date===today),todayRem=A.reminders.filter(x=>x.reminder_date===today||String(x.due_at||'').slice(0,10)===today),todayPay=A.payments.filter(x=>(x.payment_date||String(x.created_at||'').slice(0,10))===today),todayDone=A.assignments.filter(x=>x.status==='Completed'&&(x.assignment_date||String(x.created_at||'').slice(0,10))===today),weekJobs=A.appointments.filter(x=>x.appointment_date>=today&&x.appointment_date<=weekEndStr),overdue=A.invoices.filter(x=>+x.balance>0&&x.due_date&&x.due_date<today),lowStock=A.inventory.filter(x=>(+x.quantity||0)<=(+x.minimum_quantity||0)),maintDue=A.maintenance.filter(x=>x.status!=='Completed'&&x.recommended_date&&x.recommended_date<=today);
+ dCollectedToday.textContent=money(todayPay.reduce((s,x)=>s+(+x.amount||0),0));dCompletedToday.textContent=todayDone.length;dWeekJobs.textContent=weekJobs.length;dOverdue.textContent=overdue.length;
+ todaySchedule.innerHTML=table(todayAppts,[['appointment_time','Time'],['customer_id','Customer',cname],['title','Job'],['status','Status']]);
+ todayReminders.innerHTML=table(todayRem,[['reminder_time','Time'],['customer_id','Customer',cname],['reminder_type','Type'],['message','Message'],['status','Status']]);
+ attentionList.innerHTML=`<h4>Overdue Invoices</h4>${table(overdue,[['id','Invoice'],['customer_id','Customer',cname],['balance','Balance',money],['due_date','Due']])}<h4>Open Service Requests</h4>${table(A.serviceRequests.filter(x=>!['Completed','Cancelled'].includes(x.status)),[['priority','Priority'],['customer_id','Customer',cname],['title','Request'],['status','Status']])}`;
+ operationsAlerts.innerHTML=`<h4>Low Stock</h4>${table(lowStock,[['name','Item'],['quantity','Qty'],['minimum_quantity','Minimum'],['location','Location']])}<h4>Maintenance Due</h4>${table(maintDue,[['recommended_date','Due'],['property_id','Property',pname],['title','Maintenance'],['status','Status']])}`;
+ let months=lastMonths(6),revenue=months.map(m=>A.payments.filter(x=>monthKey(x.payment_date||x.created_at)===m.key).reduce((s,x)=>s+(+x.amount||0),0)),expenses=months.map(m=>A.expenses.filter(x=>monthKey(x.expense_date||x.created_at)===m.key).reduce((s,x)=>s+(+x.amount||0),0)),jobs=months.map(m=>A.assignments.filter(x=>monthKey(x.assignment_date||x.created_at)===m.key).length),requests=months.map(m=>A.serviceRequests.filter(x=>monthKey(x.created_at)===m.key).length);
+ drawBarChart('financeChart',months.map(x=>x.label),[{name:'Revenue',values:revenue,color:'#e86b00'},{name:'Expenses',values:expenses,color:'#444'}]);
+ drawBarChart('jobsChart',months.map(x=>x.label),[{name:'Jobs',values:jobs,color:'#e86b00'},{name:'Requests',values:requests,color:'#777'}]);
+}
+
 window.loadAll=async()=>{appStatus.textContent='Loading...';let mp={customers:'customers',properties:'properties',phase3_estimates:'estimates',phase6_estimate_items:'estimateItems',phase6_pricing_catalog:'pricing',phase3_invoices:'invoices',phase3_payments:'payments',phase3_appointments:'appointments',phase3_checkins:'checkins',phase4_photos:'photos',phase4_signatures:'signatures',phase4_expenses:'expenses',phase4_attachments:'attachments',phase4_customer_reviews:'reviews',phase4_reminders:'reminders',v19_property_details:'propertyDetails',v19_maintenance_timeline:'maintenance',v19_1_inspections:'inspections',v19_1_rental_income:'rentalIncome',v19_1_equipment_records:'equipment',v20_service_requests:'serviceRequests',v20_estimate_approvals:'estimateApprovals',v20_portal_uploads:'portalUploads',v20_employees:'employees',v20_assignments:'assignments',v20_inventory:'inventory',v20_stock_activity:'stockActivity',v20_notifications:'notifications'}
 for(let t in mp){let r=await db.from(t).select('*').order('id',{ascending:false});A[mp[t]]=r.error?[]:r.data;if(r.error)console.warn(t,r.error)}
 appStatus.textContent='Connected to Supabase.';appStatus.className='small good';fill()
@@ -518,6 +565,7 @@ assignmentList.innerHTML=table(A.assignments,[['assignment_date','Date'],['emplo
 inventoryList.innerHTML=table(A.inventory,[['name','Item'],['category','Category'],['quantity','Qty'],['minimum_quantity','Minimum'],['unit_cost','Unit Cost',money],['location','Location'],['status','Status'],['id','Actions',v=>`<div class="actions"><button onclick="editInventory(${v})">Edit</button><button class="danger" onclick="deleteInventory(${v})">Delete</button></div>`]]);
 stockActivityList.innerHTML=table(A.stockActivity,[['created_at','Date'],['inventory_id','Item',v=>(A.inventory.find(x=>+x.id===+v)||{}).name||v],['quantity_change','Change'],['new_quantity','New Qty'],['reason','Reason']]);
 notificationList.innerHTML=table(A.notifications,[['due_at','Due'],['customer_id','Customer',cname],['notification_type','Type'],['subject','Subject'],['status','Status']]);
+renderExecutiveDashboard();
 inspectionList.innerHTML=table(A.inspections,[['inspection_date','Date'],['customer_id','Customer',cname],['property_id','Property',pname],['inspection_type','Type'],['status','Status'],['id','Actions',v=>`<div class="actions"><button onclick="editInspection(${v})">Edit</button><button class="danger" onclick="deleteInspection(${v})">Delete</button></div>`]]);
 reminderList.innerHTML=table(A.reminders,[['reminder_date','Date'],['reminder_time','Time'],['customer_id','Customer',cname],['reminder_type','Type'],['message','Message'],['status','Status']])
 }
