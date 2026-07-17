@@ -1,3 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JC Handyman Dashboard</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
 <header>
     <h1>🏠 JC Handyman & Property Management</h1>
     <p>No Job Too Small</p>
@@ -7,39 +18,42 @@
 
     <div class="card">
         <h2>Customers</h2>
-        <h1>0</h1>
+        <p>0</p>
     </div>
 
     <div class="card">
-        <h2>Active Jobs</h2>
-        <h1>0</h1>
+        <h2>Jobs</h2>
+        <p>0</p>
     </div>
 
     <div class="card">
         <h2>Estimates</h2>
-        <h1>0</h1>
+        <p>0</p>
     </div>
 
     <div class="card">
         <h2>Invoices</h2>
-        <h1>$0.00</h1>
+        <p>$0.00</p>
     </div>
 
 </div>
 
-<div style="padding:20px;">
+<div class="card" style="margin:20px;">
+    <h2>📅 Today's Schedule</h2>
+    <p>No jobs scheduled.</p>
 
-<h2>📅 Today's Schedule</h2>
+    <hr>
 
-<p>No jobs scheduled.</p>
+    <button>➕ New Customer</button>
+    <button>📝 New Estimate</button>
+    <button>🔨 New Job</button>
+    <button>💵 New Invoice</button>
+</div>
 
-<br>
+<script src="js/dashboard.js"></script>
 
-<button>➕ New Customer</button>
-
-<button>📝 New Estimate</button>
-
-<button>🔨 New Job</button>
+</body>
+</html>
 
 <button>💵 New Invoice</button>
 
