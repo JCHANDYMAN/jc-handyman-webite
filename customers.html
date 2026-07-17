@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Customers | JC Handyman</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="customers">
+<div class="app-shell">
+
+<aside class="sidebar" id="sidebar">
+  <div class="brand-block">
+    <img class="brand-logo" src="jc-handyman-logo.png" alt="JC Handyman & Property Management logo"
+         onerror="this.style.display='none';document.querySelector('.brand-fallback').style.display='grid'">
+    <div class="brand-fallback">JC</div>
+  </div>
+  <nav class="nav">
+    <a href="dashboard.html" data-page="dashboard">🏠 <span>Dashboard</span></a>
+    <a href="customers.html" data-page="customers">👥 <span>Customers</span></a>
+    <a href="properties.html" data-page="properties">🏡 <span>Properties</span></a>
+    <a href="jobs.html" data-page="jobs">🔨 <span>Jobs</span></a>
+    <a href="estimates.html" data-page="estimates">📝 <span>Estimates</span></a>
+    <a href="invoices.html" data-page="invoices">💵 <span>Invoices</span></a>
+    <a href="calendar.html" data-page="calendar">📅 <span>Calendar</span></a>
+    <a href="settings.html" data-page="settings">⚙️ <span>Settings</span></a>
+  </nav>
+  <div class="sidebar-footer">
+    <strong>No Job Too Small</strong>
+    <span>704-675-2014</span>
+  </div>
+</aside>
+
+<main class="main-content">
+
+<header class="topbar">
+  <button class="menu-button" id="menuButton" aria-label="Open menu">☰</button>
+  <div>
+    <h2>JC Handyman & Property Management</h2>
+    <p>Business Management Center</p>
+  </div>
+  <div class="topbar-actions">
+    <a class="small-btn" href="customers.html#new">+ Customer</a>
+    <a class="small-btn" href="jobs.html#new">+ Job</a>
+  </div>
+</header>
+
+
+<section class="page-heading">
+  <div><p class="eyebrow">CUSTOMER CENTER</p><h1>Customers</h1><p>Customer contacts, properties, notes and history in one place.</p></div>
+  <button class="primary-btn" data-open-modal="customerModal">+ Add Customer</button>
+</section>
+
+<section class="panel">
+  <div class="toolbar">
+    <input id="customerSearch" type="search" placeholder="Search name, phone, email or address">
+    <span id="customerSummary">0 customers</span>
+  </div>
+  <div id="customerList" class="customer-grid"></div>
+</section>
+
+<div class="modal" id="customerModal" aria-hidden="true">
+  <div class="modal-card">
+    <button class="modal-close" data-close-modal>&times;</button>
+    <h2 id="customerModalTitle">Add Customer</h2>
+    <form id="customerForm" class="form-grid">
+      <input type="hidden" name="id">
+      <label>Full name<input name="name" required></label>
+      <label>Phone<input name="phone" type="tel"></label>
+      <label>Email<input name="email" type="email"></label>
+      <label>Primary address<input name="address"></label>
+      <label class="full">Notes<textarea name="notes" rows="4"></textarea></label>
+      <button class="primary-btn full" type="submit">Save Customer</button>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="propertyModal" aria-hidden="true">
+  <div class="modal-card">
+    <button class="modal-close" data-close-modal>&times;</button>
+    <h2>Add Property</h2>
+    <form id="propertyForm" class="form-grid">
+      <input type="hidden" name="customerId">
+      <label class="full">Property address<input name="address" required></label>
+      <label>Property type
+        <select name="type"><option>Home</option><option>Rental</option><option>Commercial</option><option>Vacation Home</option></select>
+      </label>
+      <label>Status
+        <select name="status"><option>Active</option><option>Inactive</option></select>
+      </label>
+      <label class="full">Property notes<textarea name="notes" rows="3"></textarea></label>
+      <button class="primary-btn full" type="submit">Save Property</button>
+    </form>
+  </div>
+</div>
+
+</main>
+</div>
+<script src="js/app.js"></script>
+</body>
+</html>
