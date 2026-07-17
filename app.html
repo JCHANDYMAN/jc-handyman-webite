@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>JC Handyman Cloud CRM V24</title>
+<title>JC Handyman Cloud CRM V25</title>
 <style>
 :root{--b:#070707;--c:#171717;--c2:#222;--o:#e86b00;--o2:#ff9b35;--g:#8cff9b;--r:#ff8b8b;--blue:#73b8ff}
 *{box-sizing:border-box}body{margin:0;background:var(--b);color:#fff;font-family:Arial}
@@ -26,7 +26,7 @@ canvas{width:100%;height:180px;background:#fff;border:2px solid var(--o);border-
 @media(max-width:800px){.property-header{grid-template-columns:1fr}}
 @media(max-width:700px){header{position:relative}h1{font-size:20px}section{padding:10px 6px}nav button,.btn{font-size:12px;padding:8px}.desktop-heavy{overflow-x:auto}}
 
-/* V24 visual branding */
+/* V25 visual branding */
 body{background:#050505}
 header.brand-shell{position:relative;top:auto;padding:0;background:#000;border-bottom:2px solid var(--o);box-shadow:0 8px 30px rgba(0,0,0,.55)}
 .brand-hero{max-width:1480px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) 285px;gap:18px;align-items:center;padding:14px 18px 10px}
@@ -46,6 +46,60 @@ section{max-width:1480px}
 .card{background:linear-gradient(145deg,#181818,#0d0d0d);box-shadow:0 5px 18px rgba(0,0,0,.35)}
 @media(max-width:1000px){.brand-hero{grid-template-columns:1fr}.brand-summary{border-left:0;border-top:1px solid var(--o);padding:12px 4px;text-align:center}.brand-logo{max-height:300px}}
 @media(max-width:700px){header.brand-shell{position:relative}.brand-hero{padding:8px}.brand-logo{max-height:190px}.brand-summary h1{font-size:22px}.brand-phone{font-size:21px}.brand-shell nav{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap}.brand-shell nav button,.brand-shell nav .btn{flex:0 0 auto}}
+
+/* V25 unified website + app branding */
+header.brand-shell{position:relative!important;top:auto!important}
+.brand-hero{
+  display:block!important;
+  max-width:1600px!important;
+  padding:8px 14px 4px!important;
+}
+.brand-logo-wrap{width:100%!important}
+.brand-logo{
+  width:100%!important;
+  max-width:1500px!important;
+  max-height:none!important;
+  height:auto!important;
+  object-fit:contain!important;
+  object-position:center!important;
+  margin:0 auto!important;
+}
+.brand-summary{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  flex-wrap:wrap!important;
+  gap:10px 22px!important;
+  border:0!important;
+  border-top:1px solid #3a210c!important;
+  padding:8px 10px!important;
+  text-align:center!important;
+}
+.brand-summary h1{font-size:24px!important;margin:0!important}
+.brand-summary p{margin:0!important}
+.brand-phone{font-size:22px!important;margin:0!important}
+.brand-tagline{font-size:16px!important}
+.brand-shell nav{
+  max-width:1600px!important;
+  padding:10px 14px 13px!important;
+  gap:7px!important;
+}
+.brand-shell nav button,.brand-shell nav .btn{
+  min-height:38px;
+  font-size:13px;
+}
+@media(min-width:1200px){
+  .brand-logo{max-height:500px!important}
+}
+@media(max-width:700px){
+  .brand-hero{padding:4px!important}
+  .brand-logo{max-height:none!important}
+  .brand-summary{gap:6px 12px!important;padding:7px 4px!important}
+  .brand-summary h1{font-size:18px!important}
+  .brand-phone{font-size:18px!important}
+  .brand-tagline{display:none!important}
+}
+
 </style></head><body>
 <div id="runtimeNotice" style="display:none;position:fixed;left:10px;right:10px;bottom:10px;z-index:9999;background:#511;color:#fff;border:2px solid #e86b00;border-radius:10px;padding:10px"></div>
 <script>
@@ -65,14 +119,14 @@ window.addEventListener('error',function(e){
 <div class="brand-hero">
   <div class="brand-logo-wrap"><img class="brand-logo" src="jc-handyman-logo.png" alt="JC Handyman & Property Management"></div>
   <div class="brand-summary">
-    <h1>Cloud CRM V24</h1>
+    <h1>Cloud CRM V25</h1>
     <p>Customers • Properties • Scheduling • Inspections</p>
     <a class="brand-phone" href="tel:7046752014">704-675-2014</a>
     <p class="brand-tagline">“No Job Too Small”</p>
   </div>
 </div>
 <nav>
-<button onclick="go('dashboard')">Dashboard</button><button onclick="go('production')">Production</button><button onclick="go('customers')">Customers</button><button onclick="go('smartassistant')">Smart Assistant</button><button onclick="go('estimateintelligence')">Estimate Intelligence</button><button onclick="go('properties')">Properties</button><button onclick="go('propertydashboard')">Property Dashboard</button><button onclick="go('propertyintelligence')">Property Intelligence</button><button onclick="go('inspections')">Inspections</button><button onclick="go('propertyreports')">Property Reports</button><button onclick="go('estimates')">Estimates</button><button onclick="go('invoices')">Invoices</button><button onclick="go('calendar')">Calendar</button><button onclick="go('dispatch')">Dispatch</button><button onclick="go('documentvault')">Document Vault</button><button onclick="go('fieldmode')">Field Mode</button><button onclick="go('fieldoperations')">Field Operations</button><button onclick="go('mobileoperations')">Mobile Operations</button><button onclick="go('photos')">Photos</button><button onclick="go('signatures')">Signatures</button><button onclick="go('expenses')">Expenses</button><button onclick="go('files')">Files</button><button onclick="go('reviews')">Ratings</button><button onclick="go('reminders')">Reminders</button><button onclick="go('search')">Search</button><button onclick="go('clientportal')">Client Portal</button><button onclick="go('employees')">Employees</button><button onclick="go('inventory')">Inventory</button><button onclick="go('v20reports')">V20 Reports</button><button onclick="go('notifications')">Notifications</button><a class="btn" href="index.html">Website</a>
+<button onclick="go('dashboard')">Dashboard</button><button onclick="go('production')">Production</button><button onclick="go('customers')">Customers</button><button onclick="go('smartassistant')">Smart Assistant</button><button onclick="go('estimateintelligence')">Estimate Intelligence</button><button onclick="go('properties')">Properties</button><button onclick="go('propertydashboard')">Property Dashboard</button><button onclick="go('propertyintelligence')">Property Intelligence</button><button onclick="go('inspections')">Inspections</button><button onclick="go('propertyreports')">Property Reports</button><button onclick="go('estimates')">Estimates</button><button onclick="go('invoices')">Invoices</button><button onclick="go('calendar')">Calendar</button><button onclick="go('dispatch')">Dispatch</button><button onclick="go('documentvault')">Document Vault</button><button onclick="go('fieldmode')">Field Mode</button><button onclick="go('fieldoperations')">Field Operations</button><button onclick="go('mobileoperations')">Mobile Operations</button><button onclick="go('photos')">Photos</button><button onclick="go('signatures')">Signatures</button><button onclick="go('expenses')">Expenses</button><button onclick="go('files')">Files</button><button onclick="go('reviews')">Ratings</button><button onclick="go('reminders')">Reminders</button><button onclick="go('search')">Search</button><button onclick="go('clientportal')">Client Portal</button><button onclick="go('employees')">Employees</button><button onclick="go('inventory')">Inventory</button><button onclick="go('v20reports')">V20 Reports</button><button onclick="go('notifications')">Notifications</button><a class="btn" href="index.html">Public Website</a>
 </nav></header>
 
 
@@ -1248,7 +1302,61 @@ window.editEstimateEngine=id=>{let x=A.estimates.find(r=>+r.id===+id)||{};estId.
 window.deleteEstimateEngine=async id=>{if(!confirm('Delete this estimate and its line items?'))return;await db.from('phase6_estimate_items').delete().eq('estimate_id',id);await del('phase3_estimates',id);loadAll()}
 window.savePriceCatalog=async()=>{try{if(!pcName.value.trim())throw Error('Enter a service name.');await ins('phase6_pricing_catalog',{name:pcName.value.trim(),category:pcCategory.value,item_type:'Service',unit:pcUnit.value||'each',default_price:+pcPrice.value||0,description:pcDescription.value,active:true});pcName.value='';pcCategory.value='';pcUnit.value='';pcPrice.value='';pcDescription.value='';loadAll()}catch(e){alert(e.message)}}
 window.deletePriceCatalog=async id=>{if(confirm('Delete this pricing item?')){await del('phase6_pricing_catalog',id);loadAll()}}
-window.printEstimateEngine=()=>{if(!estTitle.value&&!estId.value)return alert('Open or create an estimate first.');let cc=c(estCustomer.value),pp=p(estProperty.value),sub=draftLines.reduce((s,x)=>s+(+x.line_total||0),0),disc=+estDiscount.value||0,tax=Math.max(0,sub-disc)*((+estTaxRate.value||0)/100),total=Math.max(0,sub-disc)+tax,w=window.open('','_blank');w.document.write(`<html><head><title>Estimate</title><style>body{font-family:Arial;padding:30px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #444;padding:8px;text-align:left}h1{color:#e86b00}.right{text-align:right}</style></head><body><h1>JC Handyman & Property Maintenance</h1><p>704-675-2014 • JerryCook811@gmail.com</p><hr><h2>Estimate: ${estTitle.value}</h2><p><b>Customer:</b> ${cc.name||''}<br>${cc.phone||''}<br>${cc.email||''}</p><p><b>Property:</b> ${pp.property_name||''}<br>${pp.address||cc.address||''}</p><p>${estScope.value.replace(/\n/g,'<br>')}</p><table><tr><th>Item</th><th>Description</th><th>Qty</th><th>Unit</th><th>Price</th><th>Total</th></tr>${draftLines.map(x=>`<tr><td>${x.name}</td><td>${x.description||''}</td><td>${x.quantity}</td><td>${x.unit}</td><td>${money(x.unit_price)}</td><td>${money(x.line_total)}</td></tr>`).join('')}<tr><td colspan="5" class="right">Subtotal</td><td>${money(sub)}</td></tr><tr><td colspan="5" class="right">Discount</td><td>${money(disc)}</td></tr><tr><td colspan="5" class="right">Tax</td><td>${money(tax)}</td></tr><tr><td colspan="5" class="right"><b>Total</b></td><td><b>${money(total)}</b></td></tr></table><p>${estNotes.value.replace(/\n/g,'<br>')}</p><p>Customer approval: _________________________ Date: __________</p><script>window.print()<\/script><div class="prod-footer">JC Handyman Cloud CRM — V24 Visual Branding<br>Jerry Cook • 704-675-2014</div></body></html>`);w.document.close()}
+window.printEstimateEngine=()=>{if(!estTitle.value&&!estId.value)return alert('Open or create an estimate first.');let cc=c(estCustomer.value),pp=p(estProperty.value),sub=draftLines.reduce((s,x)=>s+(+x.line_total||0),0),disc=+estDiscount.value||0,tax=Math.max(0,sub-disc)*((+estTaxRate.value||0)/100),total=Math.max(0,sub-disc)+tax,w=window.open('','_blank');w.document.write(`<html><head><title>Estimate</title><style>body{font-family:Arial;padding:30px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #444;padding:8px;text-align:left}h1{color:#e86b00}.right{text-align:right}
+/* V25 unified website + app branding */
+header.brand-shell{position:relative!important;top:auto!important}
+.brand-hero{
+  display:block!important;
+  max-width:1600px!important;
+  padding:8px 14px 4px!important;
+}
+.brand-logo-wrap{width:100%!important}
+.brand-logo{
+  width:100%!important;
+  max-width:1500px!important;
+  max-height:none!important;
+  height:auto!important;
+  object-fit:contain!important;
+  object-position:center!important;
+  margin:0 auto!important;
+}
+.brand-summary{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  flex-wrap:wrap!important;
+  gap:10px 22px!important;
+  border:0!important;
+  border-top:1px solid #3a210c!important;
+  padding:8px 10px!important;
+  text-align:center!important;
+}
+.brand-summary h1{font-size:24px!important;margin:0!important}
+.brand-summary p{margin:0!important}
+.brand-phone{font-size:22px!important;margin:0!important}
+.brand-tagline{font-size:16px!important}
+.brand-shell nav{
+  max-width:1600px!important;
+  padding:10px 14px 13px!important;
+  gap:7px!important;
+}
+.brand-shell nav button,.brand-shell nav .btn{
+  min-height:38px;
+  font-size:13px;
+}
+@media(min-width:1200px){
+  .brand-logo{max-height:500px!important}
+}
+@media(max-width:700px){
+  .brand-hero{padding:4px!important}
+  .brand-logo{max-height:none!important}
+  .brand-summary{gap:6px 12px!important;padding:7px 4px!important}
+  .brand-summary h1{font-size:18px!important}
+  .brand-phone{font-size:18px!important}
+  .brand-tagline{display:none!important}
+}
+
+</style></head><body><h1>JC Handyman & Property Maintenance</h1><p>704-675-2014 • JerryCook811@gmail.com</p><hr><h2>Estimate: ${estTitle.value}</h2><p><b>Customer:</b> ${cc.name||''}<br>${cc.phone||''}<br>${cc.email||''}</p><p><b>Property:</b> ${pp.property_name||''}<br>${pp.address||cc.address||''}</p><p>${estScope.value.replace(/\n/g,'<br>')}</p><table><tr><th>Item</th><th>Description</th><th>Qty</th><th>Unit</th><th>Price</th><th>Total</th></tr>${draftLines.map(x=>`<tr><td>${x.name}</td><td>${x.description||''}</td><td>${x.quantity}</td><td>${x.unit}</td><td>${money(x.unit_price)}</td><td>${money(x.line_total)}</td></tr>`).join('')}<tr><td colspan="5" class="right">Subtotal</td><td>${money(sub)}</td></tr><tr><td colspan="5" class="right">Discount</td><td>${money(disc)}</td></tr><tr><td colspan="5" class="right">Tax</td><td>${money(tax)}</td></tr><tr><td colspan="5" class="right"><b>Total</b></td><td><b>${money(total)}</b></td></tr></table><p>${estNotes.value.replace(/\n/g,'<br>')}</p><p>Customer approval: _________________________ Date: __________</p><script>window.print()<\/script><div class="prod-footer">JC Handyman Cloud CRM — V25 Visual Branding<br>Jerry Cook • 704-675-2014</div></body></html>`);w.document.close()}
 
 
 window.clearV19Property=()=>{propId.value='';propCustomer.value='';propName.value='';propAddress.value='';propCity.value='';propState.value='NC';propZip.value='';propType.value='Primary Home';propAccess.value='';propNotes.value=''}
@@ -1378,7 +1486,61 @@ window.completeJobCloseout=async()=>{try{
  if(coNextMaintenance.value.trim())await ins('v20_2_maintenance_schedules',{property_id:+coProperty.value,customer_id:+coCustomer.value,title:coNextMaintenance.value,category:'General',frequency:'One Time',next_due_date:coNextDate.value||null,status:'Scheduled',estimated_cost:0,notes:coNextNotes.value});
  coMsg.textContent='Job closeout completed.';clearCloseoutSignature();await loadAll()
  }catch(e){coMsg.textContent=e.message}}
-window.openCloseoutReceipt=id=>{let x=A.closeouts.find(r=>+r.id===+id)||{},cc=c(x.customer_id),pp=p(x.property_id),w=window.open('','_blank');w.document.write(`<html><head><title>Receipt</title><style>body{font-family:Arial;padding:30px}h1{color:#e86b00}.box{border:1px solid #333;padding:15px;margin:10px 0}</style></head><body><h1>JC Handyman & Property Maintenance</h1><p>704-675-2014 • JerryCook811@gmail.com</p><h2>Job Receipt</h2><div class="box"><b>Customer:</b> ${cc.name||''}<br><b>Property:</b> ${pp.address||''}<br><b>Date:</b> ${x.closeout_date||''}<br><b>Work:</b> ${x.work_summary||''}<br><b>Amount billed:</b> ${money(x.amount_billed)}<br><b>Amount paid:</b> ${money(x.amount_paid)}<br><b>Payment method:</b> ${x.payment_method||''}</div><p>Thank you for choosing JC Handyman & Property Maintenance.</p><script>window.print()<\/script><div class="prod-footer">JC Handyman Cloud CRM — V24 Visual Branding<br>Jerry Cook • 704-675-2014</div></body></html>`);w.document.close()}
+window.openCloseoutReceipt=id=>{let x=A.closeouts.find(r=>+r.id===+id)||{},cc=c(x.customer_id),pp=p(x.property_id),w=window.open('','_blank');w.document.write(`<html><head><title>Receipt</title><style>body{font-family:Arial;padding:30px}h1{color:#e86b00}.box{border:1px solid #333;padding:15px;margin:10px 0}
+/* V25 unified website + app branding */
+header.brand-shell{position:relative!important;top:auto!important}
+.brand-hero{
+  display:block!important;
+  max-width:1600px!important;
+  padding:8px 14px 4px!important;
+}
+.brand-logo-wrap{width:100%!important}
+.brand-logo{
+  width:100%!important;
+  max-width:1500px!important;
+  max-height:none!important;
+  height:auto!important;
+  object-fit:contain!important;
+  object-position:center!important;
+  margin:0 auto!important;
+}
+.brand-summary{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  flex-wrap:wrap!important;
+  gap:10px 22px!important;
+  border:0!important;
+  border-top:1px solid #3a210c!important;
+  padding:8px 10px!important;
+  text-align:center!important;
+}
+.brand-summary h1{font-size:24px!important;margin:0!important}
+.brand-summary p{margin:0!important}
+.brand-phone{font-size:22px!important;margin:0!important}
+.brand-tagline{font-size:16px!important}
+.brand-shell nav{
+  max-width:1600px!important;
+  padding:10px 14px 13px!important;
+  gap:7px!important;
+}
+.brand-shell nav button,.brand-shell nav .btn{
+  min-height:38px;
+  font-size:13px;
+}
+@media(min-width:1200px){
+  .brand-logo{max-height:500px!important}
+}
+@media(max-width:700px){
+  .brand-hero{padding:4px!important}
+  .brand-logo{max-height:none!important}
+  .brand-summary{gap:6px 12px!important;padding:7px 4px!important}
+  .brand-summary h1{font-size:18px!important}
+  .brand-phone{font-size:18px!important}
+  .brand-tagline{display:none!important}
+}
+
+</style></head><body><h1>JC Handyman & Property Maintenance</h1><p>704-675-2014 • JerryCook811@gmail.com</p><h2>Job Receipt</h2><div class="box"><b>Customer:</b> ${cc.name||''}<br><b>Property:</b> ${pp.address||''}<br><b>Date:</b> ${x.closeout_date||''}<br><b>Work:</b> ${x.work_summary||''}<br><b>Amount billed:</b> ${money(x.amount_billed)}<br><b>Amount paid:</b> ${money(x.amount_paid)}<br><b>Payment method:</b> ${x.payment_method||''}</div><p>Thank you for choosing JC Handyman & Property Maintenance.</p><script>window.print()<\/script><div class="prod-footer">JC Handyman Cloud CRM — V25 Visual Branding<br>Jerry Cook • 704-675-2014</div></body></html>`);w.document.close()}
 
 
 function isoDate(d){return new Date(d).toISOString().slice(0,10)}
@@ -1469,7 +1631,61 @@ window.sendIntelligenceToEstimate=()=>{
 window.printIntelligentEstimate=()=>{
  if(!currentIntelligentEstimate.summary)return alert('Calculate the estimate first.');
  let w=window.open('','_blank');
- w.document.write(`<html><head><title>${currentIntelligentEstimate.title}</title><style>body{font-family:Arial;padding:35px;white-space:pre-wrap}h1{color:#e86b00}.box{border:2px solid #e86b00;padding:20px}</style></head><body><h1>JC Handyman & Property Maintenance</h1><div class="box">${currentIntelligentEstimate.summary.replace(/\n/g,'<br>')}</div><script>window.print()<\/script><div class="prod-footer">JC Handyman Cloud CRM — V24 Visual Branding<br>Jerry Cook • 704-675-2014</div></body></html>`);
+ w.document.write(`<html><head><title>${currentIntelligentEstimate.title}</title><style>body{font-family:Arial;padding:35px;white-space:pre-wrap}h1{color:#e86b00}.box{border:2px solid #e86b00;padding:20px}
+/* V25 unified website + app branding */
+header.brand-shell{position:relative!important;top:auto!important}
+.brand-hero{
+  display:block!important;
+  max-width:1600px!important;
+  padding:8px 14px 4px!important;
+}
+.brand-logo-wrap{width:100%!important}
+.brand-logo{
+  width:100%!important;
+  max-width:1500px!important;
+  max-height:none!important;
+  height:auto!important;
+  object-fit:contain!important;
+  object-position:center!important;
+  margin:0 auto!important;
+}
+.brand-summary{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  flex-wrap:wrap!important;
+  gap:10px 22px!important;
+  border:0!important;
+  border-top:1px solid #3a210c!important;
+  padding:8px 10px!important;
+  text-align:center!important;
+}
+.brand-summary h1{font-size:24px!important;margin:0!important}
+.brand-summary p{margin:0!important}
+.brand-phone{font-size:22px!important;margin:0!important}
+.brand-tagline{font-size:16px!important}
+.brand-shell nav{
+  max-width:1600px!important;
+  padding:10px 14px 13px!important;
+  gap:7px!important;
+}
+.brand-shell nav button,.brand-shell nav .btn{
+  min-height:38px;
+  font-size:13px;
+}
+@media(min-width:1200px){
+  .brand-logo{max-height:500px!important}
+}
+@media(max-width:700px){
+  .brand-hero{padding:4px!important}
+  .brand-logo{max-height:none!important}
+  .brand-summary{gap:6px 12px!important;padding:7px 4px!important}
+  .brand-summary h1{font-size:18px!important}
+  .brand-phone{font-size:18px!important}
+  .brand-tagline{display:none!important}
+}
+
+</style></head><body><h1>JC Handyman & Property Maintenance</h1><div class="box">${currentIntelligentEstimate.summary.replace(/\n/g,'<br>')}</div><script>window.print()<\/script><div class="prod-footer">JC Handyman Cloud CRM — V25 Visual Branding<br>Jerry Cook • 704-675-2014</div></body></html>`);
  w.document.close()
 };
 window.copyIntelligentEstimate=async()=>{if(!currentIntelligentEstimate.summary)return alert('Calculate the estimate first.');await navigator.clipboard.writeText(currentIntelligentEstimate.summary);alert('Estimate summary copied.')};
@@ -1893,7 +2109,61 @@ window.deleteProductionInspection=async()=>{
 window.printProductionInspection=()=>{
   updateProductionInspectionPreview();
   let w=window.open('','_blank');
-  w.document.write(`<html><head><title>Inspection Report</title><style>body{font-family:Arial;padding:35px;white-space:pre-wrap}h1{color:#e86b00}.box{border:2px solid #e86b00;padding:20px}</style></head><body><h1>JC Handyman & Property Maintenance</h1><div class="box">${prodInspectionPreview.textContent.replace(/\n/g,'<br>')}</div><script>window.print()<\/script></body></html>`);
+  w.document.write(`<html><head><title>Inspection Report</title><style>body{font-family:Arial;padding:35px;white-space:pre-wrap}h1{color:#e86b00}.box{border:2px solid #e86b00;padding:20px}
+/* V25 unified website + app branding */
+header.brand-shell{position:relative!important;top:auto!important}
+.brand-hero{
+  display:block!important;
+  max-width:1600px!important;
+  padding:8px 14px 4px!important;
+}
+.brand-logo-wrap{width:100%!important}
+.brand-logo{
+  width:100%!important;
+  max-width:1500px!important;
+  max-height:none!important;
+  height:auto!important;
+  object-fit:contain!important;
+  object-position:center!important;
+  margin:0 auto!important;
+}
+.brand-summary{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  flex-wrap:wrap!important;
+  gap:10px 22px!important;
+  border:0!important;
+  border-top:1px solid #3a210c!important;
+  padding:8px 10px!important;
+  text-align:center!important;
+}
+.brand-summary h1{font-size:24px!important;margin:0!important}
+.brand-summary p{margin:0!important}
+.brand-phone{font-size:22px!important;margin:0!important}
+.brand-tagline{font-size:16px!important}
+.brand-shell nav{
+  max-width:1600px!important;
+  padding:10px 14px 13px!important;
+  gap:7px!important;
+}
+.brand-shell nav button,.brand-shell nav .btn{
+  min-height:38px;
+  font-size:13px;
+}
+@media(min-width:1200px){
+  .brand-logo{max-height:500px!important}
+}
+@media(max-width:700px){
+  .brand-hero{padding:4px!important}
+  .brand-logo{max-height:none!important}
+  .brand-summary{gap:6px 12px!important;padding:7px 4px!important}
+  .brand-summary h1{font-size:18px!important}
+  .brand-phone{font-size:18px!important}
+  .brand-tagline{display:none!important}
+}
+
+</style></head><body><h1>JC Handyman & Property Maintenance</h1><div class="box">${prodInspectionPreview.textContent.replace(/\n/g,'<br>')}</div><script>window.print()<\/script></body></html>`);
   w.document.close();
 };
 
@@ -1983,4 +2253,4 @@ if(document.getElementById('inspectionList')) inspectionList.innerHTML=table(A.i
 if(document.getElementById('reminderList')) reminderList.innerHTML=table(A.reminders,[['reminder_date','Date'],['reminder_time','Time'],['customer_id','Customer',cname],['reminder_type','Type'],['message','Message'],['status','Status']])
 }
 loadAll()
-</script><div class="prod-footer">JC Handyman Cloud CRM — V24 Visual Branding<br>Jerry Cook • 704-675-2014</div></body></html>
+</script><div class="prod-footer">JC Handyman Cloud CRM — V25 Visual Branding<br>Jerry Cook • 704-675-2014</div></body></html>

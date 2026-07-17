@@ -1,9 +1,9 @@
 {
-  "name": "JC Handyman Cloud CRM V16 Stable Foundation",
-  "short_name": "JC CRM V16",
+  "name": "JC Handyman & Property Management",
+  "short_name": "JC Handyman",
   "start_url": "index.html",
   "display": "standalone",
-  "background_color": "#080808",
-  "theme_color": "#e86b00",
-  "icons": []
+  "background_color": "#050505",
+  "theme_color": "#f47700",
+  "icons": [{"src":"app-icon.png","sizes":"512x512","type":"image/png"}]
 }

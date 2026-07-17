@@ -1,1 +1,3 @@
-self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open('jc-v16-stable').then(c=>c.addAll(['index.html','app.html','config.js','manifest.json'])))});self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(keys=>Promise.all(keys.map(k=>k!=='jc-v16-stable'?caches.delete(k):null))).then(()=>self.clients.claim()))});self.addEventListener('fetch',e=>{e.respondWith(fetch(e.request).catch(()=>caches.match(e.request)))})
+const CACHE='jc-v25';const ASSETS=['./','index.html','app.html','portal.html','jc-handyman-logo.png','app-icon.png','manifest.json'];
+self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS))));
+self.addEventListener('fetch',e=>e.respondWith(fetch(e.request).catch(()=>caches.match(e.request))));
