@@ -46,14 +46,54 @@
 </header>
 
 
-<section class="page-heading"><div><p class="eyebrow">ESTIMATES</p><h1>Estimates</h1><p>Professional estimate forms are coming next.</p></div></section>
-<section class="panel">
-  <div class="coming-card"><div>📝</div><h2>Estimates Center</h2><p>This section is installed and ready for the next working module.</p></div>
-  <div id="estimatesList"></div>
+
+<section class="page-heading">
+  <div><p class="eyebrow">ESTIMATE CENTER</p><h1>Estimates</h1><p>Create labor-and-material estimates and track approval status.</p></div>
+  <button class="primary-btn" id="newEstimateButton">+ New Estimate</button>
 </section>
+<section class="estimate-summary">
+  <div><span>Pending</span><strong id="pendingEstimateCount">0</strong></div>
+  <div><span>Approved</span><strong id="approvedEstimateCount">0</strong></div>
+  <div><span>Total Value</span><strong id="estimateValue">$0.00</strong></div>
+</section>
+<section class="panel">
+  <div class="toolbar">
+    <input id="estimateSearch" type="search" placeholder="Search estimate, customer, property or status">
+    <select id="estimateStatusFilter"><option value="">All statuses</option><option>Draft</option><option>Sent</option><option>Approved</option><option>Declined</option></select>
+  </div>
+  <div id="estimateList" class="estimate-list"></div>
+</section>
+<div class="modal" id="estimateModal" aria-hidden="true">
+  <div class="modal-card modal-wide">
+    <button class="modal-close" data-close-modal>&times;</button>
+    <h2 id="estimateModalTitle">New Estimate</h2>
+    <form id="estimateForm" class="form-grid">
+      <input type="hidden" name="id">
+      <label>Customer<select name="customerId" id="estimateCustomer" required></select></label>
+      <label>Property<select name="propertyId" id="estimateProperty"><option value="">Select property</option></select></label>
+      <label>Estimate date<input name="date" type="date" required></label>
+      <label>Status<select name="status"><option>Draft</option><option>Sent</option><option>Approved</option><option>Declined</option></select></label>
+      <label class="full">Job description<textarea name="description" rows="4" required></textarea></label>
+      <div class="line-items full">
+        <div class="line-items-heading"><h3>Labor and Materials</h3><button type="button" class="secondary-btn" id="addLineItem">+ Add Line</button></div>
+        <div id="lineItems"></div>
+      </div>
+      <label>Tax rate (%)<input name="taxRate" type="number" min="0" step="0.01" value="0"></label>
+      <label>Deposit requested<input name="deposit" type="number" min="0" step="0.01" value="0"></label>
+      <label class="full">Customer notes<textarea name="notes" rows="3" placeholder="Payment terms, exclusions, materials, etc."></textarea></label>
+      <div class="estimate-totals full">
+        <div><span>Subtotal</span><strong id="estimateSubtotal">$0.00</strong></div>
+        <div><span>Tax</span><strong id="estimateTax">$0.00</strong></div>
+        <div class="grand-total"><span>Total</span><strong id="estimateTotal">$0.00</strong></div>
+      </div>
+      <button class="primary-btn full" type="submit">Save Estimate</button>
+    </form>
+  </div>
+</div>
 
 </main>
 </div>
 <script src="js/app.js"></script>
+<script src="js/estimates.js"></script>
 </body>
 </html>

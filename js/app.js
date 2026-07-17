@@ -62,4 +62,9 @@
 
  const search=document.getElementById('customerSearch');
  if(search)search.oninput=()=>{const q=search.value.toLowerCase();render(customers.filter(c=>Object.values(c).join(' ').toLowerCase().includes(q)))};
+  const estimateCount = document.getElementById('estimateCount');
+  if (estimateCount) {
+    const estimates = read('jc_estimates');
+    estimateCount.textContent = estimates.filter(e => e.status !== 'Approved' && e.status !== 'Declined').length;
+  }
 })();

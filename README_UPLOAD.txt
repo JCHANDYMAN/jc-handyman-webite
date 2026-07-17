@@ -1,28 +1,22 @@
-JC Handyman Platform 1.0 - Build 3
+JC Handyman Platform 1.0 - Build 4 Estimate Center
 
-WHAT IS NEW
-- Real JC Handyman logo support in the left sidebar
-- Stronger black/orange company branding
-- Working Customer Center
-- Add and edit customers
-- Search customers
-- One-click call, text and email
-- Add multiple properties to each customer
-- Customer notes
-- Delete customers and related properties
-- Dashboard customer/property counts
-
-IMPORTANT LOGO NOTE
-This build expects your existing logo file to be named:
-jc-handyman-logo.png
-
-Place it in the main/root folder beside dashboard.html.
-If your logo already exists there, no extra step is needed.
+NEW
+- Create and edit estimates
+- Choose an existing customer and property
+- Add unlimited labor and material lines
+- Automatic subtotal, tax and total
+- Deposit field and customer notes
+- Draft, Sent, Approved and Declined statuses
+- Search and filter estimates
+- Print estimates
+- Dashboard pending-estimate count
 
 UPLOAD
-1. Extract the ZIP.
-2. Upload all extracted files and folders into your GitHub repository.
-3. Replace existing files when GitHub asks.
+1. Extract this ZIP.
+2. Upload every extracted file and folder into the root of JCHANDYMAN/jc-handyman-webite.
+3. Replace the old files.
 4. Commit changes.
-5. Wait 1-2 minutes.
-6. Refresh dashboard.html with Ctrl+F5.
+5. Wait 1-2 minutes and press Ctrl+F5.
+
+Keep jc-handyman-logo.png in the root folder beside dashboard.html.
+Data remains saved in this browser until the Supabase cloud connection build.
