@@ -1,37 +1,53 @@
-body{
+*{
     margin:0;
-    font-family:Arial,sans-serif;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
     background:#1f1f1f;
     color:white;
+    font-family:Arial, Helvetica, sans-serif;
 }
 
 header{
     background:#ff7a00;
-    padding:20px;
+    padding:25px;
     text-align:center;
+    box-shadow:0 3px 10px rgba(0,0,0,.4);
 }
 
 header h1{
-    margin:0;
-    font-size:32px;
+    font-size:34px;
+}
+
+header p{
+    margin-top:8px;
+    font-size:18px;
 }
 
 .cards{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
     gap:20px;
-    padding:20px;
+    padding:25px;
 }
 
 .card{
-    background:#2d2d2d;
+    background:#2b2b2b;
     border-radius:12px;
-    padding:20px;
-    text-align:center;
+    padding:25px;
+    box-shadow:0 5px 12px rgba(0,0,0,.3);
 }
 
 .card h2{
     color:#ff7a00;
+    margin-bottom:15px;
+}
+
+.card p{
+    font-size:28px;
+    font-weight:bold;
 }
 
 button{
@@ -39,10 +55,17 @@ button{
     color:white;
     border:none;
     padding:12px 20px;
+    margin:8px;
     border-radius:8px;
     cursor:pointer;
+    font-size:16px;
 }
 
 button:hover{
     background:#e46d00;
+}
+
+hr{
+    margin:20px 0;
+    border:1px solid #444;
 }
