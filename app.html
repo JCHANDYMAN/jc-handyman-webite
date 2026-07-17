@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>JC Handyman Cloud CRM V25</title>
+<title>JC Handyman Cloud CRM V26</title>
 <style>
 :root{--b:#070707;--c:#171717;--c2:#222;--o:#e86b00;--o2:#ff9b35;--g:#8cff9b;--r:#ff8b8b;--blue:#73b8ff}
 *{box-sizing:border-box}body{margin:0;background:var(--b);color:#fff;font-family:Arial}
@@ -100,6 +100,146 @@ header.brand-shell{position:relative!important;top:auto!important}
   .brand-tagline{display:none!important}
 }
 
+
+/* V26 Professional Dashboard */
+:root{
+  --jc-orange:#f47700;
+  --jc-orange-soft:#ff9b34;
+  --jc-card:#121212;
+  --jc-card2:#1a1a1a;
+  --jc-border:#3d230e;
+}
+.v26-dashboard{
+  max-width:1600px;
+  margin:0 auto;
+  padding:18px 14px 34px;
+}
+.v26-title-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  margin:8px 0 16px;
+}
+.v26-title-row h2{
+  margin:0;
+  color:var(--jc-orange-soft);
+  font-size:clamp(24px,3vw,38px);
+}
+.v26-sub{
+  color:#bbb;
+  margin:4px 0 0;
+}
+.v26-stats{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(180px,1fr));
+  gap:12px;
+}
+.v26-stat{
+  background:linear-gradient(145deg,var(--jc-card2),#0c0c0c);
+  border:1px solid var(--jc-border);
+  border-radius:12px;
+  padding:16px;
+  min-height:122px;
+  box-shadow:0 8px 22px rgba(0,0,0,.35);
+}
+.v26-stat .label{color:#cfcfcf;font-size:13px;text-transform:uppercase;letter-spacing:.05em}
+.v26-stat .value{font-size:36px;font-weight:900;margin:8px 0;color:#fff}
+.v26-stat .link{color:var(--jc-orange-soft);font-weight:800;font-size:13px}
+.v26-main-grid{
+  display:grid;
+  grid-template-columns:minmax(0,2fr) minmax(280px,1fr);
+  gap:14px;
+  margin-top:14px;
+}
+.v26-panel{
+  background:linear-gradient(145deg,#171717,#0c0c0c);
+  border:1px solid var(--jc-border);
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 8px 22px rgba(0,0,0,.32);
+}
+.v26-panel h3{
+  margin:0;
+  padding:14px 16px;
+  border-bottom:1px solid #2f2f2f;
+  color:#fff;
+  font-size:18px;
+}
+.v26-body{padding:14px 16px}
+.v26-row{
+  display:grid;
+  grid-template-columns:1.1fr 1.4fr 1.3fr 1fr;
+  gap:10px;
+  padding:11px 0;
+  border-bottom:1px solid #292929;
+  align-items:center;
+}
+.v26-row:last-child{border-bottom:0}
+.v26-head{color:#aaa;font-size:12px;text-transform:uppercase}
+.v26-badge{
+  display:inline-block;
+  border:1px solid var(--jc-orange);
+  color:var(--jc-orange-soft);
+  padding:4px 8px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:800;
+}
+.v26-appointment{
+  padding:12px 0;
+  border-bottom:1px solid #292929;
+}
+.v26-appointment:last-child{border-bottom:0}
+.v26-date{
+  display:inline-block;
+  min-width:48px;
+  text-align:center;
+  background:var(--jc-orange);
+  color:#000;
+  font-weight:900;
+  border-radius:7px;
+  padding:6px;
+  margin-right:10px;
+}
+.v26-quick{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(120px,1fr));
+  gap:12px;
+}
+.v26-action{
+  display:block;
+  text-align:center;
+  text-decoration:none;
+  background:#111;
+  border:1px solid #343434;
+  border-radius:10px;
+  padding:18px 10px;
+  color:#fff;
+  font-weight:800;
+}
+.v26-action:hover{
+  border-color:var(--jc-orange);
+  color:var(--jc-orange-soft);
+}
+.v26-icon{
+  font-size:30px;
+  display:block;
+  margin-bottom:8px;
+}
+@media(max-width:1050px){
+  .v26-stats{grid-template-columns:repeat(2,minmax(180px,1fr))}
+  .v26-main-grid{grid-template-columns:1fr}
+  .v26-quick{grid-template-columns:repeat(2,minmax(130px,1fr))}
+}
+@media(max-width:620px){
+  .v26-stats{grid-template-columns:1fr}
+  .v26-quick{grid-template-columns:1fr 1fr}
+  .v26-row{grid-template-columns:1fr 1fr;font-size:13px}
+  .v26-head{display:none}
+}
+
 </style></head><body>
 <div id="runtimeNotice" style="display:none;position:fixed;left:10px;right:10px;bottom:10px;z-index:9999;background:#511;color:#fff;border:2px solid #e86b00;border-radius:10px;padding:10px"></div>
 <script>
@@ -119,7 +259,7 @@ window.addEventListener('error',function(e){
 <div class="brand-hero">
   <div class="brand-logo-wrap"><img class="brand-logo" src="jc-handyman-logo.png" alt="JC Handyman & Property Management"></div>
   <div class="brand-summary">
-    <h1>Cloud CRM V25</h1>
+    <h1>Cloud CRM V26</h1>
     <p>Customers • Properties • Scheduling • Inspections</p>
     <a class="brand-phone" href="tel:7046752014">704-675-2014</a>
     <p class="brand-tagline">“No Job Too Small”</p>
@@ -127,7 +267,75 @@ window.addEventListener('error',function(e){
 </div>
 <nav>
 <button onclick="go('dashboard')">Dashboard</button><button onclick="go('production')">Production</button><button onclick="go('customers')">Customers</button><button onclick="go('smartassistant')">Smart Assistant</button><button onclick="go('estimateintelligence')">Estimate Intelligence</button><button onclick="go('properties')">Properties</button><button onclick="go('propertydashboard')">Property Dashboard</button><button onclick="go('propertyintelligence')">Property Intelligence</button><button onclick="go('inspections')">Inspections</button><button onclick="go('propertyreports')">Property Reports</button><button onclick="go('estimates')">Estimates</button><button onclick="go('invoices')">Invoices</button><button onclick="go('calendar')">Calendar</button><button onclick="go('dispatch')">Dispatch</button><button onclick="go('documentvault')">Document Vault</button><button onclick="go('fieldmode')">Field Mode</button><button onclick="go('fieldoperations')">Field Operations</button><button onclick="go('mobileoperations')">Mobile Operations</button><button onclick="go('photos')">Photos</button><button onclick="go('signatures')">Signatures</button><button onclick="go('expenses')">Expenses</button><button onclick="go('files')">Files</button><button onclick="go('reviews')">Ratings</button><button onclick="go('reminders')">Reminders</button><button onclick="go('search')">Search</button><button onclick="go('clientportal')">Client Portal</button><button onclick="go('employees')">Employees</button><button onclick="go('inventory')">Inventory</button><button onclick="go('v20reports')">V20 Reports</button><button onclick="go('notifications')">Notifications</button><a class="btn" href="index.html">Public Website</a>
-</nav></header>
+</nav>
+
+<section class="v26-dashboard" id="v26Dashboard">
+  <div class="v26-title-row">
+    <div>
+      <h2>Professional Business Dashboard</h2>
+      <p class="v26-sub">Customers, jobs, estimates, invoices, inspections, and scheduling in one place.</p>
+    </div>
+    <a class="btn" href="#customers">Open Customer Center</a>
+  </div>
+
+  <div class="v26-stats">
+    <div class="v26-stat">
+      <div class="label">Total Customers</div>
+      <div class="value" id="v26Customers">—</div>
+      <div class="link">Customer records</div>
+    </div>
+    <div class="v26-stat">
+      <div class="label">Active Jobs</div>
+      <div class="value" id="v26Jobs">—</div>
+      <div class="link">Current work</div>
+    </div>
+    <div class="v26-stat">
+      <div class="label">Pending Estimates</div>
+      <div class="value" id="v26Estimates">—</div>
+      <div class="link">Waiting for approval</div>
+    </div>
+    <div class="v26-stat">
+      <div class="label">Open Invoices</div>
+      <div class="value" id="v26Invoices">—</div>
+      <div class="link">Payments and balances</div>
+    </div>
+  </div>
+
+  <div class="v26-main-grid">
+    <div class="v26-panel">
+      <h3>Recent Jobs</h3>
+      <div class="v26-body">
+        <div class="v26-row v26-head"><div>Job</div><div>Customer</div><div>Service</div><div>Status</div></div>
+        <div class="v26-row"><div>Latest job</div><div>Customer record</div><div>Handyman service</div><div><span class="v26-badge">In Progress</span></div></div>
+        <div class="v26-row"><div>Next job</div><div>Scheduled customer</div><div>Property repair</div><div><span class="v26-badge">Scheduled</span></div></div>
+        <div class="v26-row"><div>Inspection</div><div>Property owner</div><div>Property inspection</div><div><span class="v26-badge">Pending</span></div></div>
+      </div>
+    </div>
+
+    <div class="v26-panel">
+      <h3>Upcoming Appointments</h3>
+      <div class="v26-body">
+        <div class="v26-appointment"><span class="v26-date">NEXT</span><strong>Scheduled repair</strong><br><small>Calendar and dispatch</small></div>
+        <div class="v26-appointment"><span class="v26-date">NEW</span><strong>Estimate appointment</strong><br><small>Customer and property details</small></div>
+        <div class="v26-appointment"><span class="v26-date">OPEN</span><strong>Inspection visit</strong><br><small>Mobile field workflow</small></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="v26-panel" style="margin-top:14px">
+    <h3>Quick Actions</h3>
+    <div class="v26-body">
+      <div class="v26-quick">
+        <a class="v26-action" href="#estimates"><span class="v26-icon">🧾</span>New Estimate</a>
+        <a class="v26-action" href="#invoices"><span class="v26-icon">💵</span>New Invoice</a>
+        <a class="v26-action" href="#customers"><span class="v26-icon">👤</span>New Customer</a>
+        <a class="v26-action" href="#calendar"><span class="v26-icon">📅</span>Schedule Job</a>
+        <a class="v26-action" href="#inspections"><span class="v26-icon">📋</span>New Inspection</a>
+      </div>
+    </div>
+  </div>
+</section>
+</header>
 
 
 <section id="production">
@@ -1356,7 +1564,175 @@ header.brand-shell{position:relative!important;top:auto!important}
   .brand-tagline{display:none!important}
 }
 
-</style></head><body><h1>JC Handyman & Property Maintenance</h1><p>704-675-2014 • JerryCook811@gmail.com</p><hr><h2>Estimate: ${estTitle.value}</h2><p><b>Customer:</b> ${cc.name||''}<br>${cc.phone||''}<br>${cc.email||''}</p><p><b>Property:</b> ${pp.property_name||''}<br>${pp.address||cc.address||''}</p><p>${estScope.value.replace(/\n/g,'<br>')}</p><table><tr><th>Item</th><th>Description</th><th>Qty</th><th>Unit</th><th>Price</th><th>Total</th></tr>${draftLines.map(x=>`<tr><td>${x.name}</td><td>${x.description||''}</td><td>${x.quantity}</td><td>${x.unit}</td><td>${money(x.unit_price)}</td><td>${money(x.line_total)}</td></tr>`).join('')}<tr><td colspan="5" class="right">Subtotal</td><td>${money(sub)}</td></tr><tr><td colspan="5" class="right">Discount</td><td>${money(disc)}</td></tr><tr><td colspan="5" class="right">Tax</td><td>${money(tax)}</td></tr><tr><td colspan="5" class="right"><b>Total</b></td><td><b>${money(total)}</b></td></tr></table><p>${estNotes.value.replace(/\n/g,'<br>')}</p><p>Customer approval: _________________________ Date: __________</p><script>window.print()<\/script><div class="prod-footer">JC Handyman Cloud CRM — V25 Visual Branding<br>Jerry Cook • 704-675-2014</div></body></html>`);w.document.close()}
+
+/* V26 Professional Dashboard */
+:root{
+  --jc-orange:#f47700;
+  --jc-orange-soft:#ff9b34;
+  --jc-card:#121212;
+  --jc-card2:#1a1a1a;
+  --jc-border:#3d230e;
+}
+.v26-dashboard{
+  max-width:1600px;
+  margin:0 auto;
+  padding:18px 14px 34px;
+}
+.v26-title-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  margin:8px 0 16px;
+}
+.v26-title-row h2{
+  margin:0;
+  color:var(--jc-orange-soft);
+  font-size:clamp(24px,3vw,38px);
+}
+.v26-sub{
+  color:#bbb;
+  margin:4px 0 0;
+}
+.v26-stats{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(180px,1fr));
+  gap:12px;
+}
+.v26-stat{
+  background:linear-gradient(145deg,var(--jc-card2),#0c0c0c);
+  border:1px solid var(--jc-border);
+  border-radius:12px;
+  padding:16px;
+  min-height:122px;
+  box-shadow:0 8px 22px rgba(0,0,0,.35);
+}
+.v26-stat .label{color:#cfcfcf;font-size:13px;text-transform:uppercase;letter-spacing:.05em}
+.v26-stat .value{font-size:36px;font-weight:900;margin:8px 0;color:#fff}
+.v26-stat .link{color:var(--jc-orange-soft);font-weight:800;font-size:13px}
+.v26-main-grid{
+  display:grid;
+  grid-template-columns:minmax(0,2fr) minmax(280px,1fr);
+  gap:14px;
+  margin-top:14px;
+}
+.v26-panel{
+  background:linear-gradient(145deg,#171717,#0c0c0c);
+  border:1px solid var(--jc-border);
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 8px 22px rgba(0,0,0,.32);
+}
+.v26-panel h3{
+  margin:0;
+  padding:14px 16px;
+  border-bottom:1px solid #2f2f2f;
+  color:#fff;
+  font-size:18px;
+}
+.v26-body{padding:14px 16px}
+.v26-row{
+  display:grid;
+  grid-template-columns:1.1fr 1.4fr 1.3fr 1fr;
+  gap:10px;
+  padding:11px 0;
+  border-bottom:1px solid #292929;
+  align-items:center;
+}
+.v26-row:last-child{border-bottom:0}
+.v26-head{color:#aaa;font-size:12px;text-transform:uppercase}
+.v26-badge{
+  display:inline-block;
+  border:1px solid var(--jc-orange);
+  color:var(--jc-orange-soft);
+  padding:4px 8px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:800;
+}
+.v26-appointment{
+  padding:12px 0;
+  border-bottom:1px solid #292929;
+}
+.v26-appointment:last-child{border-bottom:0}
+.v26-date{
+  display:inline-block;
+  min-width:48px;
+  text-align:center;
+  background:var(--jc-orange);
+  color:#000;
+  font-weight:900;
+  border-radius:7px;
+  padding:6px;
+  margin-right:10px;
+}
+.v26-quick{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(120px,1fr));
+  gap:12px;
+}
+.v26-action{
+  display:block;
+  text-align:center;
+  text-decoration:none;
+  background:#111;
+  border:1px solid #343434;
+  border-radius:10px;
+  padding:18px 10px;
+  color:#fff;
+  font-weight:800;
+}
+.v26-action:hover{
+  border-color:var(--jc-orange);
+  color:var(--jc-orange-soft);
+}
+.v26-icon{
+  font-size:30px;
+  display:block;
+  margin-bottom:8px;
+}
+@media(max-width:1050px){
+  .v26-stats{grid-template-columns:repeat(2,minmax(180px,1fr))}
+  .v26-main-grid{grid-template-columns:1fr}
+  .v26-quick{grid-template-columns:repeat(2,minmax(130px,1fr))}
+}
+@media(max-width:620px){
+  .v26-stats{grid-template-columns:1fr}
+  .v26-quick{grid-template-columns:1fr 1fr}
+  .v26-row{grid-template-columns:1fr 1fr;font-size:13px}
+  .v26-head{display:none}
+}
+
+</style></head><body><h1>JC Handyman & Property Maintenance</h1><p>704-675-2014 • JerryCook811@gmail.com</p><hr><h2>Estimate: ${estTitle.value}</h2><p><b>Customer:</b> ${cc.name||''}<br>${cc.phone||''}<br>${cc.email||''}</p><p><b>Property:</b> ${pp.property_name||''}<br>${pp.address||cc.address||''}</p><p>${estScope.value.replace(/\n/g,'<br>')}</p><table><tr><th>Item</th><th>Description</th><th>Qty</th><th>Unit</th><th>Price</th><th>Total</th></tr>${draftLines.map(x=>`<tr><td>${x.name}</td><td>${x.description||''}</td><td>${x.quantity}</td><td>${x.unit}</td><td>${money(x.unit_price)}</td><td>${money(x.line_total)}</td></tr>`).join('')}<tr><td colspan="5" class="right">Subtotal</td><td>${money(sub)}</td></tr><tr><td colspan="5" class="right">Discount</td><td>${money(disc)}</td></tr><tr><td colspan="5" class="right">Tax</td><td>${money(tax)}</td></tr><tr><td colspan="5" class="right"><b>Total</b></td><td><b>${money(total)}</b></td></tr></table><p>${estNotes.value.replace(/\n/g,'<br>')}</p><p>Customer approval: _________________________ Date: __________</p><script>window.print()<\/script><div class="prod-footer">JC Handyman Cloud CRM — V25 Visual Branding<br>Jerry Cook • 704-675-2014</div>
+<script>
+(function(){
+  function safeCount(selector){
+    try{
+      const el=document.querySelector(selector);
+      if(!el) return "0";
+      const n=el.querySelectorAll("tr, .card, .customer-card, .job-card, .estimate-card, .invoice-card").length;
+      return String(Math.max(0,n-1));
+    }catch(e){return "0";}
+  }
+  function updateV26(){
+    const map=[
+      ["v26Customers","#customers"],
+      ["v26Jobs","#jobs"],
+      ["v26Estimates","#estimates"],
+      ["v26Invoices","#invoices"]
+    ];
+    map.forEach(([id,sel])=>{
+      const out=document.getElementById(id);
+      if(out) out.textContent=safeCount(sel);
+    });
+  }
+  window.addEventListener("load",()=>setTimeout(updateV26,900));
+  document.addEventListener("click",()=>setTimeout(updateV26,300));
+})();
+</script>
+
+</body></html>`);w.document.close()}
 
 
 window.clearV19Property=()=>{propId.value='';propCustomer.value='';propName.value='';propAddress.value='';propCity.value='';propState.value='NC';propZip.value='';propType.value='Primary Home';propAccess.value='';propNotes.value=''}
@@ -1540,7 +1916,175 @@ header.brand-shell{position:relative!important;top:auto!important}
   .brand-tagline{display:none!important}
 }
 
-</style></head><body><h1>JC Handyman & Property Maintenance</h1><p>704-675-2014 • JerryCook811@gmail.com</p><h2>Job Receipt</h2><div class="box"><b>Customer:</b> ${cc.name||''}<br><b>Property:</b> ${pp.address||''}<br><b>Date:</b> ${x.closeout_date||''}<br><b>Work:</b> ${x.work_summary||''}<br><b>Amount billed:</b> ${money(x.amount_billed)}<br><b>Amount paid:</b> ${money(x.amount_paid)}<br><b>Payment method:</b> ${x.payment_method||''}</div><p>Thank you for choosing JC Handyman & Property Maintenance.</p><script>window.print()<\/script><div class="prod-footer">JC Handyman Cloud CRM — V25 Visual Branding<br>Jerry Cook • 704-675-2014</div></body></html>`);w.document.close()}
+
+/* V26 Professional Dashboard */
+:root{
+  --jc-orange:#f47700;
+  --jc-orange-soft:#ff9b34;
+  --jc-card:#121212;
+  --jc-card2:#1a1a1a;
+  --jc-border:#3d230e;
+}
+.v26-dashboard{
+  max-width:1600px;
+  margin:0 auto;
+  padding:18px 14px 34px;
+}
+.v26-title-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  margin:8px 0 16px;
+}
+.v26-title-row h2{
+  margin:0;
+  color:var(--jc-orange-soft);
+  font-size:clamp(24px,3vw,38px);
+}
+.v26-sub{
+  color:#bbb;
+  margin:4px 0 0;
+}
+.v26-stats{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(180px,1fr));
+  gap:12px;
+}
+.v26-stat{
+  background:linear-gradient(145deg,var(--jc-card2),#0c0c0c);
+  border:1px solid var(--jc-border);
+  border-radius:12px;
+  padding:16px;
+  min-height:122px;
+  box-shadow:0 8px 22px rgba(0,0,0,.35);
+}
+.v26-stat .label{color:#cfcfcf;font-size:13px;text-transform:uppercase;letter-spacing:.05em}
+.v26-stat .value{font-size:36px;font-weight:900;margin:8px 0;color:#fff}
+.v26-stat .link{color:var(--jc-orange-soft);font-weight:800;font-size:13px}
+.v26-main-grid{
+  display:grid;
+  grid-template-columns:minmax(0,2fr) minmax(280px,1fr);
+  gap:14px;
+  margin-top:14px;
+}
+.v26-panel{
+  background:linear-gradient(145deg,#171717,#0c0c0c);
+  border:1px solid var(--jc-border);
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 8px 22px rgba(0,0,0,.32);
+}
+.v26-panel h3{
+  margin:0;
+  padding:14px 16px;
+  border-bottom:1px solid #2f2f2f;
+  color:#fff;
+  font-size:18px;
+}
+.v26-body{padding:14px 16px}
+.v26-row{
+  display:grid;
+  grid-template-columns:1.1fr 1.4fr 1.3fr 1fr;
+  gap:10px;
+  padding:11px 0;
+  border-bottom:1px solid #292929;
+  align-items:center;
+}
+.v26-row:last-child{border-bottom:0}
+.v26-head{color:#aaa;font-size:12px;text-transform:uppercase}
+.v26-badge{
+  display:inline-block;
+  border:1px solid var(--jc-orange);
+  color:var(--jc-orange-soft);
+  padding:4px 8px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:800;
+}
+.v26-appointment{
+  padding:12px 0;
+  border-bottom:1px solid #292929;
+}
+.v26-appointment:last-child{border-bottom:0}
+.v26-date{
+  display:inline-block;
+  min-width:48px;
+  text-align:center;
+  background:var(--jc-orange);
+  color:#000;
+  font-weight:900;
+  border-radius:7px;
+  padding:6px;
+  margin-right:10px;
+}
+.v26-quick{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(120px,1fr));
+  gap:12px;
+}
+.v26-action{
+  display:block;
+  text-align:center;
+  text-decoration:none;
+  background:#111;
+  border:1px solid #343434;
+  border-radius:10px;
+  padding:18px 10px;
+  color:#fff;
+  font-weight:800;
+}
+.v26-action:hover{
+  border-color:var(--jc-orange);
+  color:var(--jc-orange-soft);
+}
+.v26-icon{
+  font-size:30px;
+  display:block;
+  margin-bottom:8px;
+}
+@media(max-width:1050px){
+  .v26-stats{grid-template-columns:repeat(2,minmax(180px,1fr))}
+  .v26-main-grid{grid-template-columns:1fr}
+  .v26-quick{grid-template-columns:repeat(2,minmax(130px,1fr))}
+}
+@media(max-width:620px){
+  .v26-stats{grid-template-columns:1fr}
+  .v26-quick{grid-template-columns:1fr 1fr}
+  .v26-row{grid-template-columns:1fr 1fr;font-size:13px}
+  .v26-head{display:none}
+}
+
+</style></head><body><h1>JC Handyman & Property Maintenance</h1><p>704-675-2014 • JerryCook811@gmail.com</p><h2>Job Receipt</h2><div class="box"><b>Customer:</b> ${cc.name||''}<br><b>Property:</b> ${pp.address||''}<br><b>Date:</b> ${x.closeout_date||''}<br><b>Work:</b> ${x.work_summary||''}<br><b>Amount billed:</b> ${money(x.amount_billed)}<br><b>Amount paid:</b> ${money(x.amount_paid)}<br><b>Payment method:</b> ${x.payment_method||''}</div><p>Thank you for choosing JC Handyman & Property Maintenance.</p><script>window.print()<\/script><div class="prod-footer">JC Handyman Cloud CRM — V25 Visual Branding<br>Jerry Cook • 704-675-2014</div>
+<script>
+(function(){
+  function safeCount(selector){
+    try{
+      const el=document.querySelector(selector);
+      if(!el) return "0";
+      const n=el.querySelectorAll("tr, .card, .customer-card, .job-card, .estimate-card, .invoice-card").length;
+      return String(Math.max(0,n-1));
+    }catch(e){return "0";}
+  }
+  function updateV26(){
+    const map=[
+      ["v26Customers","#customers"],
+      ["v26Jobs","#jobs"],
+      ["v26Estimates","#estimates"],
+      ["v26Invoices","#invoices"]
+    ];
+    map.forEach(([id,sel])=>{
+      const out=document.getElementById(id);
+      if(out) out.textContent=safeCount(sel);
+    });
+  }
+  window.addEventListener("load",()=>setTimeout(updateV26,900));
+  document.addEventListener("click",()=>setTimeout(updateV26,300));
+})();
+</script>
+
+</body></html>`);w.document.close()}
 
 
 function isoDate(d){return new Date(d).toISOString().slice(0,10)}
@@ -1685,7 +2229,175 @@ header.brand-shell{position:relative!important;top:auto!important}
   .brand-tagline{display:none!important}
 }
 
-</style></head><body><h1>JC Handyman & Property Maintenance</h1><div class="box">${currentIntelligentEstimate.summary.replace(/\n/g,'<br>')}</div><script>window.print()<\/script><div class="prod-footer">JC Handyman Cloud CRM — V25 Visual Branding<br>Jerry Cook • 704-675-2014</div></body></html>`);
+
+/* V26 Professional Dashboard */
+:root{
+  --jc-orange:#f47700;
+  --jc-orange-soft:#ff9b34;
+  --jc-card:#121212;
+  --jc-card2:#1a1a1a;
+  --jc-border:#3d230e;
+}
+.v26-dashboard{
+  max-width:1600px;
+  margin:0 auto;
+  padding:18px 14px 34px;
+}
+.v26-title-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  margin:8px 0 16px;
+}
+.v26-title-row h2{
+  margin:0;
+  color:var(--jc-orange-soft);
+  font-size:clamp(24px,3vw,38px);
+}
+.v26-sub{
+  color:#bbb;
+  margin:4px 0 0;
+}
+.v26-stats{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(180px,1fr));
+  gap:12px;
+}
+.v26-stat{
+  background:linear-gradient(145deg,var(--jc-card2),#0c0c0c);
+  border:1px solid var(--jc-border);
+  border-radius:12px;
+  padding:16px;
+  min-height:122px;
+  box-shadow:0 8px 22px rgba(0,0,0,.35);
+}
+.v26-stat .label{color:#cfcfcf;font-size:13px;text-transform:uppercase;letter-spacing:.05em}
+.v26-stat .value{font-size:36px;font-weight:900;margin:8px 0;color:#fff}
+.v26-stat .link{color:var(--jc-orange-soft);font-weight:800;font-size:13px}
+.v26-main-grid{
+  display:grid;
+  grid-template-columns:minmax(0,2fr) minmax(280px,1fr);
+  gap:14px;
+  margin-top:14px;
+}
+.v26-panel{
+  background:linear-gradient(145deg,#171717,#0c0c0c);
+  border:1px solid var(--jc-border);
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 8px 22px rgba(0,0,0,.32);
+}
+.v26-panel h3{
+  margin:0;
+  padding:14px 16px;
+  border-bottom:1px solid #2f2f2f;
+  color:#fff;
+  font-size:18px;
+}
+.v26-body{padding:14px 16px}
+.v26-row{
+  display:grid;
+  grid-template-columns:1.1fr 1.4fr 1.3fr 1fr;
+  gap:10px;
+  padding:11px 0;
+  border-bottom:1px solid #292929;
+  align-items:center;
+}
+.v26-row:last-child{border-bottom:0}
+.v26-head{color:#aaa;font-size:12px;text-transform:uppercase}
+.v26-badge{
+  display:inline-block;
+  border:1px solid var(--jc-orange);
+  color:var(--jc-orange-soft);
+  padding:4px 8px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:800;
+}
+.v26-appointment{
+  padding:12px 0;
+  border-bottom:1px solid #292929;
+}
+.v26-appointment:last-child{border-bottom:0}
+.v26-date{
+  display:inline-block;
+  min-width:48px;
+  text-align:center;
+  background:var(--jc-orange);
+  color:#000;
+  font-weight:900;
+  border-radius:7px;
+  padding:6px;
+  margin-right:10px;
+}
+.v26-quick{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(120px,1fr));
+  gap:12px;
+}
+.v26-action{
+  display:block;
+  text-align:center;
+  text-decoration:none;
+  background:#111;
+  border:1px solid #343434;
+  border-radius:10px;
+  padding:18px 10px;
+  color:#fff;
+  font-weight:800;
+}
+.v26-action:hover{
+  border-color:var(--jc-orange);
+  color:var(--jc-orange-soft);
+}
+.v26-icon{
+  font-size:30px;
+  display:block;
+  margin-bottom:8px;
+}
+@media(max-width:1050px){
+  .v26-stats{grid-template-columns:repeat(2,minmax(180px,1fr))}
+  .v26-main-grid{grid-template-columns:1fr}
+  .v26-quick{grid-template-columns:repeat(2,minmax(130px,1fr))}
+}
+@media(max-width:620px){
+  .v26-stats{grid-template-columns:1fr}
+  .v26-quick{grid-template-columns:1fr 1fr}
+  .v26-row{grid-template-columns:1fr 1fr;font-size:13px}
+  .v26-head{display:none}
+}
+
+</style></head><body><h1>JC Handyman & Property Maintenance</h1><div class="box">${currentIntelligentEstimate.summary.replace(/\n/g,'<br>')}</div><script>window.print()<\/script><div class="prod-footer">JC Handyman Cloud CRM — V25 Visual Branding<br>Jerry Cook • 704-675-2014</div>
+<script>
+(function(){
+  function safeCount(selector){
+    try{
+      const el=document.querySelector(selector);
+      if(!el) return "0";
+      const n=el.querySelectorAll("tr, .card, .customer-card, .job-card, .estimate-card, .invoice-card").length;
+      return String(Math.max(0,n-1));
+    }catch(e){return "0";}
+  }
+  function updateV26(){
+    const map=[
+      ["v26Customers","#customers"],
+      ["v26Jobs","#jobs"],
+      ["v26Estimates","#estimates"],
+      ["v26Invoices","#invoices"]
+    ];
+    map.forEach(([id,sel])=>{
+      const out=document.getElementById(id);
+      if(out) out.textContent=safeCount(sel);
+    });
+  }
+  window.addEventListener("load",()=>setTimeout(updateV26,900));
+  document.addEventListener("click",()=>setTimeout(updateV26,300));
+})();
+</script>
+
+</body></html>`);
  w.document.close()
 };
 window.copyIntelligentEstimate=async()=>{if(!currentIntelligentEstimate.summary)return alert('Calculate the estimate first.');await navigator.clipboard.writeText(currentIntelligentEstimate.summary);alert('Estimate summary copied.')};
@@ -2163,7 +2875,175 @@ header.brand-shell{position:relative!important;top:auto!important}
   .brand-tagline{display:none!important}
 }
 
-</style></head><body><h1>JC Handyman & Property Maintenance</h1><div class="box">${prodInspectionPreview.textContent.replace(/\n/g,'<br>')}</div><script>window.print()<\/script></body></html>`);
+
+/* V26 Professional Dashboard */
+:root{
+  --jc-orange:#f47700;
+  --jc-orange-soft:#ff9b34;
+  --jc-card:#121212;
+  --jc-card2:#1a1a1a;
+  --jc-border:#3d230e;
+}
+.v26-dashboard{
+  max-width:1600px;
+  margin:0 auto;
+  padding:18px 14px 34px;
+}
+.v26-title-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  margin:8px 0 16px;
+}
+.v26-title-row h2{
+  margin:0;
+  color:var(--jc-orange-soft);
+  font-size:clamp(24px,3vw,38px);
+}
+.v26-sub{
+  color:#bbb;
+  margin:4px 0 0;
+}
+.v26-stats{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(180px,1fr));
+  gap:12px;
+}
+.v26-stat{
+  background:linear-gradient(145deg,var(--jc-card2),#0c0c0c);
+  border:1px solid var(--jc-border);
+  border-radius:12px;
+  padding:16px;
+  min-height:122px;
+  box-shadow:0 8px 22px rgba(0,0,0,.35);
+}
+.v26-stat .label{color:#cfcfcf;font-size:13px;text-transform:uppercase;letter-spacing:.05em}
+.v26-stat .value{font-size:36px;font-weight:900;margin:8px 0;color:#fff}
+.v26-stat .link{color:var(--jc-orange-soft);font-weight:800;font-size:13px}
+.v26-main-grid{
+  display:grid;
+  grid-template-columns:minmax(0,2fr) minmax(280px,1fr);
+  gap:14px;
+  margin-top:14px;
+}
+.v26-panel{
+  background:linear-gradient(145deg,#171717,#0c0c0c);
+  border:1px solid var(--jc-border);
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 8px 22px rgba(0,0,0,.32);
+}
+.v26-panel h3{
+  margin:0;
+  padding:14px 16px;
+  border-bottom:1px solid #2f2f2f;
+  color:#fff;
+  font-size:18px;
+}
+.v26-body{padding:14px 16px}
+.v26-row{
+  display:grid;
+  grid-template-columns:1.1fr 1.4fr 1.3fr 1fr;
+  gap:10px;
+  padding:11px 0;
+  border-bottom:1px solid #292929;
+  align-items:center;
+}
+.v26-row:last-child{border-bottom:0}
+.v26-head{color:#aaa;font-size:12px;text-transform:uppercase}
+.v26-badge{
+  display:inline-block;
+  border:1px solid var(--jc-orange);
+  color:var(--jc-orange-soft);
+  padding:4px 8px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:800;
+}
+.v26-appointment{
+  padding:12px 0;
+  border-bottom:1px solid #292929;
+}
+.v26-appointment:last-child{border-bottom:0}
+.v26-date{
+  display:inline-block;
+  min-width:48px;
+  text-align:center;
+  background:var(--jc-orange);
+  color:#000;
+  font-weight:900;
+  border-radius:7px;
+  padding:6px;
+  margin-right:10px;
+}
+.v26-quick{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(120px,1fr));
+  gap:12px;
+}
+.v26-action{
+  display:block;
+  text-align:center;
+  text-decoration:none;
+  background:#111;
+  border:1px solid #343434;
+  border-radius:10px;
+  padding:18px 10px;
+  color:#fff;
+  font-weight:800;
+}
+.v26-action:hover{
+  border-color:var(--jc-orange);
+  color:var(--jc-orange-soft);
+}
+.v26-icon{
+  font-size:30px;
+  display:block;
+  margin-bottom:8px;
+}
+@media(max-width:1050px){
+  .v26-stats{grid-template-columns:repeat(2,minmax(180px,1fr))}
+  .v26-main-grid{grid-template-columns:1fr}
+  .v26-quick{grid-template-columns:repeat(2,minmax(130px,1fr))}
+}
+@media(max-width:620px){
+  .v26-stats{grid-template-columns:1fr}
+  .v26-quick{grid-template-columns:1fr 1fr}
+  .v26-row{grid-template-columns:1fr 1fr;font-size:13px}
+  .v26-head{display:none}
+}
+
+</style></head><body><h1>JC Handyman & Property Maintenance</h1><div class="box">${prodInspectionPreview.textContent.replace(/\n/g,'<br>')}</div><script>window.print()<\/script>
+<script>
+(function(){
+  function safeCount(selector){
+    try{
+      const el=document.querySelector(selector);
+      if(!el) return "0";
+      const n=el.querySelectorAll("tr, .card, .customer-card, .job-card, .estimate-card, .invoice-card").length;
+      return String(Math.max(0,n-1));
+    }catch(e){return "0";}
+  }
+  function updateV26(){
+    const map=[
+      ["v26Customers","#customers"],
+      ["v26Jobs","#jobs"],
+      ["v26Estimates","#estimates"],
+      ["v26Invoices","#invoices"]
+    ];
+    map.forEach(([id,sel])=>{
+      const out=document.getElementById(id);
+      if(out) out.textContent=safeCount(sel);
+    });
+  }
+  window.addEventListener("load",()=>setTimeout(updateV26,900));
+  document.addEventListener("click",()=>setTimeout(updateV26,300));
+})();
+</script>
+
+</body></html>`);
   w.document.close();
 };
 
@@ -2253,4 +3133,32 @@ if(document.getElementById('inspectionList')) inspectionList.innerHTML=table(A.i
 if(document.getElementById('reminderList')) reminderList.innerHTML=table(A.reminders,[['reminder_date','Date'],['reminder_time','Time'],['customer_id','Customer',cname],['reminder_type','Type'],['message','Message'],['status','Status']])
 }
 loadAll()
-</script><div class="prod-footer">JC Handyman Cloud CRM — V25 Visual Branding<br>Jerry Cook • 704-675-2014</div></body></html>
+</script><div class="prod-footer">JC Handyman Cloud CRM — V25 Visual Branding<br>Jerry Cook • 704-675-2014</div>
+<script>
+(function(){
+  function safeCount(selector){
+    try{
+      const el=document.querySelector(selector);
+      if(!el) return "0";
+      const n=el.querySelectorAll("tr, .card, .customer-card, .job-card, .estimate-card, .invoice-card").length;
+      return String(Math.max(0,n-1));
+    }catch(e){return "0";}
+  }
+  function updateV26(){
+    const map=[
+      ["v26Customers","#customers"],
+      ["v26Jobs","#jobs"],
+      ["v26Estimates","#estimates"],
+      ["v26Invoices","#invoices"]
+    ];
+    map.forEach(([id,sel])=>{
+      const out=document.getElementById(id);
+      if(out) out.textContent=safeCount(sel);
+    });
+  }
+  window.addEventListener("load",()=>setTimeout(updateV26,900));
+  document.addEventListener("click",()=>setTimeout(updateV26,300));
+})();
+</script>
+
+</body></html>
