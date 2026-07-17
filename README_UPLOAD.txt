@@ -1,22 +1,18 @@
-JC Handyman Platform 1.0 - Build 4 Estimate Center
+JC Handyman Platform 1.0 - Build 5 Job Center
 
-NEW
-- Create and edit estimates
-- Choose an existing customer and property
-- Add unlimited labor and material lines
-- Automatic subtotal, tax and total
-- Deposit field and customer notes
-- Draft, Sent, Approved and Declined statuses
-- Search and filter estimates
-- Print estimates
-- Dashboard pending-estimate count
+NEW:
+- Create, edit, search and delete jobs
+- Connect jobs to customers and properties
+- Schedule date/time
+- Status tracking
+- Labor, materials and automatic job total
+- Estimated and actual hours
+- Scope and notes
+- Paid/unpaid tracking
+- Dashboard active job count and today schedule
+- Calendar groups jobs by date
 
-UPLOAD
-1. Extract this ZIP.
-2. Upload every extracted file and folder into the root of JCHANDYMAN/jc-handyman-webite.
-3. Replace the old files.
-4. Commit changes.
-5. Wait 1-2 minutes and press Ctrl+F5.
-
-Keep jc-handyman-logo.png in the root folder beside dashboard.html.
-Data remains saved in this browser until the Supabase cloud connection build.
+UPLOAD:
+Extract the ZIP, upload every file and folder to your GitHub repository root, replace existing files, commit, wait 1-2 minutes, then Ctrl+F5.
+Keep jc-handyman-logo.png in the root folder.
+Data remains stored in the current browser until Supabase cloud sync is connected.
