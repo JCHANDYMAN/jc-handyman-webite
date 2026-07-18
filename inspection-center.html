@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Inspection Center | JC Handyman</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/inspection-center.css">
+</head>
+<body>
+<div class="inspection-shell">
+  <header class="inspection-header">
+    <div>
+      <p class="eyebrow">BUILD 10</p>
+      <h1>Move-In / Move-Out Inspection Center</h1>
+      <p>Create, save, search, print, and manage property inspections.</p>
+    </div>
+    <div class="header-actions">
+      <a class="secondary-btn" href="property-history.html">Property History</a>
+      <button class="primary-btn" id="newInspectionBtn">+ New Inspection</button>
+    </div>
+  </header>
+
+  <section class="stats-grid">
+    <article><span>Total inspections</span><strong id="totalInspections">0</strong></article>
+    <article><span>Move-in</span><strong id="moveInCount">0</strong></article>
+    <article><span>Move-out</span><strong id="moveOutCount">0</strong></article>
+    <article><span>Estimated repairs</span><strong id="repairTotal">$0.00</strong></article>
+  </section>
+
+  <section class="panel filters">
+    <input id="searchInput" type="search" placeholder="Search customer, property, inspector, notes...">
+    <select id="typeFilter">
+      <option value="">All inspection types</option>
+      <option value="Move-In">Move-In</option>
+      <option value="Move-Out">Move-Out</option>
+    </select>
+    <select id="statusFilter">
+      <option value="">All statuses</option>
+      <option value="Draft">Draft</option>
+      <option value="Completed">Completed</option>
+    </select>
+  </section>
+
+  <section id="inspectionList" class="inspection-list"></section>
+</div>
+
+<div class="modal" id="inspectionModal">
+  <div class="modal-card">
+    <button class="close-btn" id="closeModalBtn">&times;</button>
+    <div class="modal-title-row">
+      <div>
+        <p class="eyebrow">JC HANDYMAN & PROPERTY MANAGEMENT</p>
+        <h2 id="formTitle">New Inspection</h2>
+      </div>
+      <button class="secondary-btn" type="button" id="printCurrentBtn">Print</button>
+    </div>
+
+    <form id="inspectionForm">
+      <input type="hidden" name="id">
+
+      <section class="form-section">
+        <h3>Inspection Information</h3>
+        <div class="form-grid">
+          <label>Inspection type
+            <select name="type" required>
+              <option value="Move-In">Move-In</option>
+              <option value="Move-Out">Move-Out</option>
+            </select>
+          </label>
+          <label>Status
+            <select name="status">
+              <option value="Draft">Draft</option>
+              <option value="Completed">Completed</option>
+            </select>
+          </label>
+          <label>Customer
+            <select name="customerId" id="customerSelect">
+              <option value="">Select customer</option>
+            </select>
+          </label>
+          <label>Property
+            <select name="propertyId" id="propertySelect">
+              <option value="">Select property</option>
+            </select>
+          </label>
+          <label>Inspection date
+            <input type="date" name="date" required>
+          </label>
+          <label>Inspector
+            <input type="text" name="inspector" value="Jerry Cook">
+          </label>
+          <label>Tenant / occupant
+            <input type="text" name="tenant">
+          </label>
+          <label>Contact number
+            <input type="tel" name="contact">
+          </label>
+        </div>
+      </section>
+
+      <section class="form-section">
+        <div class="section-title-row">
+          <h3>Room-by-Room Condition</h3>
+          <button type="button" class="secondary-btn" id="addAreaBtn">+ Add Area</button>
+        </div>
+        <div id="areasContainer"></div>
+      </section>
+
+      <section class="form-section">
+        <h3>Move-Out Details</h3>
+        <div class="form-grid">
+          <label class="wide">Damage found
+            <textarea name="damageNotes" rows="4" placeholder="Describe tenant damage or unusual wear..."></textarea>
+          </label>
+          <label class="wide">Cleaning needed
+            <textarea name="cleaningNotes" rows="4" placeholder="List cleaning concerns..."></textarea>
+          </label>
+          <label class="wide">Missing items
+            <textarea name="missingItems" rows="3" placeholder="Keys, remotes, fixtures, appliances, etc."></textarea>
+          </label>
+          <label class="wide">Recommended repairs
+            <textarea name="repairNotes" rows="4" placeholder="Repairs recommended from this inspection..."></textarea>
+          </label>
+          <label>Estimated repair cost
+            <input type="number" name="estimatedRepairCost" min="0" step="0.01" value="0">
+          </label>
+          <label>Photo/document reference
+            <input type="text" name="photoReference" placeholder="Example: Kitchen before photos">
+          </label>
+        </div>
+      </section>
+
+      <section class="form-section">
+        <h3>Final Notes & Signatures</h3>
+        <div class="form-grid">
+          <label class="wide">General inspection notes
+            <textarea name="generalNotes" rows="5"></textarea>
+          </label>
+          <label>Inspector signature
+            <input type="text" name="inspectorSignature" placeholder="Type full name">
+          </label>
+          <label>Tenant / owner signature
+            <input type="text" name="occupantSignature" placeholder="Type full name">
+          </label>
+        </div>
+      </section>
+
+      <div class="form-actions">
+        <button type="button" class="danger-btn" id="deleteBtn">Delete</button>
+        <button type="button" class="secondary-btn" id="duplicateBtn">Duplicate</button>
+        <button type="submit" class="primary-btn">Save Inspection</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<template id="areaTemplate">
+  <article class="area-card">
+    <div class="area-card-top">
+      <input class="area-name" type="text" placeholder="Area name">
+      <button type="button" class="remove-area-btn">Remove</button>
+    </div>
+    <div class="area-grid">
+      <label>Condition
+        <select class="area-condition">
+          <option value="Excellent">Excellent</option>
+          <option value="Good" selected>Good</option>
+          <option value="Fair">Fair</option>
+          <option value="Poor">Poor</option>
+          <option value="Not Inspected">Not Inspected</option>
+        </select>
+      </label>
+      <label>Repair needed
+        <select class="area-repair">
+          <option value="No">No</option>
+          <option value="Yes">Yes</option>
+        </select>
+      </label>
+      <label class="wide">Notes
+        <textarea class="area-notes" rows="3"></textarea>
+      </label>
+    </div>
+  </article>
+</template>
+
+<script src="js/inspection-center.js"></script>
+</body>
+</html>
