@@ -1,1 +1,53 @@
-<html><body><h1>Calendar (Updated)</h1></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calendar | JC Handyman</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="calendar">
+<div class="app-shell">
+
+<aside class="sidebar" id="sidebar">
+  <div class="brand-block">
+    <img class="brand-logo" src="jc-handyman-logo.png" alt="JC Handyman & Property Management logo"
+         onerror="this.style.display='none';document.querySelector('.brand-fallback').style.display='grid'">
+    <div class="brand-fallback">JC</div>
+  </div>
+  <nav class="nav">
+    <a href="dashboard.html" data-page="dashboard">🏠 <span>Dashboard</span></a>
+    <a href="customers.html" data-page="customers">👥 <span>Customers</span></a>
+    <a href="properties.html" data-page="properties">🏡 <span>Properties</span></a>
+    <a href="jobs.html" data-page="jobs">🔨 <span>Jobs</span></a>
+    <a href="estimates.html" data-page="estimates">📝 <span>Estimates</span></a>
+    <a href="invoices.html" data-page="invoices">💵 <span>Invoices</span></a>
+    <a href="calendar.html" data-page="calendar">📅 <span>Calendar</span></a>
+    <a href="settings.html" data-page="settings">⚙️ <span>Settings</span></a>
+  </nav>
+  <div class="sidebar-footer">
+    <strong>No Job Too Small</strong>
+    <span>704-675-2014</span>
+  </div>
+</aside>
+
+<main class="main-content">
+
+<header class="topbar">
+  <button class="menu-button" id="menuButton" aria-label="Open menu">☰</button>
+  <div>
+    <h2>JC Handyman & Property Management</h2>
+    <p>Business Management Center</p>
+  </div>
+  <div class="topbar-actions">
+    <a class="small-btn" href="customers.html#new">+ Customer</a>
+    <a class="small-btn" href="jobs.html#new">+ Job</a>
+  </div>
+</header>
+<section class="page-heading"><div><p class="eyebrow">CALENDAR</p><h1>Schedule</h1><p>Upcoming jobs grouped by date.</p></div><a class="primary-btn" href="jobs.html#new">+ Schedule Job</a></section>
+<section class="panel"><div class="toolbar"><input id="calendarSearch" type="search" placeholder="Search scheduled jobs"><span id="calendarSummary">0 jobs</span></div><div id="calendarList" class="calendar-list"></div></section>
+</main>
+</div>
+<script src="js/app.js"></script>
+</body>
+</html>
