@@ -1,59 +1,167 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Invoices | JC Handyman</title>
-<link rel="stylesheet" href="css/style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Invoices | JC Handyman</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/invoice-center.css">
 </head>
 <body data-page="invoices">
 <div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand-block">
+      <img class="brand-logo" src="jc-handyman-logo.png" alt="JC Handyman & Property Management logo">
+    </div>
+    <nav class="nav">
+      <a href="dashboard.html">🏠 <span>Dashboard</span></a>
+      <a href="customers.html">👥 <span>Customers</span></a>
+      <a href="properties.html">🏡 <span>Properties</span></a>
+      <a href="jobs.html">🔨 <span>Jobs</span></a>
+      <a href="estimates.html">📝 <span>Estimates</span></a>
+      <a href="invoices.html" class="active">💵 <span>Invoices</span></a>
+      <a href="calendar.html">📅 <span>Calendar</span></a>
+      <a href="settings.html">⚙️ <span>Settings</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <strong>No Job Too Small</strong>
+      <span>704-675-2014</span>
+    </div>
+  </aside>
 
-<aside class="sidebar" id="sidebar">
-  <div class="brand-block">
-    <img class="brand-logo" src="jc-handyman-logo.png" alt="JC Handyman & Property Management logo"
-         onerror="this.style.display='none';document.querySelector('.brand-fallback').style.display='grid'">
-    <div class="brand-fallback">JC</div>
-  </div>
-  <nav class="nav">
-    <a href="dashboard.html" data-page="dashboard">🏠 <span>Dashboard</span></a>
-    <a href="customers.html" data-page="customers">👥 <span>Customers</span></a>
-    <a href="properties.html" data-page="properties">🏡 <span>Properties</span></a>
-    <a href="jobs.html" data-page="jobs">🔨 <span>Jobs</span></a>
-    <a href="estimates.html" data-page="estimates">📝 <span>Estimates</span></a>
-    <a href="invoices.html" data-page="invoices">💵 <span>Invoices</span></a>
-    <a href="calendar.html" data-page="calendar">📅 <span>Calendar</span></a>
-    <a href="settings.html" data-page="settings">⚙️ <span>Settings</span></a>
-  </nav>
-  <div class="sidebar-footer">
-    <strong>No Job Too Small</strong>
-    <span>704-675-2014</span>
-  </div>
-</aside>
+  <main class="main-content">
+    <header class="topbar">
+      <button class="menu-button" id="menuButton">☰</button>
+      <div>
+        <h2>JC Handyman & Property Management</h2>
+        <p>Invoice & Payment Center</p>
+      </div>
+      <div class="topbar-actions">
+        <button class="small-btn" id="topNewInvoice">+ Invoice</button>
+      </div>
+    </header>
 
-<main class="main-content">
+    <section class="invoice-hero">
+      <div>
+        <p class="eyebrow">INVOICE & PAYMENT CENTER</p>
+        <h1>Invoices</h1>
+        <p>Create invoices, record partial payments, track balances, and print receipts.</p>
+      </div>
+      <button class="primary-btn" id="newInvoiceButton">+ New Invoice</button>
+    </section>
 
-<header class="topbar">
-  <button class="menu-button" id="menuButton" aria-label="Open menu">☰</button>
-  <div>
-    <h2>JC Handyman & Property Management</h2>
-    <p>Business Management Center</p>
-  </div>
-  <div class="topbar-actions">
-    <a class="small-btn" href="customers.html#new">+ Customer</a>
-    <a class="small-btn" href="jobs.html#new">+ Job</a>
-  </div>
-</header>
+    <section class="invoice-stats">
+      <div><span>Outstanding</span><strong id="outstandingTotal">$0.00</strong></div>
+      <div><span>Collected</span><strong id="collectedTotal">$0.00</strong></div>
+      <div><span>Unpaid Invoices</span><strong id="unpaidCount">0</strong></div>
+      <div><span>Total Invoiced</span><strong id="invoicedTotal">$0.00</strong></div>
+    </section>
 
-
-<section class="page-heading"><div><p class="eyebrow">INVOICES</p><h1>Invoices</h1><p>Invoice and payment tracking are coming next.</p></div></section>
-<section class="panel">
-  <div class="coming-card"><div>💵</div><h2>Invoices Center</h2><p>This section is installed and ready for the next working module.</p></div>
-  <div id="invoicesList"></div>
-</section>
-
-</main>
+    <section class="panel invoice-panel">
+      <div class="invoice-toolbar">
+        <input id="invoiceSearch" type="search" placeholder="Search invoice, customer, address, or status">
+        <select id="invoiceStatusFilter">
+          <option value="">All statuses</option>
+          <option>Unpaid</option>
+          <option>Partial</option>
+          <option>Paid</option>
+          <option>Overdue</option>
+        </select>
+      </div>
+      <div id="invoiceList" class="invoice-list"></div>
+    </section>
+  </main>
 </div>
-<script src="js/app.js"></script>
+
+<div class="ic-modal" id="invoiceModal">
+  <div class="ic-modal-card ic-wide">
+    <button class="ic-close" data-close="invoiceModal">&times;</button>
+    <h2 id="invoiceModalTitle">New Invoice</h2>
+    <form id="invoiceForm" class="ic-form">
+      <input type="hidden" name="id">
+      <label>Customer
+        <select name="customerId" id="invoiceCustomer" required></select>
+      </label>
+      <label>Property
+        <select name="propertyId" id="invoiceProperty">
+          <option value="">Select property</option>
+        </select>
+      </label>
+      <label>Invoice date
+        <input name="invoiceDate" type="date" required>
+      </label>
+      <label>Due date
+        <input name="dueDate" type="date" required>
+      </label>
+      <label class="ic-full">Work performed
+        <textarea name="description" rows="4" required></textarea>
+      </label>
+
+      <div class="ic-full line-items-box">
+        <div class="line-items-heading">
+          <h3>Labor and Materials</h3>
+          <button class="secondary-btn" type="button" id="addInvoiceLine">+ Add Line</button>
+        </div>
+        <div id="invoiceLineItems"></div>
+      </div>
+
+      <label>Tax rate (%)
+        <input name="taxRate" type="number" min="0" step="0.01" value="0">
+      </label>
+      <label>Discount
+        <input name="discount" type="number" min="0" step="0.01" value="0">
+      </label>
+      <label class="ic-full">Notes / payment terms
+        <textarea name="notes" rows="3" placeholder="Materials not included unless listed. Payment due upon completion."></textarea>
+      </label>
+
+      <div class="invoice-totals ic-full">
+        <div><span>Subtotal</span><strong id="invoiceSubtotal">$0.00</strong></div>
+        <div><span>Tax</span><strong id="invoiceTax">$0.00</strong></div>
+        <div><span>Discount</span><strong id="invoiceDiscount">$0.00</strong></div>
+        <div class="grand-total"><span>Total</span><strong id="invoiceTotal">$0.00</strong></div>
+      </div>
+
+      <button class="primary-btn ic-full" type="submit">Save Invoice</button>
+    </form>
+  </div>
+</div>
+
+<div class="ic-modal" id="paymentModal">
+  <div class="ic-modal-card">
+    <button class="ic-close" data-close="paymentModal">&times;</button>
+    <h2>Record Payment</h2>
+    <form id="paymentForm" class="ic-form">
+      <input type="hidden" name="invoiceId">
+      <label>Amount paid
+        <input name="amount" type="number" min="0.01" step="0.01" required>
+      </label>
+      <label>Payment date
+        <input name="date" type="date" required>
+      </label>
+      <label>Payment method
+        <select name="method">
+          <option>Cash</option>
+          <option>Check</option>
+          <option>Credit Card</option>
+          <option>PayPal</option>
+          <option>Venmo</option>
+          <option>Cash App</option>
+          <option>Zelle</option>
+          <option>Other</option>
+        </select>
+      </label>
+      <label>Reference / confirmation
+        <input name="reference">
+      </label>
+      <label class="ic-full">Payment note
+        <textarea name="note" rows="3"></textarea>
+      </label>
+      <button class="primary-btn ic-full" type="submit">Save Payment</button>
+    </form>
+  </div>
+</div>
+
+<script src="js/invoice-center.js"></script>
 </body>
 </html>
