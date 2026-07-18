@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Cloud Sync | JC Handyman CRM</title>
+  <link rel="stylesheet" href="css/cloud-sync.css">
+</head>
+<body>
+  <main class="cloud-shell">
+    <header class="cloud-header">
+      <div>
+        <p class="eyebrow">BUILD 12</p>
+        <h1>JC Handyman Cloud Sync</h1>
+        <p>Connect your CRM to Supabase, migrate your current browser records, and keep your devices synchronized.</p>
+      </div>
+      <span id="connectionBadge" class="badge offline">Offline</span>
+    </header>
+
+    <section class="grid two">
+      <article class="panel">
+        <h2>Cloud Login</h2>
+        <p class="muted">Use the same email and password on every device.</p>
+        <form id="authForm">
+          <label>Email
+            <input id="emailInput" type="email" autocomplete="email" required>
+          </label>
+          <label>Password
+            <input id="passwordInput" type="password" autocomplete="current-password" minlength="6" required>
+          </label>
+          <div class="actions">
+            <button class="primary" type="submit">Sign In</button>
+            <button class="secondary" id="signUpBtn" type="button">Create Account</button>
+            <button class="danger hidden" id="signOutBtn" type="button">Sign Out</button>
+          </div>
+        </form>
+        <div id="authMessage" class="message"></div>
+      </article>
+
+      <article class="panel">
+        <h2>Sync Status</h2>
+        <dl class="status-list">
+          <div><dt>Signed in as</dt><dd id="signedInAs">Not signed in</dd></div>
+          <div><dt>Internet</dt><dd id="internetStatus">Checking…</dd></div>
+          <div><dt>Pending offline changes</dt><dd id="queueCount">0</dd></div>
+          <div><dt>Last successful sync</dt><dd id="lastSync">Never</dd></div>
+          <div><dt>Cloud records</dt><dd id="cloudCount">—</dd></div>
+        </dl>
+        <div class="actions">
+          <button class="primary" id="syncNowBtn" type="button">Sync Now</button>
+          <button class="secondary" id="pullBtn" type="button">Restore From Cloud</button>
+        </div>
+      </article>
+    </section>
+
+    <section class="panel">
+      <h2>One-Time Migration</h2>
+      <p class="muted">This copies your current browser records into your private cloud account. Your local records remain available for offline use.</p>
+      <div id="migrationSummary" class="collection-grid"></div>
+      <div class="actions">
+        <button class="primary" id="migrateBtn" type="button">Migrate Local Data to Cloud</button>
+        <button class="secondary" id="refreshSummaryBtn" type="button">Refresh Counts</button>
+      </div>
+      <div id="migrationMessage" class="message"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Automatic Sync Installation</h2>
+      <p>Add this line immediately before <code>&lt;/body&gt;</code> on each CRM page:</p>
+      <pre>&lt;script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"&gt;&lt;/script&gt;
+&lt;script src="js/supabase.js"&gt;&lt;/script&gt;</pre>
+      <p class="muted">Once installed, changes are saved locally first, queued while offline, and synchronized when the internet returns.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Activity</h2>
+      <div id="activityLog" class="log">Cloud Sync Center ready.</div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/cloud-sync-page.js"></script>
+</body>
+</html>
