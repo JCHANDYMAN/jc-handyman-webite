@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Property History | JC Handyman</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/property-history.css">
+</head>
+<body data-page="property-history">
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand-block">
+      <img class="brand-logo" src="jc-handyman-logo.png" alt="JC Handyman & Property Management logo">
+    </div>
+    <nav class="nav">
+      <a href="dashboard.html">🏠 <span>Dashboard</span></a>
+      <a href="customers.html">👥 <span>Customers</span></a>
+      <a href="properties.html">🏡 <span>Properties</span></a>
+      <a href="jobs.html">🔨 <span>Jobs</span></a>
+      <a href="estimates.html">📝 <span>Estimates</span></a>
+      <a href="invoices.html">💵 <span>Invoices</span></a>
+      <a href="scheduler.html">📅 <span>Scheduler</span></a>
+      <a href="photo-center.html">📸 <span>Photos & Documents</span></a>
+      <a href="property-history.html" class="active">📚 <span>Property History</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <strong>No Job Too Small</strong>
+      <span>704-675-2014</span>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <header class="topbar">
+      <button class="menu-button" id="menuButton">☰</button>
+      <div>
+        <h2>JC Handyman & Property Management</h2>
+        <p>Property History Center</p>
+      </div>
+    </header>
+
+    <section class="history-hero">
+      <div>
+        <p class="eyebrow">BUILD 9</p>
+        <h1>Property History</h1>
+        <p>View every job, estimate, invoice, payment, photo record, and note connected to a property.</p>
+      </div>
+      <button class="primary-btn" id="newNoteButton">+ Add Property Note</button>
+    </section>
+
+    <section class="history-controls panel">
+      <label>
+        Customer
+        <select id="customerFilter">
+          <option value="">All customers</option>
+        </select>
+      </label>
+      <label>
+        Property
+        <select id="propertyFilter">
+          <option value="">Select a property</option>
+        </select>
+      </label>
+      <label>
+        Search history
+        <input id="historySearch" type="search" placeholder="Search jobs, invoices, notes, photos...">
+      </label>
+    </section>
+
+    <section id="propertySummary" class="property-summary panel">
+      <div class="empty-state">
+        <span>🏡</span>
+        <h3>Select a property</h3>
+        <p>Choose a customer and property to view its complete history.</p>
+      </div>
+    </section>
+
+    <section class="history-grid">
+      <div class="panel">
+        <div class="section-heading">
+          <h2>Timeline</h2>
+          <select id="typeFilter">
+            <option value="">All activity</option>
+            <option value="Job">Jobs</option>
+            <option value="Estimate">Estimates</option>
+            <option value="Invoice">Invoices</option>
+            <option value="Payment">Payments</option>
+            <option value="Photo / Document">Photos & Documents</option>
+            <option value="Property Note">Property Notes</option>
+          </select>
+        </div>
+        <div id="timeline" class="timeline"></div>
+      </div>
+
+      <aside class="panel history-stats-panel">
+        <h2>Property Totals</h2>
+        <div class="history-stat"><span>Jobs</span><strong id="jobCount">0</strong></div>
+        <div class="history-stat"><span>Estimates</span><strong id="estimateCount">0</strong></div>
+        <div class="history-stat"><span>Invoices</span><strong id="invoiceCount">0</strong></div>
+        <div class="history-stat"><span>Total invoiced</span><strong id="totalInvoiced">$0.00</strong></div>
+        <div class="history-stat"><span>Paid</span><strong id="totalPaid">$0.00</strong></div>
+        <div class="history-stat"><span>Balance due</span><strong id="balanceDue">$0.00</strong></div>
+        <div class="history-stat"><span>Photos / documents</span><strong id="photoCount">0</strong></div>
+      </aside>
+    </section>
+  </main>
+</div>
+
+<div class="ph-modal" id="noteModal">
+  <div class="ph-modal-card">
+    <button class="ph-close" data-close="noteModal">&times;</button>
+    <h2>Add Property Note</h2>
+    <form id="noteForm" class="note-form">
+      <input type="hidden" name="id">
+      <label>Date
+        <input type="date" name="date" required>
+      </label>
+      <label>Title
+        <input type="text" name="title" placeholder="Example: Water shutoff location" required>
+      </label>
+      <label class="full">Note
+        <textarea name="note" rows="5" required></textarea>
+      </label>
+      <button class="primary-btn full" type="submit">Save Property Note</button>
+    </form>
+  </div>
+</div>
+
+<script src="js/property-history.js"></script>
+</body>
+</html>
