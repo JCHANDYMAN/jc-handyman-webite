@@ -1,0 +1,10 @@
+const L=k=>JSON.parse(localStorage.getItem(k)||'[]');
+const inv=L('jc_invoices'),jobs=L('jc_jobs'),cust=L('jc_customers');
+document.getElementById('inv').textContent=inv.length;
+document.getElementById('jobs').textContent=jobs.length;
+document.getElementById('cust').textContent=cust.length;
+let total=0,m={};
+inv.forEach(i=>{let amt=Number(i.total||0);total+=amt;let d=(i.invoiceDate||i.date||'');let key=d?d.slice(0,7):'Unknown';m[key]=(m[key]||0)+amt;});
+document.getElementById('rev').textContent=total.toLocaleString('en-US',{style:'currency',currency:'USD'});
+const t=document.getElementById('tbl');
+Object.keys(m).sort().forEach(k=>{let r=t.insertRow();r.insertCell().textContent=k;r.insertCell().textContent=m[k].toLocaleString('en-US',{style:'currency',currency:'USD'});});

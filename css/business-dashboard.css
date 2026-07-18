@@ -1,0 +1,1 @@
+body{font-family:Arial;background:#1d2026;color:#fff;padding:20px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.card{background:#2b303a;padding:15px;border-radius:10px}table{width:100%;border-collapse:collapse}td,th{border:1px solid #555;padding:8px}
