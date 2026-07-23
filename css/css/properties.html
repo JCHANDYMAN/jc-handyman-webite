@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Properties | JC Handyman</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/properties.css">
+</head>
+<body data-page="properties">
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand-block">
+        <img class="brand-logo" src="jc-handyman-logo.png" alt="JC Handyman & Property Management"
+             onerror="this.style.display='none';document.querySelector('.brand-fallback').style.display='block'">
+        <div class="brand-fallback">JC</div>
+      </div>
+      <nav class="nav">
+        <a href="dashboard.html"><span>🏠</span>Dashboard</a>
+        <a href="customers.html"><span>👥</span>Customers</a>
+        <a class="active" href="properties.html"><span>🏡</span>Properties</a>
+        <a href="jobs.html"><span>🔨</span>Jobs</a>
+        <a href="estimates.html"><span>📄</span>Estimates</a>
+        <a href="invoices.html"><span>🧾</span>Invoices</a>
+        <a href="calendar.html"><span>📅</span>Calendar</a>
+        <a href="settings.html"><span>⚙️</span>Settings</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">PROPERTY CENTER</p>
+          <h1>Properties</h1>
+          <p>Customer properties are connected automatically.</p>
+        </div>
+        <div class="header-actions">
+          <a class="secondary-btn" href="customers.html">Customers</a>
+          <button class="primary-btn" id="addPropertyBtn">+ Add Property</button>
+        </div>
+      </header>
+
+      <div id="notice" class="notice hidden"></div>
+
+      <section class="stats-grid">
+        <article><span>Total properties</span><strong id="totalProperties">0</strong></article>
+        <article><span>Active</span><strong id="activeProperties">0</strong></article>
+        <article><span>Customers</span><strong id="customerCount">0</strong></article>
+      </section>
+
+      <section class="filters">
+        <input id="propertySearch" type="search" placeholder="Search owner, address, type, or notes">
+        <select id="statusFilter">
+          <option value="">All statuses</option>
+          <option value="Active">Active</option>
+          <option value="Inactive">Inactive</option>
+        </select>
+      </section>
+
+      <section id="propertiesList" class="properties-grid"></section>
+    </main>
+  </div>
+
+  <div id="propertyModal" class="modal" aria-hidden="true">
+    <div class="modal-card">
+      <button type="button" class="close-btn" id="closeModalBtn">&times;</button>
+      <h2 id="modalTitle">Add Property</h2>
+      <form id="propertyForm">
+        <input type="hidden" name="propertyId">
+        <label>Customer
+          <select name="customerId" id="customerSelect" required>
+            <option value="">Select customer</option>
+          </select>
+        </label>
+        <label>Property name
+          <input name="name" placeholder="Home, Rental, Mountain House" required>
+        </label>
+        <label>Property type
+          <select name="type">
+            <option>Home</option>
+            <option>Rental</option>
+            <option>Commercial</option>
+            <option>Vacation Home</option>
+            <option>Other</option>
+          </select>
+        </label>
+        <label>Street address
+          <input name="address" required>
+        </label>
+        <div class="form-grid">
+          <label>City<input name="city"></label>
+          <label>State<input name="state" maxlength="2"></label>
+          <label>ZIP<input name="zip"></label>
+        </div>
+        <label>Status
+          <select name="status"><option>Active</option><option>Inactive</option></select>
+        </label>
+        <label>Notes<textarea name="notes" rows="4"></textarea></label>
+        <div class="form-actions">
+          <button type="button" class="secondary-btn" id="cancelBtn">Cancel</button>
+          <button type="submit" class="primary-btn">Save Property</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/properties.js"></script>
+</body>
+</html>
