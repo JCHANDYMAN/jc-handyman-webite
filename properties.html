@@ -1,59 +1,67 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Properties | JC Handyman</title>
-<link rel="stylesheet" href="css/style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Properties | JC Handyman</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/properties.css">
 </head>
 <body data-page="properties">
-<div class="app-shell">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand-block">
+        <img class="brand-logo" src="jc-handyman-logo.png" alt="JC Handyman & Property Management"
+             onerror="this.style.display='none';document.querySelector('.brand-fallback').style.display='block'">
+        <div class="brand-fallback">JC</div>
+      </div>
+      <nav class="nav">
+        <a href="dashboard.html"><span>🏠</span>Dashboard</a>
+        <a href="customers.html"><span>👥</span>Customers</a>
+        <a class="active" href="properties.html"><span>🏡</span>Properties</a>
+        <a href="jobs.html"><span>🔨</span>Jobs</a>
+        <a href="estimates.html"><span>📄</span>Estimates</a>
+        <a href="invoices.html"><span>🧾</span>Invoices</a>
+        <a href="calendar.html"><span>📅</span>Calendar</a>
+        <a href="settings.html"><span>⚙️</span>Settings</a>
+      </nav>
+    </aside>
 
-<aside class="sidebar" id="sidebar">
-  <div class="brand-block">
-    <img class="brand-logo" src="jc-handyman-logo.png" alt="JC Handyman & Property Management logo"
-         onerror="this.style.display='none';document.querySelector('.brand-fallback').style.display='grid'">
-    <div class="brand-fallback">JC</div>
+    <main class="main-content">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">PROPERTY CENTER</p>
+          <h1>Properties</h1>
+          <p>Every property connected to your customers appears here automatically.</p>
+        </div>
+        <div class="header-actions">
+          <a class="secondary-btn" href="customers.html">Customers</a>
+          <a class="primary-btn" href="customers.html">+ Add Property</a>
+        </div>
+      </header>
+
+      <section class="stats-grid">
+        <article><span>Total properties</span><strong id="totalProperties">0</strong></article>
+        <article><span>Active</span><strong id="activeProperties">0</strong></article>
+        <article><span>Customers</span><strong id="customerCount">0</strong></article>
+      </section>
+
+      <section class="filters">
+        <input id="propertySearch" type="search" placeholder="Search owner, address, type, or notes">
+        <select id="statusFilter">
+          <option value="">All statuses</option>
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+        </select>
+      </section>
+
+      <section id="propertiesList" class="properties-grid"></section>
+    </main>
   </div>
-  <nav class="nav">
-    <a href="dashboard.html" data-page="dashboard">🏠 <span>Dashboard</span></a>
-    <a href="customers.html" data-page="customers">👥 <span>Customers</span></a>
-    <a href="properties.html" data-page="properties">🏡 <span>Properties</span></a>
-    <a href="jobs.html" data-page="jobs">🔨 <span>Jobs</span></a>
-    <a href="estimates.html" data-page="estimates">📝 <span>Estimates</span></a>
-    <a href="invoices.html" data-page="invoices">💵 <span>Invoices</span></a>
-    <a href="calendar.html" data-page="calendar">📅 <span>Calendar</span></a>
-    <a href="settings.html" data-page="settings">⚙️ <span>Settings</span></a>
-  </nav>
-  <div class="sidebar-footer">
-    <strong>No Job Too Small</strong>
-    <span>704-675-2014</span>
-  </div>
-</aside>
 
-<main class="main-content">
-
-<header class="topbar">
-  <button class="menu-button" id="menuButton" aria-label="Open menu">☰</button>
-  <div>
-    <h2>JC Handyman & Property Management</h2>
-    <p>Business Management Center</p>
-  </div>
-  <div class="topbar-actions">
-    <a class="small-btn" href="customers.html#new">+ Customer</a>
-    <a class="small-btn" href="jobs.html#new">+ Job</a>
-  </div>
-</header>
-
-
-<section class="page-heading"><div><p class="eyebrow">PROPERTIES</p><h1>Properties</h1><p>All customer properties appear here automatically.</p></div></section>
-<section class="panel">
-  <div class="coming-card"><div>🏡</div><h2>Properties Center</h2><p>This section is installed and ready for the next working module.</p></div>
-  <div id="propertiesList"></div>
-</section>
-
-</main>
-</div>
-<script src="js/app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/properties.js"></script>
+  <script src="js/cloud-integration.js"></script>
 </body>
 </html>
